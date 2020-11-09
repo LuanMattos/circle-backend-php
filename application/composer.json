@@ -1,0 +1,24 @@
+{
+  "description": "Sistema de dados",
+  "name": "System/App",
+  "require": {
+    "php": ">=5.3"
+  },
+  "autoload": {
+    "psr-4": {
+      "Services\\": "services",
+      "ServiceSms\\": "services",
+      "ServiceZenvia\\": "services",
+      "Modules\\Account\\RestoreAccount\\": "services/modules/account",
+      "Modules\\Storage\\Create_folder_user\\": "services/modules/storage",
+      "Luthier\\": "services/routes/src",
+      "DebugBar\\": "services/routes/vendor/maximebf/debugbar/src/DebugBar",
+      "Luthier\\Auth\\": "services/routes/src/Auth",
+      "DebugBar\\DataCollector\\": "services/routes/vendor/maximebf/debugbar/src/DebugBar/DataCollector",
+      "PHPMailer\\PHPMailer\\": "libraries/email/vendor/phpmailer/phpmailer/src",
+      "Services\\Modules\\Area_a\\": "services/modules/area_a",
+      "Libraries\\Amazon\\": "libraries/amazon",
+      "Upload\\UploadImage\\": "services/upload"
+    }
+  }
+}

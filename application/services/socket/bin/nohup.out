@@ -1,0 +1,7 @@
+PHP Fatal error:  Uncaught RuntimeException: Failed to listen on "tcp://0.0.0.0:8090": Address already in use in /public_html/atos/vendor/react/socket/src/TcpServer.php:164
+Stack trace:
+#0 /public_html/atos/vendor/react/socket/src/Server.php(36): React\Socket\TcpServer->__construct('tcp://0.0.0.0:8...', Object(React\EventLoop\StreamSelectLoop), Array)
+#1 /public_html/atos/vendor/cboden/ratchet/src/Ratchet/Server/IoServer.php(59): React\Socket\Server->__construct('0.0.0.0:8090', Object(React\EventLoop\StreamSelectLoop))
+#2 /public_html/atos/application/services/socket/bin/run_chat_server.php(16): Ratchet\Server\IoServer::factory(Object(Ratchet\Http\HttpServer), 8090)
+#3 {main}
+  thrown in /public_html/atos/vendor/react/socket/src/TcpServer.php on line 164

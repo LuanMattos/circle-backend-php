@@ -1,0 +1,237 @@
+*{
+  font-family: "Dosis", Helvetica, Arial, sans-serif;
+}
+canvas {
+  cursor: crosshair;
+}
+.center {
+  text-align: center;
+}
+.ripple {
+  width: 10px;
+  height: 10px;
+  background-color: rgba(0, 0, 0, 0.4);
+  border-radius: 100%;
+  animation: anim-mat-ripple 0.55s 1 cubic-bezier(0, 0.005, 0, 0.99);
+  position: absolute;
+}
+.ripple.tiny {
+  animation: anim-mat-ripple-tiny 0.55s 1 cubic-bezier(0, 0.005, 0, 0.99);
+  position: absolute;
+}
+.ripple.bright {
+  background-color: rgba(255, 255, 255, 0.4);
+}
+.overlay {
+  border-radius: 100%;
+  width: 0px;
+  height: 0px;
+  position: absolute;
+  right: 50%;
+  top: 50%;
+  z-index: 80;
+}
+.overlay.add {
+  animation: anim-overlay 0.41337s 1 cubic-bezier(0.995, 0, 0, 0.995);
+  animation-fill-mode: forwards;
+}
+* {
+  padding: 0;
+  margin: 0;
+  box-sizing: border-box;
+}
+*:focus {
+  outline: 0;
+}
+#hangout {
+  float:right;
+  right: 0;
+  background-color: #313131;
+  height: 100%;
+  margin-top:3%;
+  width: 300px;
+  transition: all 0.444s cubic-bezier(0.7, 0, 0.3, 1);
+  overflow: hidden;
+  position: fixed;
+
+  @media only screen and (max-width: 970px) {
+    margin-top:100px;
+  }
+
+
+    .collapsed {
+    height: 55px;
+    box-shadow: none;
+  }
+  .collapsed #content {
+    opacity: 0;
+    height: 0;
+  }
+  .collapsed .control.floater {
+    transform: scale(0) rotate(90deg);
+    opacity: 0;
+  }
+  .collapsed .control.nav {
+    height: 0;
+    opacity: 0;
+  }
+}
+
+#chat-floater {
+  margin-top: -64px;
+}
+.floater {
+  cursor: pointer;
+  padding: 17px 20px 17px 20px;
+  border-radius: 100%;
+  box-shadow: 0 10px 20px rgba(0, 0, 0, 0.19), 0 6px 6px rgba(0, 0, 0, 0.23);
+  transition: all 0.333s ease-in-out;
+  font-size: 1.5em;
+  position: relative;
+  overflow: hidden;
+}
+.floater.hidden {
+  transform: scale(0);
+}
+
+#content {
+  padding: 2px;
+  height: 95%;
+  overflow-y: auto;
+  background-color: #313131;
+  transition: all 0.444s cubic-bezier(0.7, 0, 0.3, 1);
+  margin-top: 30px;
+  .chat {
+    background-color: #e5e5e5;
+  }
+
+}
+
+
+.list-phone,
+.list-text,
+.list-account,
+.list-chat {
+  display: none;
+  height: 100%;
+  .bottom-menu{
+    float:right;
+    display: block;
+    position: absolute;
+    bottom: 10%;
+    right:5%;
+    color:#d8ded8;
+    i{
+      font-size:35px;
+      cursor:pointer;
+    }
+    :hover{
+      -webkit-transition: .5s;
+      -moz-transition: .5s;
+      transition: .5s;
+      -o-transition: .5s;
+      color:white;
+    }
+    @media only screen and (max-width: 970px) {
+      bottom: 20%;
+    }
+
+    }
+}
+.list-phone.shown,
+.list-text.shown,
+.list-account.shown,
+.list-chat.shown {
+  display: block;
+  animation: fade 0.444s 1 ease-out;
+  animation-fill-mode: alternate;
+}
+.list-phone .meta-bar,
+.list-text .meta-bar,
+.list-account .meta-bar,
+.list-chat .meta-bar {
+  border-bottom: none;
+  padding: 0 0 0 25px;
+  height: 40px;
+  position: relative;
+  width: 100%;
+  background-color: white;
+}
+
+.list-chat.shown {
+  animation: fade-up 0.444s 1 ease-out;
+}
+ul.list {
+  width: 100%;
+  padding-bottom: 130px;
+}
+ul.list li {
+  cursor: pointer;
+  padding: 12px 0 5px 8px;
+  width: 100%;
+  display: flex;
+  flex-flow: row wrap;
+  justify-content: flex-start;
+  transition: all 0.18s ease-in;
+  position: relative;
+  overflow: hidden;
+}
+ul.list li.context {
+  box-shadow: inset -1px 20px 4px -14px rgba(50, 50, 50, 0.3);
+  color: white;
+  animation: anim-context 0.35s 1 ease-out;
+  overflow: hidden;
+  animation-fill-mode: forwards;
+}
+ul.list li.context i {
+  opacity: 0.5;
+  font-size: 1.2em;
+  margin-right: 20px;
+  transition: opacity 0.3s ease-out;
+}
+ul.list li.context i:hover {
+  opacity: 1;
+}
+ul.list li.active {
+  background: #f4f4f4;
+}
+ul.list li.active > .mdi-menu-down {
+  opacity: 1;
+  margin-bottom: 0;
+}
+ul.list li:hover {
+  background: #5a5b56;
+}
+ul.list li:hover > .mdi-menu-down {
+  opacity: 1;
+}
+ul.list li img {
+  height: 32px;
+  width: 32px;
+  border-radius: 100%;
+}
+ul.list li .name {
+  padding: 10px 0 10px 20px;
+  display: flex;
+  justify-content: space-between;
+  font-size: 12px;
+  color:white;
+
+}
+input.nostyle {
+  border: 0;
+  width: 90%;
+  padding: 12px 0 12px 0;
+  background: transparent;
+}
+
+.bar {
+  position: relative;
+  display: block;
+  width: 100%;
+}
+
+input:focus ~ .bar:before,
+input:focus ~ .bar:after {
+  width: 50%;
+}
