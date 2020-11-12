@@ -16,13 +16,17 @@ class Photos extends Home_Controller
         $uri  = $this->uri->slash_segment(2);
         $data = str_replace(['/','?','´'],'',$uri);
 
+        $offset = $this->input->get('page',true);
+
         $user = $this->User_model->getWhere( ['user_name'=>$data ],'row' );
        
         if( !$user ):
             $this->response('Usuário não existe','error');
         endif;
-
-        $photos = $this->Photos_model->getWhere( [ 'user_id' => $user->user_id ] );
+        $photos = $this->Photos_model->getWhere(
+            [ 'user_id' => $user->user_id ],
+            $result = "array",$orderby = "photo_post_date",$direction = "DESC",$limit = "9",$offset
+        );
 
         $newData = [
             "id" => $user->user_id,

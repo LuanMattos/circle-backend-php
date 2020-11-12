@@ -59,5 +59,28 @@ class Comments extends Home_Controller
         $this->response( [ $data ] );
 
     }
+    public function saveComment(){
+        $uri  = $this->uri->slash_segment(2);
+        $id = str_replace(['/','?','´'],'',$uri);
+
+        $data = file_get_contents('php://input');
+        $data ? $data = json_decode( $data ) :false;
+
+        if( $id && $data->commentText )
+
+        $comment = [
+            'comment_id'=>$id,
+            'comment_text'=>$data->commentText
+        ];
+        $data = $this->Comments_model->save( $comment,['comment_id','comment_date','comment_text'] );
+
+        $this->response( $data );
+    }
+    public function getCommentId(){
+        $uri  = $this->uri->slash_segment(2);
+        $id = str_replace(['/','?','´'],'',$uri);
+        $comment = $this->Comments_model->getWhere(['comment_id'=>$id]);
+        $this->response($comment);
+    }
 
 }

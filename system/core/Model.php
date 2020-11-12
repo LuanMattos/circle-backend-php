@@ -160,38 +160,45 @@ class CI_Model {
     /**
      * Save para sql
      */
-    public function save($data = NULL,$return = ""){
+    public function save( $data = [],$return = false ){
 
-        if(is_array($data)){
-            if(array_key_exists($this->get_table_index(),$data)){
+            if( array_key_exists( $this->get_table_index(),$data ) && $data[$this->get_table_index()]):
                 $table_index    = $this->get_table_index();
-                $value_index    = $data[$this->get_table_index()];
-                $save           = $this->db->update($this->get_table(),$data,"$table_index = $value_index");
-                if(!$save){
-                    return $this->db->error();
-                }
-            }else{
-                $save = $this->db->insert($this->get_table(),$data);
+                $value_index    = $data[ $this->get_table_index() ];
+                $save           = $this->db->update( $this->get_table(),$data,"$table_index = $value_index" );
+            else:
+                $save = $this->db->insert( $this->get_table(),$data );
+            endif;
 
-                if(!$save){
-                    return $this->db->error();
-                }
-            }
+            if( !$save ):
+                return $this->db->error();
+            endif;
 
-            if(!empty($return)){
+            if( $return ){
+                is_array( $return ) && array_key_exists( $this->get_table_index(),$data )
+                    ?
+                $last_id = $data[ $this->get_table_index() ]
 
-                $last_id      = $this->db->insert_id();
-                $data_return  = $this->db->select($return)->from($this->get_table())
-                                           ->where([$this->get_table_index()=>$last_id]);
-                $data_r       = $data_return->get()->result_array();
-                if(count($data_r)){
-                    $data_r = reset($data_r);
+                    :
+                $last_id = $this->db
+                                ->insert_id();
+
+                $data_return = $this->db
+                                     ->select( $return )
+                                     ->from( $this->get_table() )
+                                     ->where(
+                                         [ $this->get_table_index() => $last_id ]
+                                     );
+
+                $data_r = $data_return->get()->result_array();
+                if( count( $data_r ) ){
+                    $data_r = reset($data_r );
                     return $data_r;
                 }
                 return $data_r;
             }
             return true;
-        }
+
     }
 
 }
