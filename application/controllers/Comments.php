@@ -60,13 +60,32 @@ class Comments extends Home_Controller
 
     }
     public function saveComment(){
+        $header = apache_request_headers();
+
         $uri  = $this->uri->slash_segment(2);
         $id = str_replace(['/','?','´'],'',$uri);
 
         $data = file_get_contents('php://input');
         $data ? $data = json_decode( $data ) :false;
 
+
+        $user = file_get_contents('php://input');
+        $user ? $user = json_decode( $user ) :false;
+
         if( $id && $data->commentText )
+
+        /** Validação do comentário (se é detentor da edição) **/
+        $jwtData = $this->dataUserJwt( $header['x-access-token'] );
+
+        $userValidComment = $this->User_model->getWhere( ['user_name'=>$jwtData->user_name],"row" );
+
+        if( !$userValidComment ):
+            $this->response('Erro geral, tente mais tarde!','error');
+         endif;
+
+        if( $userValidComment->user_name !== $user->userName ):
+            $this->response('Pratica ilegal ao tentar editar  comentário de outro usuário!','error');
+        endif;
 
         $comment = [
             'comment_id'=>$id,
