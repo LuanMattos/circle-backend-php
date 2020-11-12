@@ -8,6 +8,19 @@ class Photos_model extends CI_Model{
         parent::__construct();
         $this->set_table("photo");
         $this->set_table_index("photo_id");
+        $this->load->model('likes/Likes_model');
+    }
+
+    public function getPhotoUser( $userId,$orderby ,$direction ,$limit ,$offset ){
+
+        $photos = $this->getWhere([ 'user_id' => $userId ],"array",$orderby ,$direction ,$limit ,$offset);
+
+        if( is_array( $photos ) ){
+            foreach ( $photos as $key=>$item ) {
+                $photos[$key]['likes'] = $this->Likes_model->getWhere(['photo_id'=>$item['photo_id']],"array",false);
+            }
+        }
+        return $photos;
     }
 
 }

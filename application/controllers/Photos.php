@@ -23,9 +23,9 @@ class Photos extends Home_Controller
         if( !$user ):
             $this->response('Usuário não existe','error');
         endif;
-        $photos = $this->Photos_model->getWhere(
-            [ 'user_id' => $user->user_id ],
-            $result = "array",$orderby = "photo_post_date",$direction = "DESC",$limit = "9",$offset
+
+        $photos = $this->Photos_model->getPhotoUser(
+            $user->user_id, "photo_post_date","DESC", "9",$offset
         );
 
         $newData = [

@@ -131,7 +131,6 @@ class CI_Model {
                 $result = $getWhere->row();
                 break;
         }
-        $this->db->order_by( $orderby );
         return $result;
 
     }
