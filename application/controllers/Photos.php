@@ -45,8 +45,7 @@ class Photos extends Home_Controller
     public function upload(){
         $datapost = (object)$this->input->post(null,true);
 
-        $header = apache_request_headers();
-        $jwtData = $this->dataUserJwt( $header['x-access-token'] );
+        $jwtData = $this->dataUserJwt( 'x-access-token' );
 
         $user = $this->User_model->getWhere( ["user_id"=>$jwtData->user_id],"row" );
 

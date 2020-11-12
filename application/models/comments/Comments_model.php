@@ -30,5 +30,24 @@ class Comments_model extends CI_Model{
             ->result_array();
 
     }
+    public function validateCommentEdit( $id,$userName ){
+
+        $fields = [
+            'c.comment_id',
+            'c.comment_date',
+            'c.comment_text',
+            'c.photo_id',
+            'u.user_name',
+            'u.user_full_name'
+        ];
+        return $this->db
+            ->select( $fields )
+            ->from("comment as c")
+            ->join('user u','u.user_id = c.user_id','join')
+            ->where(  'c.comment_id = ' . $id )
+            ->like(  'u.user_name' , $userName )
+            ->get()
+            ->first_row();
+    }
 
 }

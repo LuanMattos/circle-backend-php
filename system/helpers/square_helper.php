@@ -34,3 +34,4 @@ if ( ! function_exists('validate_telcel_br'))
 	}
 }
 
+

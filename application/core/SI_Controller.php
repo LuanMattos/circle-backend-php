@@ -3,11 +3,10 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 
 class SI_Controller extends CI_Controller{
     public $mongodb;
-    public $mongomanager;
-    public $mongobulkwrite;
 
     public function __construct(){
         parent::__construct();
+        $this->load_helpers_default();
     }
 
     public function setHeaders( $data ,$name ){
@@ -35,8 +34,9 @@ class SI_Controller extends CI_Controller{
         $data = $this->jsonToArray( $data );
         return $data;
     }
-    public function dataUserJwt( $data ){
-        return $this->jsonToArray( $data,true );
+    public function dataUserJwt( $index ){
+        $data = apache_request_headers();
+        return $this->jsonToArray( $data[$index],true );
     }
     private function jsonToArray( $json,$user = false ){
         $explode = explode( '.' , $json );
@@ -50,12 +50,8 @@ class SI_Controller extends CI_Controller{
 
 //    -----------------------------the end jwt-----------------------------------
 
-    public function clear_car($value){
-        $value_a = preg_replace('/[^[:alpha:]_]/', ' ',$value);
-        return addslashes($value_a);
-    }
 
-    public  function load_helpers(){
+    public  function load_helpers_default(){
         $this->load->helper(
             array('date_helper','square_helper')
         );
@@ -69,5 +65,20 @@ class SI_Controller extends CI_Controller{
     public function decript( $pass,$datadb ){
         return password_verify( $pass,$datadb );
     }
+
+    public function getDataUrl( $segment )
+    {
+        $uri  = $this->uri->slash_segment( $segment );
+        return str_replace( ['/','?','´'],'',$uri );
+    }
+
+    public function getDataHeader(){
+
+        $data = file_get_contents('php://input');
+        $data ? $header = json_decode( $data ) : $header = false;
+
+        return $header;
+    }
+
 
 }

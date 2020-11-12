@@ -27,74 +27,63 @@ class Comments extends Home_Controller
 
     }
     public function save(){
-        $uri  = $this->uri->slash_segment(2);
-        $id = str_replace(['/','?','´'],'',$uri);
+        $photoId = $this->getDataUrl( 2);
+        $commentHeader = $this->getDataHeader();
 
-        $data = file_get_contents('php://input');
-        $data ? $data = json_decode( $data ) : $this->response('Um comentário de ver inserido','error');
-        $comments = $data->commentText;
-
-        $user = $this->User_model->getWhere( ['user_name'=>$data->userName],"row" );
-
-        if( !$user ){
-            $this->response('Usuário não encontrado','error');
-        }
-        $allow = $this->Photos_model->getWhere(['photo_id'=>$id],'row');
-
-        if( $allow->photo_allow_comments == '1' )
-
-        $data = $this->Comments_model->save(
-            [
-                'comment_date' => date('Y-m-d H:i:s'),
-                'comment_text' => $comments,
-                'photo_id' => $id,
-                'user_id' => $user->user_id
-            ],
-            "*"
-        );
-
-        $user = $this->User_model->getWhere(['user_id'=>$user->user_id],"row");
-        $data['user_name'] = $user->user_full_name;
-
-        $this->response( [ $data ] );
-
-    }
-    public function saveComment(){
-        $header = apache_request_headers();
-
-        $uri  = $this->uri->slash_segment(2);
-        $id = str_replace(['/','?','´'],'',$uri);
-
-        $data = file_get_contents('php://input');
-        $data ? $data = json_decode( $data ) :false;
-
-
-        $user = file_get_contents('php://input');
-        $user ? $user = json_decode( $user ) :false;
-
-        if( $id && $data->commentText )
-
-        /** Validação do comentário (se é detentor da edição) **/
-        $jwtData = $this->dataUserJwt( $header['x-access-token'] );
-
-        $userValidComment = $this->User_model->getWhere( ['user_name'=>$jwtData->user_name],"row" );
-
-        if( !$userValidComment ):
-            $this->response('Erro geral, tente mais tarde!','error');
-         endif;
-
-        if( $userValidComment->user_name !== $user->userName ):
-            $this->response('Pratica ilegal ao tentar editar  comentário de outro usuário!','error');
+        if( !$commentHeader ):
+            $this->response('Erro interno, tente mais tarde','error');
         endif;
 
-        $comment = [
-            'comment_id'=>$id,
-            'comment_text'=>$data->commentText
-        ];
-        $data = $this->Comments_model->save( $comment,['comment_id','comment_date','comment_text'] );
+        $userHeader = $this->dataUserJwt( 'x-access-token' );
 
-        $this->response( $data );
+        $user = $this->User_model->getWhere(['user_name'=>$userHeader->user_name],'row');
+
+
+        $data = [
+            'photo_id'=>$photoId,
+            'comment_text'=>$commentHeader->commentText,
+            'comment_date'=>date('Y-m-d H:i:s'),
+            'user_id'=>$user->user_id
+        ];
+
+        //Editar (Impede que usuárioi salve em outro comentári, mesmo se tentar a sorte, vai apenas adicionar um novo para ele mesmo)
+        if( $commentHeader->commentId ){
+            $validComment = $this->Comments_model->validateCommentEdit( $commentHeader->commentId,$userHeader->user_name );
+
+            if( !$validComment ):
+                //salvar ip do usuário
+                $this->response('Erro geral, tente mais tarde, ou não.','error');
+            endif;
+
+            $data['comment_id']=$commentHeader->commentId;
+        }
+
+        $save = $this->Comments_model->save( $data,['comment_id','comment_date','comment_text','photo_id'] );
+
+        $this->response( $save );
+
     }
+
+    public function delete(){
+        $commentId = $this->getDataUrl( 2);
+
+        $userHeader = $this->dataUserJwt( 'x-access-token' );
+
+        if( !$userHeader ):
+            $this->response('Erro interno, tente mais tarde','error');
+        endif;
+
+        $validComment = $this->Comments_model->validateCommentEdit( $commentId,$userHeader->user_name );
+
+        if( !$validComment ):
+            $this->response('Erro interno, tente mais tarde','error');
+        endif;
+
+        $delete = $this->Comments_model->deletewhere(['comment_id'=>$commentId]);
+
+        $this->response( $delete );
+    }
+
     public function getCommentId(){
         $uri  = $this->uri->slash_segment(2);
         $id = str_replace(['/','?','´'],'',$uri);
