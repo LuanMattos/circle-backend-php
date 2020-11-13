@@ -12,11 +12,12 @@ class User_model extends CI_Model{
     public function searchUser( $name,$offset = null ){
         return $this->db
             ->order_by( 'user_full_name','DESC' )
-            ->select("user_full_name,user_name")
+            ->select("user_full_name,user_name,address")
             ->from("user as u")
             ->limit( 10)
-           // ->offset( $offset )
-            ->like('u.user_full_name',"$name")
+            ->offset( $offset )
+            ->like('u.user_full_name',"$name",'both')
+            ->or_like('u.user_name',"$name",'both')
             ->get()
             ->result_array();
     }

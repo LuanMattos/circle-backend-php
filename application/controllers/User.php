@@ -85,11 +85,12 @@ class User extends Home_Controller
 
     }
     public function search(){
-        $data = file_get_contents('php://input');
-        $data ? $data = json_decode( $data ) : false;
+        $data = $this->getDataHeader();
+        $offset = $this->getDataUrl( 2);
 
         if( $data )
-        $users =  $this->User_model->searchUser( $data->name );
+
+        $users =  $this->User_model->searchUser( $data->name,$offset );
         $this->response( $users );
     }
 

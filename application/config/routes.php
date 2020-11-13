@@ -9,7 +9,7 @@ $route['404_override'] = 'Home/error_404';
 $route['signup']['POST'] = 'user/register';
 $route['userLogin']['POST'] = 'user/login';
 $route['validUser/(:any)']['GET'] = 'user/userExists';
-$route['search']['PUT'] = 'user/search';
+$route['search/?(:any)?']['PUT'] = 'user/search/$page';
 
 $route['photos/(:any)/?(:any)?']['GET'] = 'photos/index/$id';
 $route['photos_upload']['POST'] = 'photos/upload';
