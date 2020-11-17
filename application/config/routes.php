@@ -10,6 +10,9 @@ $route['signup']['POST'] = 'user/register';
 $route['userLogin']['POST'] = 'user/login';
 $route['validUser/(:any)']['GET'] = 'user/userExists';
 $route['search/?(:any)?']['PUT'] = 'user/search/$page';
+$route['save_setting']['POST'] = 'user/saveSetting';
+$route['upload_img_profile']['POST'] = 'user/uploadImgProfile';
+$route['img_profile']['POST'] = 'user/imgProfile';
 
 $route['photos/(:any)/?(:any)?']['GET'] = 'photos/index/$id';
 $route['photos_upload']['POST'] = 'photos/upload';

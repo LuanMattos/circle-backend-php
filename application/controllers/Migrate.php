@@ -70,6 +70,9 @@ class Migrate extends CI_Controller{
 // ALTER TABLE Square.photo ADD COLUMN IF NOT EXISTS photo_public BIGINT;
 //ALTER TABLE Square.photo ADD COLUMN IF NOT EXISTS photo_public BIGINT default 1;
 //ALTER TABLE square.user ADD COLUMN IF NOT EXISTS address varchar(500);
+//ALTER TABLE square.user ADD COLUMN IF NOT EXISTS description varchar(100);
+//ALTER TABLE square.user ADD COLUMN IF NOT EXISTS user_avatar_url varchar(1000);
+
 
 
 
@@ -202,7 +205,7 @@ class Migrate extends CI_Controller{
            'Porto Mexico'
        ];
 
-        for ($i = (int)$countMax->max + 5;$i <= (int)$countMax->max + 10000;$i ++ ){
+        for ($i = (int)$countMax->max + 5;$i <= (int)$countMax->max + 10000000;$i ++ ){
 
             $userName = "joao" . $i;
                 $email = "joao".$i . "@teste.com";
@@ -215,7 +218,8 @@ class Migrate extends CI_Controller{
                     'user_email'=>$email,
                     'user_password'=>$senha,
                     'user_full_name'=>$names[rand(0,16)] .  " $i",
-                    'address'=>$address[rand(0,7)]
+                    'address'=>$address[rand(0,7)],
+                    'description'=>'Description the user ' . $userName
                 ];
                 $this->db->insert('user',$user);
 
@@ -284,9 +288,9 @@ class Migrate extends CI_Controller{
 
 
             echo 'Migracao N° ' . $i . "</br>";
-            set_time_limit(500000000000000000);
-
-            if($i == ($countMax->max + 600)){
+            set_time_limit(5000000000000);
+//
+            if($i >= ($countMax->max + 10)){
                 header("Refresh:0");
             }
 

@@ -79,8 +79,8 @@ class Create_folder_user extends Services\GeneralService
 
     public function create_folder(){
         $name = md5( $this->user->user_name . date('Y-m-d H:i:s') );
-        shell_exec('mkdir ' . 'storage/img/' . $name );
-        shell_exec('chmod -R 777 '. 'storage/img/' . $name );
+        shell_exec('mkdir ' . 'storage/img/' . $name . '/profile');
+        shell_exec('chmod -R 777 '. 'storage/img/' . $name . '/profile');
 
         return $name;
     }

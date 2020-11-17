@@ -36,8 +36,10 @@ class User extends Home_Controller
             $newData = [
                 "user_id" => $user->user_id,
                 "user_name" => $user->user_name,
-                "user_fullName" => $user->user_full_name,
+                "user_full_name" => $user->user_full_name,
                 "user_email" => $user->user_email,
+                "description" => $user->description,
+                "address"=>$user->address
             ];
 
         $dados = $this->generateJWT( $newData );
@@ -92,6 +94,112 @@ class User extends Home_Controller
 
         $users =  $this->User_model->searchUser( $data->name,$offset );
         $this->response( $users );
+    }
+    public function saveSetting(){
+        $data = $this->getDataHeader();
+        $userHeader = $this->dataUserJwt( 'x-access-token' );
+
+        if( !$data->userEmail || !$data->userPassword ){
+            $this->response('Os campos acima devem ser preenchidos!','error');
+        }
+
+        $user = $this->User_model->getWhere(['user_name'=>$userHeader->user_name],'row');
+
+        if( !$user ):
+            $this->response('Usuário não encontrado!','error');
+        endif;
+
+        $pass = $user->user_password;
+
+        if( $data->userPasswordChange ):
+            $pass = password_hash( $data->userPasswordChange,PASSWORD_ARGON2I );
+        endif;
+
+        $verify = password_verify( $data->userPassword,$user->user_password );
+
+        if( !$verify ):
+            $this->response('Senha Incorreta','error');
+        endif;
+
+
+        $newData = [
+            'user_id'=>$user->user_id,
+            'user_password'=>substr($pass,0,250),
+            'user_email'=>substr($data->userEmail,0,250),
+            'address'=>substr($data->userAddress,0,400),
+            'description'=>addslashes( substr($data->userDescription,0,99) ),
+        ];
+
+        $this->User_model->save( $newData );
+        $this->response('Salvo com sucesso');
+    }
+    public function uploadImgProfile(){
+        $jwtData = $this->dataUserJwt( 'x-access-token' );
+
+        $user = $this->User_model->getWhere( ["user_id"=>$jwtData->user_id],"row" );
+
+        if( !$user ):
+            $this->response('Usuário não existe!','error');
+        endif;
+
+        $nameFolder = $this->CreateFolderIfNotExists( $user->user_id );
+
+        //Download - criar serviço
+        $file_name =  md5( date('Y-m-d H:i:s') . uniqid() . $user->user_name) . $_FILES['imageFile']['name'];
+        $config = [
+            'upload_path' => 'storage/img/' . $nameFolder .'/profile/',
+            'allowed_types' => 'gif|jpg|png|jpeg|bmp',
+            'file_name' => $file_name
+        ];
+        $this->load->library('upload', $config);
+
+        if ( ! $this->upload->do_upload('imageFile' ) )
+        {
+            $result = array('error' => $this->upload->display_errors());
+            $this->response($result,"error");
+
+        }else{
+            $newData = ["user_avatar_url"=>"http://localhost/storage/img/$nameFolder/profile/$file_name"];
+            $this->db->update('user',$newData,["user_id" => $user->user_id]);
+
+
+            $this->response("http://localhost/storage/img/$nameFolder/profile/$file_name");
+        }
+
+    }
+
+    /** Criar serviço específico para isso UploadImgProfile **/
+    private function CreateFolderIfNotExists( $userId ){
+        $user = $this->User_model->getWhere(['user_id'=>$userId],"row");
+
+        if( $user && (!$user->name_folder) ):
+            $pathName = md5( $user->user_name . date('Y-m-d H:i:s') );
+            $nameFolder = $this->ExecShell( $pathName . "/profile" );
+
+            $this->db->update('user',['name_folder'=>$nameFolder],['user_id'=>$user->user_id]);
+            return $nameFolder;
+        endif;
+
+        return $user->name_folder;
+    }
+    private function ExecShell( $nameFolder ){
+        shell_exec('mkdir ' . 'storage/img/' . $nameFolder );
+        shell_exec('chmod -R 777 '. 'storage/img/' . $nameFolder );
+        return $nameFolder;
+    }
+
+    public function imgProfile(){
+//--------------Criar serviço para isso---------------------
+        $jwtData = $this->dataUserJwt( 'x-access-token' );
+
+        $user = $this->User_model->getWhere( ["user_id"=>$jwtData->user_id],"row" );
+
+        if( !$user ):
+            $this->response('Usuário não existe!','error');
+        endif;
+//--------------THE END Criar serviço para isso----------------
+        $this->response( $user->user_avatar_url );
+
     }
 
 }
