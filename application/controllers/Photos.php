@@ -19,7 +19,7 @@ class Photos extends Home_Controller
         $offset = $this->input->get('page',true);
 
         $user = $this->User_model->getWhere( ['user_name'=>$data ],'row' );
-       
+
         if( !$user ):
             $this->response('Usuário não existe','error');
         endif;
@@ -38,7 +38,6 @@ class Photos extends Home_Controller
 
         $dados  = $this->generateJWT( $newData );
         $this->setHeaders( $dados,'x-access-token' );
-
         $this->response( $photos );
 
     }
