@@ -37,16 +37,17 @@ class Comments extends Home_Controller
         $userHeader = $this->dataUserJwt( 'x-access-token' );
 
         $user = $this->User_model->getWhere(['user_name'=>$userHeader->user_name],'row');
-
+        $countComment = $this->Comments_model->getWhere(['photo_id'=>$photoId]);
 
         $data = [
             'photo_id'=>$photoId,
             'comment_text'=>$commentHeader->commentText,
             'comment_date'=>date('Y-m-d H:i:s'),
-            'user_id'=>$user->user_id
+            'user_id'=>$user->user_id,
+
         ];
 
-        //Editar (Impede que usuárioi salve em outro comentári, mesmo se tentar a sorte, vai apenas adicionar um novo para ele mesmo)
+        //Editar (Impede que usuárioi salve em outro comentário, mesmo se tentar a sorte, vai apenas adicionar um novo para ele mesmo)
         if( $commentHeader->commentId ){
             $validComment = $this->Comments_model->validateCommentEdit( $commentHeader->commentId,$userHeader->user_name );
 
@@ -57,6 +58,8 @@ class Comments extends Home_Controller
 
             $data['comment_id']=$commentHeader->commentId;
         }
+
+        $this->Photos_model->save(['photo_id'=>$photoId,'photo_comments'=>count($countComment)]);
 
         $save = $this->Comments_model->save( $data,['comment_id','comment_date','comment_text','photo_id'] );
 

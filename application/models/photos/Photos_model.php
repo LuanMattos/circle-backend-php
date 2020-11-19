@@ -17,7 +17,9 @@ class Photos_model extends CI_Model{
 
         if( is_array( $photos ) ){
             foreach ( $photos as $key=>$item ) {
-                $photos[$key]['likes'] = $this->Likes_model->getWhere(['photo_id'=>$item['photo_id']],"array",false,null,10);
+//                $this->Likes_model->getWhere(['photo_id'=>$item['photo_id'],'user_id'=>$userId],"array",false,null,10)
+                $photos[$key]['likes'] = [];
+                $photos[$key]['liked'] = $this->Likes_model->getWhere(['photo_id'=>$item['photo_id'],'user_id'=>$userId],"row")?true:false;
             }
         }
         return $photos;

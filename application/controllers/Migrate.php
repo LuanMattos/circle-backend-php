@@ -72,9 +72,27 @@ class Migrate extends CI_Controller{
 //ALTER TABLE square.user ADD COLUMN IF NOT EXISTS address varchar(500);
 //ALTER TABLE square.user ADD COLUMN IF NOT EXISTS description varchar(100);
 //ALTER TABLE square.user ADD COLUMN IF NOT EXISTS user_avatar_url varchar(1000);
+
+
+
+//INDEX
 //CREATE INDEX IF NOT EXISTS idx_photo ON square.user (user_id);
+//CREATE INDEX IF NOT EXISTS idx_user_full_name ON square.user (user_full_name)
+//CREATE INDEX IF NOT EXISTS idx_user_name ON square.user (user_name)
+
 //CREATE INDEX IF NOT EXISTS  idx_photo ON square.photo (photo_id);
 //CREATE INDEX IF NOT EXISTS idx_photo_user_id ON square.photo (user_id);
+//CREATE INDEX IF NOT EXISTS idx_photo_id ON square.photo (photo_id)
+
+//CREATE INDEX IF NOT EXISTS idx_like_photo_id ON square.like (photo_id);
+//CREATE INDEX IF NOT EXISTS idx_like_user_id ON square.like (user_id)
+
+//CREATE INDEX idx_comment_date ON square.comment (comment_date DESC)
+
+
+
+
+
 
 
 
@@ -169,139 +187,39 @@ class Migrate extends CI_Controller{
 
     }
 
-    public function test(){
-        $this->load->model("likes/Likes_model");
-        $this->load->model("user/User_model");
-
-       $countMax = $this->db->query('select max(square.user.user_id) from square.user')->row();
-
-
-       $names = [
-         'João Silva',
-         'Maria Richard',
-           'Ricardo Telles',
-           'José Freris',
-           'Thaís Naso',
-           'Adriano Serpa',
-           'Eduarda Cavalheiro',
-           'Eduardo',
-           'Silvania',
-           'Silvia',
-           'Silvio Medeiros',
-           'Tales Rai',
-           'Maris Brandon',
-           'Thery Marques',
-           'Michael Sidinei',
-           'John Frecks',
-           'Kelly Morgan'
-       ];
-
-       $address = [
-           'Porto Rico',
-           'Brasil/RJ',
-           'Brasilia',
-           'Porto Alegre RS',
-           'São Paulo',
-           'San Petesburg',
-           'Irã',
-           'Porto Mexico'
-       ];
-
-        for ($i = (int)$countMax->max + 5;$i <= (int)$countMax->max + 10000000;$i ++ ){
-
-            $userName = "joao" . $i;
-                $email = "joao".$i . "@teste.com";
-                $senha = password_hash( '12345678',PASSWORD_ARGON2I );
-            //$this->db->trans_start();
-
-                $user = [
-                    'user_id'=>$i,
-                    'user_name'=>$userName,
-                    'user_email'=>$email,
-                    'user_password'=>$senha,
-                    'user_full_name'=>$names[rand(0,16)] .  " $i",
-                    'address'=>$address[rand(0,7)],
-                    'description'=>'Description the user ' . $userName
-                ];
-                $this->db->insert('user',$user);
-
-                $like = [
-                    'photo_id'=>rand(4721,11547),
-                    'user_id'=>$i
-                ];
-
-                $this->Likes_model->save( $like );
-
-                $photosUrl = [
-                    'http://localhost/storage/img/d1e7e7064b80c97487465b7595277e65/b1f626b13a8e35f35bdaeef5983116f6download.jpg',
-                    'http://localhost/storage/img/d1e7e7064b80c97487465b7595277e65/efe83f5d3c2af91908d5a407deed1903download.png',
-                    'http://localhost/storage/img/d1e7e7064b80c97487465b7595277e65/b125a386029b7c578f721a76f7684533Experiences_Beach.jpg',
-                    'http://localhost/storage/img/d1e7e7064b80c97487465b7595277e65/fde331e4c5c44e8bd90aaa8e78f27f09fernando-de-noronha-o-paraiso-que-voce-precisa-conhecer.jpeg',
-                    'http://localhost/storage/img/d1e7e7064b80c97487465b7595277e65/8c7bb9ddb37f57b51cf6963de61e999eShanghai_shutterstock_1239377482.jpg',
-                    'http://localhost/storage/img/d1e7e7064b80c97487465b7595277e65/a55f0f8ebaa352d4f5aaff6c80bc3146images_landing_page_1314146_topo-email.jpg',
-                    'http://localhost/storage/img/d1e7e7064b80c97487465b7595277e65/cccbec2a2b5447aa48f07b24de3f833fad15bfd7b0_50164279_rotation-galaxie-spirale-univers.jpg',
-                    'http://localhost/storage/img/d1e7e7064b80c97487465b7595277e65/423efb493050d60896b73b027bbb5d24viagem-para-alemanha-740x360.jpeg',
-                    'http://localhost/storage/img/d1e7e7064b80c97487465b7595277e65/e31d02642867e0a6dad782bf66c1d855homer.jpg',
-                    'http://localhost/storage/img/d1e7e7064b80c97487465b7595277e65/cd3409647f5b30900c42475472c3f115uol211.jpg',
-                    'https://www.newzealand.com/assets/Tourism-NZ/Fiordland/img-1536137761-110-7749-p-7ECF7092-95BD-FE18-6D4107E2E42D067E-2544003__aWxvdmVrZWxseQo_FocalPointCropWzQyNyw2NDAsNTAsNTAsODUsImpwZyIsNjUsMi41XQ.jpg',
-                    'https://exame.com/wp-content/uploads/2016/09/size_960_16_9_nova-zelandia4.jpg',
-                    'https://dicasnovayork.com.br/wp-content/uploads/2018/07/oquefazer_header1-1000x700.jpg',
-                    'https://mundoviajar.com.br/wp-content/uploads/2016/09/grote-markt.jpg',
-                    'https://i2.wp.com/turismo.eurodicas.com.br/wp-content/uploads/2018/09/turismo-na-belgica-1.jpg?fit=1360%2C907&ssl=1',
-                    'https://blogdointercambio.stb.com.br/wp-content/uploads/2019/09/Curso-de-franc%C3%AAs-nas-melhores-escolas-da-Fran%C3%A7a-1.jpg',
-                    'https://aventurasnahistoria.uol.com.br/media/_versions/capa_reino_unido_inglaterra_gra_bretanha_widelg.jpeg',
-                    'https://www.estudopratico.com.br/wp-content/uploads/2016/07/reino-unido.jpg',
-                    'https://www.foregon.com/blog/wp-content/uploads/2019/06/morar-na-inglaterra.jpg',
-                    'https://s3.lufthansacc.com/wp-content/uploads/2050/11/CL%C3%81SSICO-DE-INGLATERRA-E-ESC%C3%93CIA-1.jpg',
-                    'https://www.passagenspromo.com.br/blog/wp-content/uploads/2020/03/cidades-da-russia.jpg',
-                    'https://www.state.gov/wp-content/uploads/2018/11/Russia-2499x1406.jpg',
-                    'https://ep01.epimg.net/elviajero/imagenes/2018/11/20/album/1542734421_520813_1542734629_noticia_normal.jpg',
-                    'https://www.heritage.org/sites/default/files/styles/slide_cover_xl/public/images/2018-12/hollywood.jpg?itok=Z74JKsUB',
-                    'https://ca-times.brightspotcdn.com/dims4/default/092e0a4/2147483647/strip/true/crop/5000x3135+0+0/resize/1486x932!/quality/90/?url=https%3A%2F%2Fcalifornia-times-brightspot.s3.amazonaws.com%2Fe0%2F85%2Fbf58d63d4c808009a6c4b4645f39%2Ffi-ovation-hollywood-highland-1.jpg',
-                    'https://www.visiteosusa.com.br/sites/default/files/styles/hero_l_x2/public/images/hero_media_image/2018-06/0c647c1b4b1a841d3e0a1d6542875829.jpeg?itok=dnkU43w8',
-                    'https://viajando.expedia.com.br/wp-content/uploads/o-que-fazer-em-miami.jpg',
-                    'https://dicasdaflorida.com.br/wp-content/uploads/2018/08/miami-mar-cidade.jpg',
-                    'https://images1.miaminewtimes.com/imager/u/original/9592703/independance-2016-nikki-beach-miami-34.jpg',
-                    'https://cdn.filestackcontent.com/resize=w:1860/quality=v:75/auto_image/compress/qTQxQpsgSpegwybKL9sN',
-                    'https://cdn.evbuc.com/eventlogos/288375840/partyboatmiamiboozecruisemiamipartybuspartyboatmiamiboozecruisemiami.jpg',
-                    'https://miamibeachtimes.com/wp-content/uploads/2019/06/62116704_10161928157485241_125807297271169024_o.jpg',
-                    'https://www.theplunge.com/wp-content/uploads/2017/09/Last_72_hours_miami_sls_hotel_pool_party.png',
-                    'https://arbache.com/blog/wp-content/uploads/2018/09/china-990x297.png',
-                    'https://afar-production.imgix.net/uploads/images/afar_post_headers/images/DA2YtCleQi/original_lede-madrid-shutterstock.jpg?auto=compress,format&fit=crop&crop=top&lossless=true&w=1600&h=700',
-                    'https://i.insider.com/554b72016bb3f76124881fcd?width=1100&format=jpeg&auto=webp',
-                    'https://img.evbuc.com/https%3A%2F%2Fcdn.evbuc.com%2Fimages%2F88474991%2F24250841862%2F1%2Foriginal.20191113-164106?w=512&auto=format%2Ccompress&q=75&sharp=10&rect=0%2C0%2C800%2C400&s=fba61863fcc17b6276efb94ff0b8ceb0',
-                    'https://c8.alamy.com/comp/CAK0N6/oct-03-2007-new-york-city-ny-usa-2008-hooters-calendar-girls-vip-party-CAK0N6.jpg',
-                    'https://media.guestofaguest.com/t_article_content/gofg-media/2019/08/1/52650/64940903_116226052977080_1044917097755593037_n.jpg',
-                    'https://static.dw.com/image/18039867_303.jpg'
-                ];
-
-                $photo = [
-                    'photo_url'=>$photosUrl[rand(0,38)],
-                    'photo_description'=>'Photo posted by ' . $userName,
-                    'user_id'=>$i,
-                    'photo_post_date'=>date('Y-m-d H:i:s')
-                ];
-
-            for ($a = 1;$a <= rand(1,20);$a ++ ){
-                $photo['photo_url']=$photosUrl[rand(0,38)];
-                $this->db->insert('photo', $photo );
-
-            }
-
-
-            echo 'Migracao N° ' . $i . "</br>";
-            set_time_limit(5000000000000);
-//
-            if($i >= ($countMax->max + 10)){
-                header("Refresh:0");
-            }
-
-            //$this->db->trans_complete();
-
-
-        }
-
-
+    public function CriateUserTest(){
+            //drop function random_between;
+            //
+            //CREATE OR REPLACE FUNCTION random_between(low INT ,high INT)
+            //    RETURNS text AS
+            //$$
+            //BEGIN
+            //    RETURN floor(random()* (high-low + 1) + low);
+            //END;
+            //$$ language 'plpgsql' STRICT;
+            //
+            //
+            //CREATE OR REPLACE FUNCTION criarTabelaPopulada() RETURNS VOID AS
+            //    $BODY$
+            //        DECLARE
+            //        i INTEGER;
+            //        BEGIN
+            //            i = 341021;
+            //            LOOP
+            //                INSERT INTO square.user VALUES (i, 'User' || i, 'user' || i || '@gmail.com', '$argon2i$v=19$m=65536,t=4,p=1$aE5JLk0vS0VCaXRJTkdFbw$vDopEoSkzics1r4SC8Vg3nbEJ/TXTYo6FzLZTfnFjEA', 'User ' || i, now(),'usertest', 'Adresss ' || i, 'Description ' || i, 'http://localhost/storage/img_tests/img/' ||  random_between(1,30) || '.jpg');
+            //                INSERT INTO square.like VALUES (default, 60,i);
+            //                INSERT INTO square.photo VALUES (default, now(),'http://localhost/storage/img_tests/img/' ||  random_between(1,30) || '.jpg','Description by User ' || i,1,default,default,i,default);
+            //                INSERT INTO square.photo VALUES (default, now(),'http://localhost/storage/img_tests/img/' ||  random_between(1,30) || '.jpg','Description by User ' || i,1,default,default,i,default);
+            //                INSERT INTO square.comment VALUES (default,now(),'Very Good!',60,i);
+            //                EXIT WHEN i > 1000000;
+            //                i:=i+1;
+            //            END LOOP;
+            //        END;
+            //    $BODY$
+            //LANGUAGE plpgsql VOLATILE;
+            //
+            //
+            //select criarTabelaPopulada() from square.user limit 1;
 
     }
 

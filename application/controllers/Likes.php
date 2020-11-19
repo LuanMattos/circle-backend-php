@@ -54,25 +54,27 @@ class Likes extends Home_Controller
             $hasLiked = $this->Likes_model->getWhere( $save );
 
             if( $hasLiked ):
-                $likesUnLiked = $this->Likes_model->getWhere(['photo_id' => $data->photoId ] );
+                $likesUnLiked = $this->Likes_model->countLikesPhotoId( $data->photoId );
                 $this->Likes_model->deletewhere( $save );
-                $countLiked = count( $likesUnLiked ) > 0 ? count( $likesUnLiked ) - 1:0;
+                $countLiked =  $likesUnLiked  > 0 ?  $likesUnLiked  - 1:0;
             else:
-                $likesLiked = $this->Likes_model->getWhere(['photo_id' => $data->photoId ] );
+                $likesLiked = $this->Likes_model->countLikesPhotoId( $data->photoId );
                 $this->Likes_model->save( $save );
-                $countLiked = count( $likesLiked ) + 1;
+                $countLiked =  $likesLiked  + 1;
             endif;
             $save = [
                 'photo_id'=>$data->photoId,
                 'photo_likes'=>$countLiked,
             ];
-            $photosSave = $this->Photos_model->save( $save,["photo_id"] );
-
+            $this->Photos_model->save( $save,["photo_id"] );
         $this->db->trans_complete();
 
-        $likesReturn = $this->Likes_model->getWhere( ['photo_id'=>$photosSave['photo_id']] );
+        $return = [
+            'count'=>$countLiked,
+            'liked'=>$this->Likes_model->likedMe( $data->photoId,$user->user_id )?true:false
+        ];
 
-        $this->response( $likesReturn );
+        $this->response( $return );
     }
 
 }

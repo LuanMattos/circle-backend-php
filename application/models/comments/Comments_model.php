@@ -25,7 +25,7 @@ class Comments_model extends CI_Model{
             ->join('user u','u.user_id = c.user_id','join')
             ->limit( $limit)
             ->offset( $offset )
-            ->where('photo_id = ' . $id)
+            ->where('c.photo_id = ' . $id)
             ->get()
             ->result_array();
 

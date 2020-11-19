@@ -68,9 +68,14 @@ class Photos extends Home_Controller
     public function getPhotoId(){
         $uri  = $this->uri->slash_segment(2);
         $id = number( $uri );
+
+        $data = $this->dataUserJwt('x-access-token');
+
         if( (integer) $id )
-        $url = $this->Photos_model->getWhere( [ 'photo_id' => $id ],"row");
-        $this->response( $url );
+
+        $dataResponse = $this->Photos_model->getWhere( [ 'photo_id' => $id ],"row");
+        $dataResponse->liked = $data & $this->Likes_model->getWhere(['photo_id'=>$id,'user_id'=>$data->user_id],"row")?true:false;
+        $this->response( $dataResponse );
     }
     public function getPhoto(){
         $uri  = $this->uri->slash_segment(2);
