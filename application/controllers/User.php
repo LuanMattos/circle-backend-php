@@ -167,6 +167,40 @@ class User extends Home_Controller
         }
 
     }
+    public function uploadImgCover(){
+        $jwtData = $this->dataUserJwt( 'x-access-token' );
+
+        $user = $this->User_model->getWhere( ["user_id"=>$jwtData->user_id],"row" );
+
+        if( !$user ):
+            $this->response('Usuário não existe!','error');
+        endif;
+
+        $nameFolder = $this->CreateFolderIfNotExists( $user->user_id );
+
+        //Download - criar serviço
+        $file_name =  md5( date('Y-m-d H:i:s') . uniqid() . $user->user_name) . $_FILES['imageFile']['name'];
+        $config = [
+            'upload_path' => 'storage/img/' . $nameFolder .'/cover/',
+            'allowed_types' => 'gif|jpg|png|jpeg|bmp',
+            'file_name' => $file_name
+        ];
+        $this->load->library('upload', $config);
+
+        if ( ! $this->upload->do_upload('imageFile' ) )
+        {
+            $result = array('error' => $this->upload->display_errors());
+            $this->response($result,"error");
+
+        }else{
+            $newData = ["user_cover_url"=>"http://localhost/storage/img/$nameFolder/cover/$file_name"];
+            $this->db->update('user',$newData,["user_id" => $user->user_id]);
+
+
+            $this->response("http://localhost/storage/img/$nameFolder/cover/$file_name");
+        }
+
+    }
 
     /** Criar serviço específico para isso UploadImgProfile **/
     private function CreateFolderIfNotExists( $userId ){
@@ -175,6 +209,7 @@ class User extends Home_Controller
         if( $user && (!$user->name_folder) ):
             $pathName = md5( $user->user_name . date('Y-m-d H:i:s') );
             $nameFolder = $this->ExecShell( $pathName . "/profile" );
+            $this->ExecShell( $pathName . "/cover" );
 
             $this->db->update('user',['name_folder'=>$nameFolder],['user_id'=>$user->user_id]);
             return $nameFolder;
@@ -188,17 +223,25 @@ class User extends Home_Controller
         return $nameFolder;
     }
 
-    public function imgProfile(){
-//--------------Criar serviço para isso---------------------
-        $jwtData = $this->dataUserJwt( 'x-access-token' );
+    public function dataUserBasic( ){
+        $userName = $this->getDataUrl(2);
 
-        $user = $this->User_model->getWhere( ["user_id"=>$jwtData->user_id],"row" );
+        $user = $this->User_model->getWhere( ["user_name"=>$userName],"row" );
 
         if( !$user ):
-            $this->response('Usuário não existe!','error');
+            $this->response('Erro geral, por favor,tente mais tarde!','error');
         endif;
-//--------------THE END Criar serviço para isso----------------
-        $this->response( $user->user_avatar_url );
+        $data = [
+            'user_id'=>$user->user_id,
+            'user_avatar_url'=>$user->user_avatar_url,
+            'user_cover_url'=>$user->user_cover_url,
+            'user_full_name'=>$user->user_full_name,
+            'user_email'=>$user->user_email,
+            'user_name'=>$user->user_name,
+            'address'=>$user->address,
+            'description'=>$user->description,
+        ];
+        $this->response( $data );
 
     }
 

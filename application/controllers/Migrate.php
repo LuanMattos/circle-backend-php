@@ -72,6 +72,7 @@ class Migrate extends CI_Controller{
 //ALTER TABLE square.user ADD COLUMN IF NOT EXISTS address varchar(500);
 //ALTER TABLE square.user ADD COLUMN IF NOT EXISTS description varchar(100);
 //ALTER TABLE square.user ADD COLUMN IF NOT EXISTS user_avatar_url varchar(1000);
+//ALTER TABLE square.user ADD COLUMN IF NOT EXISTS user_cover_url varchar(1000);
 
 
 
