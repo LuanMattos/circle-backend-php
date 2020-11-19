@@ -13,8 +13,8 @@ class Photos extends Home_Controller
     }
 
     public function index(){
-        $uri  = $this->uri->slash_segment(2);
-        $data = str_replace(['/','?','´'],'',$uri);
+        $data = $this->getDataUrl(2);
+        $dataJwt = $this->dataUserJwt('x-access-token');
 
         $offset = $this->input->get('page',true);
 
@@ -25,7 +25,7 @@ class Photos extends Home_Controller
         endif;
 
         $photos = $this->Photos_model->getPhotoUser(
-            $user->user_id, "photo_post_date","DESC", "9",$offset
+            $user->user_id,$dataJwt, "photo_post_date","DESC", "9",$offset
         );
 
         $newData = [
