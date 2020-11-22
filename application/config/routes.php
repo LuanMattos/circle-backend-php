@@ -28,4 +28,7 @@ $route['delete_comment/(:any)']['DELETE'] = 'comments/delete';
 $route['add_like']['PUT'] = 'likes/like';
 
 
+$route['follow/(:any)']['PUT'] = 'Follower/follow/$id';
+
+
 

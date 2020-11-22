@@ -7,6 +7,7 @@ class User extends Home_Controller
     public function __construct(){
         parent::__construct();
         $this->load->model("user/User_model");
+        $this->load->model("follower/Follower_model");
     }
 
     public function login(){
@@ -226,11 +227,14 @@ class User extends Home_Controller
     public function dataUserBasic( ){
         $userName = $this->getDataUrl(2);
 
+        $dataJwt = $this->dataUserJwt('x-access-token');
+
         $user = $this->User_model->getWhere( ["user_name"=>$userName],"row" );
 
         if( !$user ):
             $this->response('Erro geral, por favor,tente mais tarde!','error');
         endif;
+
         $data = [
             'user_id'=>$user->user_id,
             'user_avatar_url'=>$user->user_avatar_url,
@@ -240,9 +244,18 @@ class User extends Home_Controller
             'user_name'=>$user->user_name,
             'address'=>$user->address,
             'description'=>$user->description,
+            'following'=>$this->followingOwner( $dataJwt, $user->user_id )
         ];
+
         $this->response( $data );
 
+    }
+    private function followingOwner( $dataJwt, $userIdUrl ){
+        if( $dataJwt ):
+            $data = [ 'user_id_from'=>$dataJwt->user_id, 'user_id_to'=>$userIdUrl ];
+            return $this->Follower_model->getwhere( $data ) ? true : false;
+        endif;
+        return false;
     }
 
 }

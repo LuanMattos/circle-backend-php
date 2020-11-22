@@ -91,9 +91,17 @@ class Migrate extends CI_Controller{
 //CREATE INDEX idx_comment_date ON square.comment (comment_date DESC)
 
 
+//        CREATE TABLE IF NOT EXISTS Square.follower (
+//            follower_id serial PRIMARY KEY,
+//                user_id_to INTEGER,
+//                user_id_from INTEGER,
+//                follower_date TIMESTAMP DEFAULT current_timestamp,
+//                FOREIGN KEY(user_id_to) REFERENCES Square.user(user_id),
+//                FOREIGN KEY(user_id_from) REFERENCES Square.user(user_id)
+//);
 
-
-
+//CREATE INDEX idx_follower_user_id_to ON square.follower (user_id_to);
+//CREATE INDEX idx_follower_user_id_from ON square.follower (user_id_from);
 
 
 

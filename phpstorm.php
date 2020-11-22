@@ -88,6 +88,7 @@ die('This file is used for development purposes only.');
  * @property Photos_model          $Photos_model
  * @property Comments_model          $Comments_model
  * @property Likes_model          $Likes_model
+ * @property Follower_model          $Follower_model
 
 
 

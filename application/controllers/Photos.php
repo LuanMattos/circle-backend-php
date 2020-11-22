@@ -23,7 +23,7 @@ class Photos extends Home_Controller
         if( !$user ):
             $this->response('Usuário não existe','error');
         endif;
-
+//debug($data);
         $photos = $this->Photos_model->getPhotoUser(
             $user->user_id,$dataJwt, "photo_post_date","DESC", "9",$offset
         );
