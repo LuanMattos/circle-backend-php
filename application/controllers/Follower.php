@@ -27,12 +27,30 @@ class Follower extends Home_Controller
         $hasFollow = $this->Follower_model->getWhere( $data );
 
         if( !$hasFollow ){
+            $seguindo = $this->Follower_model->countFollowingUserId( $user->user_id );
+
+            $countSeguindo = $seguindo + 1;
+
             $save = $this->Follower_model->save( $data );
             if( $save )
             $follow = true;
         }else{
+            $seguindo = $this->Follower_model->countFollowingUserId( $user->user_id );
+
+            $countSeguindo = $seguindo > 0 ? $seguindo - 1:0;
+
             $this->Follower_model->deletewhere( $data );
+
+            $follow = false;
         }
+
+        $user = ['user_id'=>$user->user_id,'user_following'=>$countSeguindo];
+        $this->User_model->save( $user );
+
+        $countSeguindoTo = $this->Follower_model->countFollowersUserId( $dataTo );
+
+        $user = ['user_id'=>$dataTo,'user_followers'=>$countSeguindoTo];
+        $this->User_model->save( $user );
 
         $this->response( $follow );
     }

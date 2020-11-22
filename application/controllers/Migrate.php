@@ -102,6 +102,8 @@ class Migrate extends CI_Controller{
 
 //CREATE INDEX idx_follower_user_id_to ON square.follower (user_id_to);
 //CREATE INDEX idx_follower_user_id_from ON square.follower (user_id_from);
+//ALTER TABLE Square.user ADD COLUMN  IF NOT EXISTS user_followers BIGINT DEFAULT 0;
+//ALTER TABLE Square.user ADD COLUMN  IF NOT EXISTS user_following BIGINT DEFAULT 0;
 
 
 
