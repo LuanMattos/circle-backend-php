@@ -244,7 +244,9 @@ class User extends Home_Controller
             'user_name'=>$user->user_name,
             'address'=>$user->address,
             'description'=>$user->description,
-            'following'=>$this->followingOwner( $dataJwt, $user->user_id )
+            'following'=>$this->followingOwner( $dataJwt, $user->user_id ),
+            'user_followers'=>$user->user_followers,
+            'user_following'=>$user->user_following
         ];
 
         $this->response( $data );

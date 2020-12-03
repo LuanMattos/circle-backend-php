@@ -1,0 +1,25 @@
+mongo:
+    container_name: mongo
+    image:  luanmattos/atos:mongodb
+    ports:
+      - "27017:27017"
+  postgres:
+    container_name: postgres
+    image:  luanmattos/atos:postgresql
+    environment:
+        POSTGRES_USER: postgres
+        POSTGRES_PASSWORD: eFdarksadfw4r54af4fd4a54h2fasfdg
+        PGDATA: /data/postgres
+        POSTGRES_DB: atos
+    volumes:
+        - "./data/postgres:/var/lib/postgresql/data"
+    ports:
+        - "5432:5432"
+    networks:
+        - postgres
+
+networks:
+    postgres:
+        driver: bridge
+    mongo:
+        driver: bridge
