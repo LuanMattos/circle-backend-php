@@ -50,6 +50,7 @@ class User extends Home_Controller
 
     }
     public function register(){
+
         $data = file_get_contents('php://input');
         $data ? $data = json_decode( $data ) : false;
         $error = "";
