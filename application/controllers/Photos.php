@@ -68,7 +68,7 @@ class Photos extends Home_Controller
     public function getPhotoId(){
         $uri  = $this->uri->slash_segment(2);
         $id = number( $uri );
-debug('teste');
+
         $data = $this->dataUserJwt('x-access-token');
 
         if( (integer) $id )
