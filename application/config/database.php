@@ -11,7 +11,7 @@ if(ENVIRONMENT === 'production'){
 }
 $db['default']  = [
 	'dsn'	        => '',
-	'hostname'      => '200.98.201.166',
+	'hostname'      => 'mycircle.click',
 	'username'      => 'postgres',
 	'port'          => '5432',
 	'password'      => 'eFdarksadfw4r54af4fd4a54h2fasfdg',
