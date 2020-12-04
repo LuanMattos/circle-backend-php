@@ -32,6 +32,6 @@ $db['default']  = [
 	'save_queries'  => TRUE
 ];
 
-require_once 'database_chat.php';
-$mongo = new database_chat();
-$config['mongodb'] = $mongo->config_mongo();
+//require_once 'database_chat.php';
+//$mongo = new database_chat();
+//$config['mongodb'] = $mongo->config_mongo();
