@@ -1,11 +1,5 @@
 version: "2.2"
 services:
-  mongo:
-    container_name: mongo
-    image:  luanmattos/atos:mongodb
-    ports:
-      - "27017:27017"
-
   php_apache:
     container_name: php_apache
     image: luanmattos/atos:php-apache
@@ -32,6 +26,4 @@ services:
 
 networks:
     postgres:
-        driver: bridge
-    mongo:
         driver: bridge
