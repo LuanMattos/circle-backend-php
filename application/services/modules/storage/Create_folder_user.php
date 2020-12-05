@@ -42,7 +42,7 @@ class Create_folder_user extends Services\GeneralService
             $data = [
               'user_id'=>$this->user->user_id,
               'photo_post_date'=>date('Y-m-d H:i:s'),
-              'photo_url'=>"http://localhost/storage/img/{$name}/{$file_name}",
+              'photo_url'=>"https://mycircle.click/storage/img/{$name}/{$file_name}",
               'photo_description'=>$this->data->description,
               'photo_allow_comments'=>$this->data->allowComments === 'true'?'1':'0',
               'photo_public'=>$this->data->public === 'true'?'1':'0',

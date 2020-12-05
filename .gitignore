@@ -95,3 +95,6 @@ fabric.properties
 
 /data/*
 
+*storage/img*
+*/storage/img/*
+*.htaccess

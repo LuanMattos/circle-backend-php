@@ -80,7 +80,7 @@ class Photos extends Home_Controller
     public function getPhoto(){
         $uri  = $this->uri->slash_segment(2);
         $fileName = str_replace(['/','?','´'],'',$uri);
-        $url = $this->Photos_model->getWhere( [ 'photo_url' => "http://localhost/get_photo/{$fileName}" ],"row" );
+        $url = $this->Photos_model->getWhere( [ 'photo_url' => "https://mycircle.click/get_photo/{$fileName}" ],"row" );
         return $url;
     }
 

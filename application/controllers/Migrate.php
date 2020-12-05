@@ -217,10 +217,10 @@ class Migrate extends CI_Controller{
             //        BEGIN
             //            i = 341021;
             //            LOOP
-            //                INSERT INTO square.user VALUES (i, 'User' || i, 'user' || i || '@gmail.com', '$argon2i$v=19$m=65536,t=4,p=1$aE5JLk0vS0VCaXRJTkdFbw$vDopEoSkzics1r4SC8Vg3nbEJ/TXTYo6FzLZTfnFjEA', 'User ' || i, now(),'usertest', 'Adresss ' || i, 'Description ' || i, 'http://localhost/storage/img_tests/img/' ||  random_between(1,30) || '.jpg');
+            //                INSERT INTO square.user VALUES (i, 'User' || i, 'user' || i || '@gmail.com', '$argon2i$v=19$m=65536,t=4,p=1$aE5JLk0vS0VCaXRJTkdFbw$vDopEoSkzics1r4SC8Vg3nbEJ/TXTYo6FzLZTfnFjEA', 'User ' || i, now(),'usertest', 'Adresss ' || i, 'Description ' || i, 'https://mycircle.click/storage/img_tests/img/' ||  random_between(1,30) || '.jpg');
             //                INSERT INTO square.like VALUES (default, 60,i);
-            //                INSERT INTO square.photo VALUES (default, now(),'http://localhost/storage/img_tests/img/' ||  random_between(1,30) || '.jpg','Description by User ' || i,1,default,default,i,default);
-            //                INSERT INTO square.photo VALUES (default, now(),'http://localhost/storage/img_tests/img/' ||  random_between(1,30) || '.jpg','Description by User ' || i,1,default,default,i,default);
+            //                INSERT INTO square.photo VALUES (default, now(),'https://mycircle.click/storage/img_tests/img/' ||  random_between(1,30) || '.jpg','Description by User ' || i,1,default,default,i,default);
+            //                INSERT INTO square.photo VALUES (default, now(),'https://mycircle.click/storage/img_tests/img/' ||  random_between(1,30) || '.jpg','Description by User ' || i,1,default,default,i,default);
             //                INSERT INTO square.comment VALUES (default,now(),'Very Good!',60,i);
             //                EXIT WHEN i > 1000000;
             //                i:=i+1;
