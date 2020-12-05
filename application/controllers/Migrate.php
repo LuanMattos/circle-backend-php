@@ -203,21 +203,55 @@ class Migrate extends CI_Controller{
             //
 
 
-
-
-//        BEGIN
+//
+//
+//        delete  from square.user where user_id > 0;
+//delete  from square.photo where photo_id > 0;
+//delete  from square.like where user_id > 0;
+//delete  from square.comment where user_id > 0;
+//
+//
+//DO $$
+//DECLARE
+//i INTEGER;
+//BEGIN
 //    i = 1;
 //    LOOP
-//        INSERT INTO square.user VALUES (i, 'User' || i, 'user' || i || '@circle.com', '$argon2i$v=19$m=65536,t=4,p=1$aE5JLk0vS0VCaXRJTkdFbw$vDopEoSkzics1r4SC8Vg3nbEJ/TXTYo6FzLZTfnFjEA', 'User ' || i, now(),'usertest', 'Adresss ' || i, 'Description ' || i, 'https://mycircle.click/storage/img_tests/img/' ||  random_between(1,30) || '.jpg');
-//        INSERT INTO square.like VALUES (default, 60,i);
-//        INSERT INTO square.photo VALUES (default, now(),'https://mycircle.click/storage/img_tests/img/' ||  random_between(1,30) || '.jpg','Description by User ' || i,1,default,default,i,default);
-//        INSERT INTO square.photo VALUES (default, now(),'https://mycircle.click/storage/img_tests/img/' ||  random_between(1,30) || '.jpg','Description by User ' || i,1,default,default,i,default);
-//        INSERT INTO square.comment VALUES (default,now(),'Very Good!',60,i);
+//        INSERT INTO square.user
+//        VALUES (
+//            i,
+//            'User' || i,
+//            'user' || i || '@circle.com',
+//            '$argon2i$v=19$m=65536,t=4,p=1$alYzcnZULld1ZHcvNS9HZw$MHPYWekgHfTIv3koelzk5AXm651Puo8koHqL7TCEWhQ',
+//            'User ' || i,
+//            now(),
+//            null,
+//            'Adresss ' || i,
+//            'Description ' || i,
+//            'https://mycircle.click/storage/img_tests/img/' ||  random_between(1,30) || '.jpg',
+//            'https://mycircle.click/storage/img_tests/img/' ||  random_between(1,30) || '.jpg'
+//        );
+//        INSERT INTO square.photo VALUES (
+//            i,
+//            now(),
+//            'https://mycircle.click/storage/img_tests/img/' ||  random_between(1,30) || '.jpg',
+//            'Description by User ' || i,
+//            1,
+//                                         default,
+//                                         i,
+//                                         default,
+//                                         default
+//                                         );
+//        INSERT INTO square.comment VALUES (i,now(),'Very Good! By User' || i,i,i);
+//        INSERT INTO square.like VALUES (i, i,i);
 //        EXIT WHEN i > 10;
 //        i:=i+1;
 //    END LOOP;
 //END;
 //$$;
+//
+//select * from square.user;
+
 
 
 
