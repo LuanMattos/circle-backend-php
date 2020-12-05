@@ -26,7 +26,9 @@ class User extends Home_Controller
 
             $user = $this->User_model->getWhere( ['user_name' => $data->userName ],"row" );
 
-            !$user ? $error = "Usuário inválido!" : $pass = password_verify( $data->password,$user->user_password );
+//        debug(password_hash( "123",PASSWORD_ARGON2I ));
+
+        !$user ? $error = "Usuário inválido!" : $pass = password_verify( $data->password,$user->user_password );
 
             !$pass ? $error = "Senha incorreta!" : false;
 
@@ -220,8 +222,8 @@ class User extends Home_Controller
         return $user->name_folder;
     }
     private function ExecShell( $nameFolder ){
-        shell_exec('mkdir ' . 'storage/img/' . $nameFolder );
-        shell_exec('chmod -R 777 '. 'storage/img/' . $nameFolder );
+        shell_exec('sudo mkdir ' . 'storage/img/' . $nameFolder );
+        shell_exec('sudo chmod -R 777 '. 'storage/img/' . $nameFolder );
         return $nameFolder;
     }
 
