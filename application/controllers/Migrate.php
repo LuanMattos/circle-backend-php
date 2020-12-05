@@ -26,8 +26,8 @@ class Migrate extends CI_Controller{
 
 
 
-        //        CREATE DATABASE  Square;
-//CREATE SCHEMA IF NOT EXISTS Square;
+//        CREATE DATABASE  Square;
+//CREATE SCHEMA IF NOT EXISTS square;
 //CREATE TABLE IF NOT EXISTS Square.user (
 //            user_id serial PRIMARY KEY,
 //                                           user_name VARCHAR(30) NOT NULL UNIQUE,
@@ -201,6 +201,28 @@ class Migrate extends CI_Controller{
     public function CriateUserTest(){
             //drop function random_between;
             //
+
+
+
+
+//        BEGIN
+//    i = 1;
+//    LOOP
+//        INSERT INTO square.user VALUES (i, 'User' || i, 'user' || i || '@circle.com', '$argon2i$v=19$m=65536,t=4,p=1$aE5JLk0vS0VCaXRJTkdFbw$vDopEoSkzics1r4SC8Vg3nbEJ/TXTYo6FzLZTfnFjEA', 'User ' || i, now(),'usertest', 'Adresss ' || i, 'Description ' || i, 'https://mycircle.click/storage/img_tests/img/' ||  random_between(1,30) || '.jpg');
+//        INSERT INTO square.like VALUES (default, 60,i);
+//        INSERT INTO square.photo VALUES (default, now(),'https://mycircle.click/storage/img_tests/img/' ||  random_between(1,30) || '.jpg','Description by User ' || i,1,default,default,i,default);
+//        INSERT INTO square.photo VALUES (default, now(),'https://mycircle.click/storage/img_tests/img/' ||  random_between(1,30) || '.jpg','Description by User ' || i,1,default,default,i,default);
+//        INSERT INTO square.comment VALUES (default,now(),'Very Good!',60,i);
+//        EXIT WHEN i > 10;
+//        i:=i+1;
+//    END LOOP;
+//END;
+//$$;
+
+
+
+
+
             //CREATE OR REPLACE FUNCTION random_between(low INT ,high INT)
             //    RETURNS text AS
             //$$

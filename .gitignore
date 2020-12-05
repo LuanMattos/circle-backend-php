@@ -98,3 +98,6 @@ fabric.properties
 *storage/img*
 */storage/img/*
 *.htaccess
+.idea/
+storage/img/.htaccess
+/storage/img/

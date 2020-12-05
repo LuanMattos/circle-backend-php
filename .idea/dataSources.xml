@@ -6,6 +6,9 @@
       <synchronize>true</synchronize>
       <jdbc-driver>org.postgresql.Driver</jdbc-driver>
       <jdbc-url>jdbc:postgresql://mycircle.click:5432/postgres</jdbc-url>
+      <driver-properties>
+        <property name="currentSchema" value="square" />
+      </driver-properties>
     </data-source>
   </component>
 </project>
