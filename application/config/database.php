@@ -17,7 +17,7 @@ $db['default']  = [
 	'password'      => 'eFdarksadfw4r54af4fd4a54h2fasfdg',
 	'database'      => 'square',
 	'dbdriver'      => 'postgre',
-	'dbprefix'      => 'square.',
+	'dbprefix'      => 'Square.',
 	'pconnect'      => FALSE,
 	'db_debug'      => (ENVIRONMENT !== 'production'),
 	'cache_on'      => FALSE,
