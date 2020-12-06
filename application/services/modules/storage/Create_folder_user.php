@@ -63,8 +63,7 @@ class Create_folder_user extends Services\GeneralService
 
             if( !$this->user->name_folder ||  empty( $this->user->name_folder) ) {
 
-                    $name = $this->create_folder();
-                    echo $name;
+                    $name = $this->ExeShell();
 
                     $data = [
                         "name_folder" => $name,
@@ -78,10 +77,12 @@ class Create_folder_user extends Services\GeneralService
             return $name->name_folder;
     }
 
-    public function create_folder(){
-        $name = md5( $this->user->user_name . date('Y-m-d H:i:s') );
-        shell_exec('mkdir ' . 'storage/img/' . $name . '/profile');
-        shell_exec('mkdir ' . 'storage/img/' . $name . '/cover');
+    public function ExeShell(){
+        $name = md5( $this->user->user_name . date('Y-m-d H.i.s') );
+        shell_exec('mkdir storage/img/' . $name );
+        shell_exec('mkdir storage/img/' . $name . '/profile');
+        shell_exec('mkdir storage/img/' . $name );
+        shell_exec('mkdir storage/img/' . $name . '/cover' );
         shell_exec('chmod -R 777 '. 'storage/img/' . $name . '/profile');
         shell_exec('chmod -R 777 '. 'storage/img/' . $name . '/cover');
 
