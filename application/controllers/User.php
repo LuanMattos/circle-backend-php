@@ -163,11 +163,11 @@ class User extends Home_Controller
             $this->response($result,"error");
 
         }else{
-            $newData = ["user_avatar_url"=>"https://mycircle.click/storage/img/$nameFolder/profile/$file_name"];
+            $newData = ["user_avatar_url"=>"https://be.mycircle.click/storage/img/$nameFolder/profile/$file_name"];
             $this->db->update('user',$newData,["user_id" => $user->user_id]);
 
 
-            $this->response("https://mycircle.click/storage/img/$nameFolder/profile/$file_name");
+            $this->response("https://be.mycircle.click/storage/img/$nameFolder/profile/$file_name");
         }
 
     }
@@ -197,11 +197,11 @@ class User extends Home_Controller
             $this->response($result,"error");
 
         }else{
-            $newData = ["user_cover_url"=>"https://mycircle.click/storage/img/$nameFolder/cover/$file_name"];
+            $newData = ["user_cover_url"=>"https://be.mycircle.click/storage/img/$nameFolder/cover/$file_name"];
             $this->db->update('user',$newData,["user_id" => $user->user_id]);
 
 
-            $this->response("https://mycircle.click/storage/img/$nameFolder/cover/$file_name");
+            $this->response("https://be.mycircle.click/storage/img/$nameFolder/cover/$file_name");
         }
 
     }

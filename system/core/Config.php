@@ -104,7 +104,7 @@ class CI_Config {
 			}
 			else
 			{
-				$base_url = 'https://mycircle.click/';
+				$base_url = 'https://be.mycircle.click/';
 			}
 
 			$this->set_item('base_url', $base_url);
