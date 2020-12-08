@@ -12,9 +12,9 @@ if(ENVIRONMENT === 'production'){
 $db['default']  = [
 	'dsn'	        => '',
 	'hostname'      => 'be.mycircle.click',
-	'username'      => 'postgres',
+	'username'      => 'square_db1',
 	'port'          => '5432',
-	'password'      => 'eFdarksadfw4r54af4fd4a54h2fasfdg',
+	'password'      => 'J3K6051ER4u824VQP2A3I81QLO6uCCCg51zZ29H3V2KKlAWiJ3',
 	'database'      => 'postgres',
 	'dbdriver'      => 'postgre',
 	'dbprefix'      => 'square.',
