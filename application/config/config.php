@@ -469,6 +469,15 @@ $config['csrf_cookie_name'] = 'csrf_cookie_name';
 $config['csrf_expire'] = 7200;
 $config['csrf_regenerate'] = TRUE;
 $config['csrf_exclude_uris'] = array();
+$config['origin_prod'] = 'mycircle.click';
+$config['origin_dev_back'] = 'localhost';
+$config['origin_dev_front'] = 'localhost:4200';
+$config['headers'] = [
+    'Access-Control-Allow-Methods: POST, GET, OPTIONS, DELETE, PUT',
+    'Access-Control-Allow-Origin: *',
+    'Access-Control-Allow-Headers: Origin, Authorization, Client-Security-Token, Accept-Encoding, X-Auth-Token, X-Requested-With, Content-Type, Accept, x-Access-Token',
+    'Content-type: application/json'
+];
 
 /*
 |--------------------------------------------------------------------------
@@ -536,16 +545,3 @@ $config['rewrite_short_tags'] = FALSE;
 | Array:		array('10.0.1.200', '192.168.5.0/24')
 */
 $config['proxy_ips'] = '';
-
-//substituido por HOOKS
-//function   my_own_controllers ( $class )   {
-//    if   ( strpos ( $class ,   'CI_' )   !==   0 )
-//    {
-//        if   ( is_readable ( APPPATH   .   'core/'   .   $class   .   '.php' ) )
-//        {
-//            require_once ( APPPATH   .   'core/'   .   $class   .   '.php' ) ;
-//        }
-//    }
-//}
-//
-//spl_autoload_register ( 'my_own_controllers' ) ;

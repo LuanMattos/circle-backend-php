@@ -131,7 +131,12 @@ if ( ! function_exists('number')) {
     {
         return preg_replace("/[^0-9]/", '',$value);
     }
-
+}
+if (!function_exists('compareVarsHttp')) {
+    function compareVarsHttp($indexVar, $compare)
+    {
+        return isset( $_SERVER[$indexVar] ) && strstr( $_SERVER[$indexVar], $compare );
+    }
 }
 // ------------------------------------------------------------------------
 

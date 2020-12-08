@@ -3,25 +3,44 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 
 
 class Home_Controller extends SI_Controller {
+    private $prod;
+    private $devBack;
+    private $devFront;
+    private $headers;
 
     public function __construct(){
         parent::__construct();
-
+        $this->setConfigs();
         $this->authRequest();
-
     }
 
-    public function authRequest(){
-//        if( strstr($_SERVER['HTTP_ORIGIN'],"localhost:4200") || strstr($_SERVER['HTTP_ORIGIN'],"localhost:4200")) {
-            header("Access-Control-Allow-Methods: POST, GET, OPTIONS, DELETE, PUT");
-            header('Access-Control-Allow-Origin: *');
-            header("Access-Control-Allow-Headers: Origin, Authorization, Client-Security-Token, Accept-Encoding, X-Auth-Token, X-Requested-With, Content-Type, Accept, x-Access-Token");
-            header('Content-type: application/json');
+    private function authRequest(){
+        if( ENVIRONMENT == 'production' ){
 
-//        }else{
-//            http_response_code(404);
-//            exit();
-//        }
+            if( compareVarsHttp('HTTP_ORIGIN',$this->prod) && compareVarsHttp('HTTPS',"on")) {
+               $this->_headers();
+            }else{
+                http_response_code(404);
+                exit();
+            }
+        }else if(ENVIRONMENT == 'development'
+            &&  (compareVarsHttp('HTTP_ORIGIN',$this->devFront) || compareVarsHttp('HTTP_ORIGIN',$this->devBack))){
+            $this->_headers();
+        }
+    }
+
+    private function _headers(){
+        foreach( $this->headers as $row ){
+            header( $row );
+        }
+    }
+
+    private function setConfigs(){
+        $this->config->load('config');
+        $this->prod = $this->config->item('origin_prod');
+        $this->devBack = $this->config->item('origin_dev_back');
+        $this->devFront = $this->config->item('origin_dev_front');
+        $this->headers = $this->config->item('headers');
     }
 
 
