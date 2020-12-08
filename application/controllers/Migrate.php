@@ -5,13 +5,11 @@ class Migrate extends CI_Controller{
     public function __construct(){
         parent::__construct();
 //        $this->executarDdl();
-        $this->test();
 
     }
 
     public function index()
     {
-        $this->test();
 //        $this->load->library('migration');
 //        if (!$this->migration->current())
 //        {
