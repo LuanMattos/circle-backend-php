@@ -13,7 +13,7 @@ services:
     image:  luanmattos/atos:postgresql
     environment:
       POSTGRES_USER: square_db1
-      POSTGRES_PASSWORD: SF$AK$@$K#F%OJTAÇT%TJAOOTJOJWÇOJÇO#%JOJTÇOWTJOJTOWTJOÇJTÇOJTWÇOÇO%TWO%JWÇ
+      POSTGRES_PASSWORD: J3K6051ER4u824VQP2A3I81QLO6uCCCg51zZ29H3V2KKlAWiJ3
       PGDATA: /data/postgres
       POSTGRES_DB: atos
     volumes:
