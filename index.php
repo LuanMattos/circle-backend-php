@@ -55,7 +55,7 @@
  */
 //define('ENVIRONMENT', $_SERVER['HTTP_HOST'] === 'localhost'  ? 'development' : 'production');
 define('ENVIRONMENT','development' );
-
+var_dump($_SERVER);
 
 /*
  *---------------------------------------------------------------

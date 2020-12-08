@@ -1,0 +1,16 @@
+Entrar no container php_apache
+    - docker exec -it php_apache bash
+    apt-get update
+    apt-get install software-properties-common
+    apt-get install nano
+    apt-get update
+    *Antes de gerar o certificado, libere a porta 80 HTTP, logo após desative novamente.
+    add-apt-repository ppa:certbot/certbot
+    apt install python-certbot-apache
+    *Altere o domínio se for o caso
+    nano /etc/apache2/sites-available/000-default.conf
+    apache2ctl configtest
+    systemctl/service reload apache2
+    certbot --apache -d mycircle.click -d mycircle.click
+    certbot renew --dry-run
+
