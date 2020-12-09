@@ -15,20 +15,20 @@ class Home_Controller extends SI_Controller {
     }
 
     private function authRequest(){
-//        if( ENVIRONMENT == 'production' ){
-//            var_dump(compareVarsHttp('HTTP_ORIGIN',$this->prod) . "<br>");
-//            var_dump(compareVarsHttp('HTTPS',"on"));
-//
-//            if( compareVarsHttp('HTTP_ORIGIN',$this->prod) && compareVarsHttp('HTTPS',"on")) {
-//               $this->_headers();
-//            }else{
-//                http_response_code(404);
-//                exit();
-//            }
-//        }else if(ENVIRONMENT == 'development'
-//            &&  (compareVarsHttp('HTTP_ORIGIN',$this->devFront) || compareVarsHttp('HTTP_ORIGIN',$this->devBack))){
-//            $this->_headers();
-//        }
+        if( ENVIRONMENT == 'production' ){
+            var_dump(compareVarsHttp('HTTP_ORIGIN',$this->prod) . "<br>");
+            var_dump(compareVarsHttp('HTTPS',"on"));
+
+            if( compareVarsHttp('HTTP_ORIGIN',$this->prod) && compareVarsHttp('HTTPS',"on")) {
+               $this->_headers();
+            }else{
+                http_response_code(404);
+                exit();
+            }
+        }else if(ENVIRONMENT == 'development'
+            &&  (compareVarsHttp('HTTP_ORIGIN',$this->devFront) || compareVarsHttp('HTTP_ORIGIN',$this->devBack))){
+            $this->_headers();
+        }
     }
 
     private function _headers(){
