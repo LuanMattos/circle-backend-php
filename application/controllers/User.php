@@ -1,18 +1,21 @@
 <?php
 defined('BASEPATH') OR exit('No direct script access allowed');
+use Modules\Account\RestoreAccount;
 
 class User extends Home_Controller
 {
+
+    private $RestoreAccount;
 
     public function __construct(){
         parent::__construct();
         $this->load->model("user/User_model");
         $this->load->model("follower/Follower_model");
+        $this->load->library('email/mail');
     }
 
     public function login(){
-        $data = file_get_contents('php://input');
-        $data ? $data = json_decode( $data ) : false;
+        $data = $this->getDataHeader();
         $pass = false;
         if( $data )
             switch ( $data ){
@@ -52,10 +55,11 @@ class User extends Home_Controller
 
     }
     public function register(){
+        $this->dataUserEmail();
+        $data = $this->getDataHeader();
+        $user = $this->User_model->userNameExists( $data->userName );
 
-        $data = file_get_contents('php://input');
-        $data ? $data = json_decode( $data ) : false;
-        $error = "";
+        $user ? $error = "Usuário já cadastrado " : $error = "";
 
         switch ( $data ):
             case !$data->email || !filter_var( $data->email, FILTER_VALIDATE_EMAIL ):
@@ -75,16 +79,45 @@ class User extends Home_Controller
             'user_name'=>$data->userName,
             'user_email'=>$data->email,
             'user_full_name'=>$data->fullName,
-            'user_password'=>password_hash( $data->password,PASSWORD_ARGON2I )
+            'user_password'=>password_hash( $data->password, PASSWORD_ARGON2I )
         ];
-        $this->User_model->save( $user );
+
+        $userSave = $this->User_model->save( $user, ['user_id','user_name','user_email']);
+
+//        $this->dataUserEmail( $userSave );
 
     }
-    public function userExists(){
-        $uri  = $this->uri->slash_segment(2);
-        $userName = str_replace(['/','?','´'],'',$uri);
+    private function dataUserEmail( $user = null){
+        $user['user_email'] = 'patrickluan.matos@gmail.com';
+        $user['user_name'] = 'teste';
+        $codigoVerificacao = 'dsdfd';
 
-        $user = $this->User_model->getWhere(['user_name'=>$userName],"row");
+//        $code = new RestoreAccount\AccountService( $user );
+//        $codigoVerificacao = $code->generateCode();
+
+        $mail  = new Mail();
+        $nome                       = ucfirst( $user['user_name'] );
+        $param = [];
+        $param['from']              = '	account.mycircle.click@mycircle.click';
+        $param['to']                = $user['user_email'];
+        $param['name']              = "Circle";
+        $param['name_to']           = $user['user_name'];
+        $param['assunto']           = 'Ativação de conta Circle!';
+        $data['codigo_confirmacao'] = $codigoVerificacao;
+        $data['cadastro']           = true;
+        $data['nome']               = $nome;
+
+
+        $html = $this->load->view("email/confirme",$data,true);
+        $param['corpo']      = '';
+        $param['corpo_html'] = $html;
+        $send = $mail->send( $param );
+        debug($send);
+    }
+    public function userExists( $_userName = false ){
+        $userName = $this->getDataUrl(2);
+
+        $user = $this->User_model->userNameExists($userName);
 
         if( $user )
             $this->response(true);

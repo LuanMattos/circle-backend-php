@@ -14,12 +14,12 @@ class Mail{
 //            $mail->SMTPDebug = SMTP::DEBUG_SERVER;                      // Enable verbose debug output
             $mail->CharSet = 'UTF-8';
             $mail->isSMTP();                                            // Send using SMTP
-            $mail->Host       = 'smtp.mail.us-east-1.awsapps.com';      // Set the SMTP server to send through
+            $mail->Host       = 'email-smtp.us-east-2.amazonaws.com';      // Set the SMTP server to send through
             $mail->SMTPAuth   = true;                                   // Enable SMTP authentication
-            $mail->Username   = 'account@atos.click';                   // SMTP username
-            $mail->Password   = 'K2l9g3v1';                             // SMTP password
+            $mail->Username   = 'AKIA4CJF77WXP2RBJ756';                   // SMTP username
+            $mail->Password   = 'BFYFI2uWRtMks3pqGrNtTU0KsL/EKXoXKLXPCmJhHuxe';                             // SMTP password
             $mail->SMTPSecure = PHPMailer::ENCRYPTION_SMTPS;            // Enable TLS encryption; `PHPMailer::ENCRYPTION_SMTPS` encouraged
-            $mail->Port       = 465;                                    // TCP port to connect to, use 465 for `PHPMailer::ENCRYPTION_SMTPS` above
+            $mail->Port       = 587;                                    // TCP port to connect to, use 465 for `PHPMailer::ENCRYPTION_SMTPS` above
 
             //Recipients
             $mail->setFrom($param['from'], $param['name']);
@@ -41,6 +41,8 @@ class Mail{
             $mail->send();
             return true;
         } catch (Exception $e) {
+            echo "erro";
+            debug($mail);
             return $mail->ErrorInfo;
         }
 

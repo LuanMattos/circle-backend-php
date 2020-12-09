@@ -5,13 +5,14 @@ $active_group   = 'default';
 $query_builder  = TRUE;
 
 if(ENVIRONMENT === 'production'){
-    $hostname = 'www.atos.click';
+    $hostname = 'be.mycircle.click';
 }else{
-    $hostname = 'localhost';
+    $hostname = '192.168.100.49';
 }
+echo $hostname;
 $db['default']  = [
 	'dsn'	        => '',
-	'hostname'      => 'be.mycircle.click',
+	'hostname'      => $hostname,
 	'username'      => 'square_db1',
 	'port'          => '5432',
 	'password'      => 'J3K6051ER4u824VQP2A3I81QLO6uCCCg51zZ29H3V2KKlAWiJ3',

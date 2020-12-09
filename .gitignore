@@ -97,3 +97,4 @@ fabric.properties
 /data/*
 
 /storage/img/*
+/data/

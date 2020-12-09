@@ -10,16 +10,16 @@ class Migrate extends CI_Controller
 
     public function index()
     {
-            $this->dataBaseAndSchema();
             $this->_function();
             $this->table();
             $this->_finally();
+            echo "Fim da atualização";
     }
 
 
     private function dataBaseAndSchema()
     {
-        $this->db->query("CREATE DATABASE  Square;");
+//        $this->db->query("CREATE DATABASE  Square;");
         $this->db->query("CREATE SCHEMA IF NOT EXISTS square;");
     }
 
@@ -88,7 +88,7 @@ class Migrate extends CI_Controller
         $this->db->query("CREATE INDEX IF NOT EXISTS idx_photo_id ON square.photo (photo_id);");
         $this->db->query("CREATE INDEX IF NOT EXISTS idx_like_photo_id ON square.like (photo_id);");
         $this->db->query("CREATE INDEX IF NOT EXISTS idx_like_user_id ON square.like (user_id);");
-        $this->db->query("CREATE INDEX idx_comment_date ON square.comment (comment_date DESC);");
+        $this->db->query("CREATE INDEX IF NOT EXISTS idx_comment_date ON square.comment (comment_date DESC);");
         $this->db->query("CREATE TABLE IF NOT EXISTS Square.follower (
                                                follower_id serial PRIMARY KEY,
                                                user_id_to INTEGER,
@@ -97,10 +97,11 @@ class Migrate extends CI_Controller
                                                FOREIGN KEY(user_id_to) REFERENCES Square.user(user_id),
                                                FOREIGN KEY(user_id_from) REFERENCES Square.user(user_id)
                                                );");
-        $this->db->query("CREATE INDEX idx_follower_user_id_to ON square.follower (user_id_to);");
-        $this->db->query("CREATE INDEX idx_follower_user_id_from ON square.follower (user_id_from);");
+        $this->db->query("CREATE INDEX IF NOT EXISTS idx_follower_user_id_to ON square.follower (user_id_to);");
+        $this->db->query("CREATE INDEX IF NOT EXISTS idx_follower_user_id_from ON square.follower (user_id_from);");
         $this->db->query("ALTER TABLE Square.user ADD COLUMN  IF NOT EXISTS user_followers BIGINT DEFAULT 0;");
         $this->db->query("ALTER TABLE Square.user ADD COLUMN  IF NOT EXISTS user_following BIGINT DEFAULT 0;");
+        $this->db->query("ALTER TABLE Square.user ADD COLUMN IF NOT EXISTS user_code_verification VARCHAR(50) DEFAULT NULL;");
     }
 
     public function testDatabase()
@@ -261,6 +262,9 @@ $$;
         $this->db->query("VACUUM (VERBOSE, ANALYZE) square.comment;");
         $this->db->query("VACUUM (VERBOSE, ANALYZE) square.follower;");
         $this->db->query("VACUUM (VERBOSE, ANALYZE) square.like;");
+    }
+    public function sizeDatabae(){
+        $this->db->query("SELECT pg_database.datname, pg_size_pretty(pg_database_size(pg_database.datname)) AS size FROM pg_database");
     }
 
 

@@ -37,8 +37,7 @@ class Likes extends Home_Controller
 
     }
     public function like(){
-        $data = file_get_contents('php://input');
-        $data ? $data = json_decode( $data ) : false;
+        $data = $this->getDataHeader();
 
         $this->db->trans_start();
             $user = $this->User_model->getWhere(['user_name' => $data->userName ],"row");
