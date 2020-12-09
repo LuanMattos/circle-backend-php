@@ -4,6 +4,8 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 
 class Home_Controller extends SI_Controller {
     private $prod;
+    private $prod1;
+    private $prod2;
     private $devBack;
     private $devFront;
     private $headers;
@@ -17,8 +19,16 @@ class Home_Controller extends SI_Controller {
     private function authRequest(){
         if( ENVIRONMENT == 'production' ){
 var_dump($this->prod);
+var_dump($this->prod1);
 var_dump(compareVarsHttp('HTTPS',"on"));
-            if( compareVarsHttp('HTTP_ORIGIN',$this->prod) && compareVarsHttp('HTTPS',"on")) {
+            if( (
+                compareVarsHttp('HTTP_ORIGIN',$this->prod)
+                ||
+                compareVarsHttp('HTTP_ORIGIN',$this->prod1)
+                ||
+                compareVarsHttp('HTTP_ORIGIN',$this->prod2)
+                )
+                && compareVarsHttp('HTTPS',"on")) {
                $this->_headers();
             }else{
                 http_response_code(404);
@@ -40,6 +50,8 @@ var_dump(compareVarsHttp('HTTPS',"on"));
     private function setConfigs(){
         $this->config->load('config');
         $this->prod = $this->config->item('origin_prod');
+        $this->prod = $this->config->item('origin_prod1');
+        $this->prod = $this->config->item('origin_prod2');
         $this->devBack = $this->config->item('origin_dev_back');
         $this->devFront = $this->config->item('origin_dev_front');
         $this->headers = $this->config->item('headers');
