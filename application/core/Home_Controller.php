@@ -15,20 +15,22 @@ class Home_Controller extends SI_Controller {
     }
 
     private function authRequest(){
+        var_dump($_SERVER);
+
         if( ENVIRONMENT == 'production' ){
-var_dump($this->prod);
-var_dump(compareVarsHttp('HTTP_ORIGIN',$this->prod));
+
             if( (
-                compareVarsHttp('HTTP_ORIGIN',$this->prod)
+                hostOrigin($this->prod)
                 )
-                && compareVarsHttp('HTTPS',"on")) {
+                &&
+                compareVarsHttp('HTTPS',"on")) {
                $this->_headers();
             }else{
                 http_response_code(404);
                 exit();
             }
         }else if(ENVIRONMENT == 'development'
-            &&  (compareVarsHttp('HTTP_ORIGIN',$this->devFront) || compareVarsHttp('HTTP_ORIGIN',$this->devBack))){
+            &&  (hostOrigin($this->devFront) || hostOrigin($this->devBack))){
             $this->_headers();
         }
     }

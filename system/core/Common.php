@@ -135,7 +135,16 @@ if ( ! function_exists('number')) {
 if (!function_exists('compareVarsHttp')) {
     function compareVarsHttp($indexVar, $compare)
     {
+
         return isset( $_SERVER[$indexVar] ) && strstr( $_SERVER[$indexVar], $compare );
+    }
+}
+if (!function_exists('hostOrigin')) {
+    function hostOrigin($value)
+    {
+         return compareVarsHttp('HTTP_HOST', $value)
+             ||
+             compareVarsHttp('SERVER_NAME', $value);
     }
 }
 // ------------------------------------------------------------------------
