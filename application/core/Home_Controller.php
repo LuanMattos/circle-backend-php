@@ -16,7 +16,8 @@ class Home_Controller extends SI_Controller {
 
     private function authRequest(){
         if( ENVIRONMENT == 'production' ){
-
+var_dump(hostOrigin($this->prod));
+var_dump(compareVarsHttp('HTTPS',"on"));
             if( (
                 hostOrigin($this->prod)
                 )
