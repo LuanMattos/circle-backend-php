@@ -15,7 +15,7 @@ class Home_Controller extends SI_Controller {
     }
 
     private function authRequest(){
-
+var_dump($_SERVER);
         if( ENVIRONMENT == 'production' ){
 
             if( (
