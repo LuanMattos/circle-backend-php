@@ -18,16 +18,10 @@ class Home_Controller extends SI_Controller {
 
     private function authRequest(){
         if( ENVIRONMENT == 'production' ){
-var_dump($this->prod);
-var_dump($this->prod1);
-var_dump(compareVarsHttp('HTTPS',"on"));
+
+var_dump(compareVarsHttp('HTTP_ORIGIN',$this->prod));
             if( (
                 compareVarsHttp('HTTP_ORIGIN',$this->prod)
-                ||
-                compareVarsHttp('HTTP_ORIGIN',$this->prod1)
-                ||
-                compareVarsHttp('HTTP_ORIGIN',$this->prod2)
-                    || 'https://mycircle.click/home/signup'
                 )
                 && compareVarsHttp('HTTPS',"on")) {
                $this->_headers();
