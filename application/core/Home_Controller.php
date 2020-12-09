@@ -24,6 +24,7 @@ class Home_Controller extends SI_Controller {
                 )
                 &&
                 compareVarsHttp('HTTPS',"on")) {
+                debug('ta setando essa merda');
                $this->_headers();
             }else{
                 http_response_code(404);
