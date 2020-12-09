@@ -1,17 +1,15 @@
 <?php
 defined('BASEPATH') OR exit('No direct script access allowed');
-use Modules\Account\RestoreAccount;
+//use Modules\Account\RestoreAccount;
 
 class User extends Home_Controller
 {
-
-    private $RestoreAccount;
 
     public function __construct(){
         parent::__construct();
         $this->load->model("user/User_model");
         $this->load->model("follower/Follower_model");
-        $this->load->library('email/mail');
+//        $this->load->library('email/mail');
     }
 
     public function login(){
@@ -55,7 +53,7 @@ class User extends Home_Controller
 
     }
     public function register(){
-        $this->dataUserEmail();
+//        $this->dataUserEmail();
         $data = $this->getDataHeader();
         $user = $this->User_model->userNameExists( $data->userName );
 
@@ -84,7 +82,6 @@ class User extends Home_Controller
 
         $userSave = $this->User_model->save( $user, ['user_id','user_name','user_email']);
 
-//        $this->dataUserEmail( $userSave );
 
     }
     private function dataUserEmail( $user = null){

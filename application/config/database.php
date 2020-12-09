@@ -9,7 +9,6 @@ if(ENVIRONMENT === 'production'){
 }else{
     $hostname = '192.168.100.49';
 }
-echo $hostname;
 $db['default']  = [
 	'dsn'	        => '',
 	'hostname'      => $hostname,
