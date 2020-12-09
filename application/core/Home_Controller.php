@@ -4,8 +4,6 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 
 class Home_Controller extends SI_Controller {
     private $prod;
-    private $prod1;
-    private $prod2;
     private $devBack;
     private $devFront;
     private $headers;
@@ -45,8 +43,6 @@ var_dump(compareVarsHttp('HTTP_ORIGIN',$this->prod));
     private function setConfigs(){
         $this->config->load('config');
         $this->prod = $this->config->item('origin_prod');
-        $this->prod = $this->config->item('origin_prod1');
-        $this->prod = $this->config->item('origin_prod2');
         $this->devBack = $this->config->item('origin_dev_back');
         $this->devFront = $this->config->item('origin_dev_front');
         $this->headers = $this->config->item('headers');
