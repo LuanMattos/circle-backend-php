@@ -55,9 +55,10 @@
  */
 //define('ENVIRONMENT', $_SERVER['HTTP_HOST'] === 'localhost'  ? 'development' : 'production');
 if(strstr($_SERVER['HTTP_HOST'],"localhost")){
-    echo 'ta aqui nessa merda';
+
     define('ENVIRONMENT','development' );
 }else{
+    echo 'ta aqui nessa merda';
     define('ENVIRONMENT','production' );
 }
 /*
