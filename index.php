@@ -58,7 +58,6 @@ if(strstr($_SERVER['HTTP_HOST'],"localhost")){
 
     define('ENVIRONMENT','development' );
 }else{
-    echo 'ta aqui nessa merda';
     define('ENVIRONMENT','production' );
 }
 /*
