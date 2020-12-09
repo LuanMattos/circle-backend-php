@@ -10,8 +10,8 @@ class Home_Controller extends SI_Controller {
 
     public function __construct(){
         parent::__construct();
-        $this->setConfigs();
-        $this->authRequest();
+//        $this->setConfigs();
+//        $this->authRequest();
     }
 
     private function authRequest(){
