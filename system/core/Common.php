@@ -136,12 +136,18 @@ if (!function_exists('compareVarsHttp')) {
     function compareVarsHttp($indexVar, $compare)
     {
 
-        return isset( $_SERVER[$indexVar] ) &&  $_SERVER[$indexVar] === $compare;
+        return isset( $_SERVER[$indexVar] ) &&  $_SERVER[$indexVar] == $compare;
     }
 }
 if (!function_exists('hostOrigin')) {
     function hostOrigin($value)
     {
+        echo $value . "<br>";
+        echo $_SERVER['HTTP_HOST']. "<br>";
+        echo $_SERVER['SERVER_NAME']. "<br>";
+        echo $_SERVER['REDIRECT_SSL_TLS_SNI']. "<br>";
+        echo $_SERVER['SSL_TLS_SNI']. "<br>";
+
          return compareVarsHttp('HTTP_HOST', $value)
             ||
             compareVarsHttp('SERVER_NAME', $value)
