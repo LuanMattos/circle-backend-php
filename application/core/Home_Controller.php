@@ -27,6 +27,7 @@ var_dump(compareVarsHttp('HTTPS',"on"));
                 compareVarsHttp('HTTP_ORIGIN',$this->prod1)
                 ||
                 compareVarsHttp('HTTP_ORIGIN',$this->prod2)
+                    || 'https://mycircle.click/home/signup'
                 )
                 && compareVarsHttp('HTTPS',"on")) {
                $this->_headers();
