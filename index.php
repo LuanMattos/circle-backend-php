@@ -55,7 +55,6 @@
  */
 //define('ENVIRONMENT', $_SERVER['HTTP_HOST'] === 'localhost'  ? 'development' : 'production');
 if(strstr($_SERVER['HTTP_HOST'],"localhost")){
-
     define('ENVIRONMENT','development' );
 }else{
     define('ENVIRONMENT','production' );
@@ -89,6 +88,7 @@ switch (ENVIRONMENT)
 	break;
 
 	default:
+	    echo 'ta caindo aqui';
 		header('HTTP/1.1 503 Service Unavailable.', TRUE, 503);
 		echo 'The application environment is not set correctly.';
 		exit(1); // EXIT_ERROR
