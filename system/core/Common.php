@@ -143,8 +143,12 @@ if (!function_exists('hostOrigin')) {
     function hostOrigin($value)
     {
          return compareVarsHttp('HTTP_HOST', $value)
-             ||
-             compareVarsHttp('SERVER_NAME', $value);
+            ||
+            compareVarsHttp('SERVER_NAME', $value)
+            ||
+            compareVarsHttp('REDIRECT_SSL_TLS_SNI', $value)
+            ||
+            compareVarsHttp('SSL_TLS_SNI', $value);
     }
 }
 // ------------------------------------------------------------------------
