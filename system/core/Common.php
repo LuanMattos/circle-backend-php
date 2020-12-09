@@ -142,18 +142,24 @@ if (!function_exists('compareVarsHttp')) {
 if (!function_exists('hostOrigin')) {
     function hostOrigin($value)
     {
+        $protocol  = "http://";
 
-        return compareVarsHttp('HTTP_HOST', $value)
+        if(compareVarsHttp('HTTPS',"on")){
+            $protocol  = "https://";
+        }
+        $host = $protocol . $value;
+
+        return compareVarsHttp('HTTP_HOST', $host)
             ||
-            compareVarsHttp('SERVER_NAME', $value)
+            compareVarsHttp('SERVER_NAME', $host)
             ||
-            compareVarsHttp('REDIRECT_SSL_TLS_SNI', $value)
+            compareVarsHttp('REDIRECT_SSL_TLS_SNI', $host)
             ||
-            compareVarsHttp('HTTP_REFERER', $value)
+            compareVarsHttp('HTTP_REFERER', $host)
             ||
-            compareVarsHttp('HTTP_ORIGIN', $value)
+            compareVarsHttp('HTTP_ORIGIN', $host)
             ||
-            compareVarsHttp('SSL_TLS_SNI', $value);
+            compareVarsHttp('SSL_TLS_SNI', $host);
     }
 }
 // ------------------------------------------------------------------------
