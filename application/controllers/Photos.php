@@ -48,6 +48,10 @@ class Photos extends Home_Controller
 
         $user = $this->User_model->getWhere( ["user_id"=>$jwtData->user_id],"row" );
 
+        if( !$user ):
+            $this->response('Usuário não existe!','error');
+        endif;
+
         $newData = [
             "id" => $user->user_id,
             "name" => $user->user_name,
@@ -59,9 +63,6 @@ class Photos extends Home_Controller
         $dados  = $this->generateJWT( $newData );
         $this->setHeaders( $dados,'x-access-token' );
 
-        if( !$user ):
-            $this->response('Usuário não existe','error');
-        endif;
         new Upload\Create_folder_user( $_FILES, $user,$datapost );
 
     }

@@ -116,7 +116,7 @@ class CI_Model {
      * @get_hwere
      * Where = []
     **/
-    public function getWhere($where = null,$result = "array",$orderby = NULL,$direction = NULL,$limit = NULL,$offset = NULL){
+    public function getWhere( $where = null, $result = "array", $orderby = NULL, $direction = NULL, $limit = NULL, $offset = NULL ){
 
         $getWhere = $this->db->order_by( $orderby,$direction )->get_where( $this->get_table(), $where, $limit, $offset );
 
@@ -131,8 +131,19 @@ class CI_Model {
                 $result = $getWhere->row();
                 break;
         }
+
+        $this->validInstanceUser( $result );
         return $result;
 
+    }
+
+    private function validInstanceUser( $result ){
+        if( $this->get_table() === 'user' && !$result ){
+            //aqui salvar informações para auditoria
+            header( 'Content-type: application/json' );
+            echo json_encode('User not found!');
+            set_status_header(404);
+        }
     }
     /**
      * Função para retornar todos os registros de uma tabela

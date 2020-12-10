@@ -1,6 +1,7 @@
 <?php
 defined('BASEPATH') OR exit('No direct script access allowed');
 //use Modules\Account\RestoreAccount;
+use Modules\Storage\Create_folder_user as Upload;
 
 class User extends Home_Controller
 {
@@ -53,11 +54,10 @@ class User extends Home_Controller
 
     }
     public function register(){
-//        $this->dataUserEmail();
+//        $this->sendEmail();
+//        debug('pit stop');
         $data = $this->getDataHeader();
-        $user = $this->User_model->userNameExists( $data->userName );
-
-        $user ? $error = "Usuário já cadastrado " : $error = "";
+        $error = "";
 
         switch ( $data ):
             case !$data->email || !filter_var( $data->email, FILTER_VALIDATE_EMAIL ):
@@ -70,6 +70,12 @@ class User extends Home_Controller
                 $error .= "Senha inválida";
         endswitch;
 
+        $user = $this->User_model->userExists( $data->email, $data->user_name );
+
+        if( $user ){
+            $error = "Usuário já cadastrado ";
+        }
+
         if( $error ):
             $this->response( $error,'error' );
         endif;
@@ -79,12 +85,13 @@ class User extends Home_Controller
             'user_full_name'=>$data->fullName,
             'user_password'=>password_hash( $data->password, PASSWORD_ARGON2I )
         ];
+//        debug($user);
 
-        $userSave = $this->User_model->save( $user, ['user_id','user_name','user_email']);
+//        $userSave = $this->User_model->save( $user, ['user_id','user_name','user_email']);
 
 
     }
-    private function dataUserEmail( $user = null){
+    private function sendEmail( $user = null){
         $user['user_email'] = 'patrickluan.matos@gmail.com';
         $user['user_name'] = 'teste';
         $codigoVerificacao = 'dsdfd';
@@ -92,10 +99,41 @@ class User extends Home_Controller
 //        $code = new RestoreAccount\AccountService( $user );
 //        $codigoVerificacao = $code->generateCode();
 
+        $mail = new \PHPMailer\PHPMailer\PHPMailer(true);
+        try {
+            //Server settings
+//            $mail->SMTPDebug = SMTP::DEBUG_SERVER;                      // Enable verbose debug output
+            $mail->CharSet = 'UTF-8';
+            $mail->isSMTP();                                            // Send using SMTP
+            $mail->Host       = 'email-smtp.us-east-2.amazonaws.com';      // Set the SMTP server to send through
+            $mail->SMTPAuth   = true;                                   // Enable SMTP authentication
+            $mail->Username   = 'AKIA4CJF77WXKZPTXRVX';                   // SMTP username
+            $mail->Password   = 'BAdjFuWhLPbCPF5Bj7uCDOHBZVqbCeA2ALaj18DsZKl5';                             // SMTP password
+            $mail->SMTPSecure = 'ssl';            // Enable TLS encryption; `PHPMailer::ENCRYPTION_SMTPS` encouraged
+            $mail->Port       = 465;                                    // TCP port to connect to, use 465 for `PHPMailer::ENCRYPTION_SMTPS` above
+
+            //Recipients
+            $mail->setFrom('account@mycircle.click', 'aaaaaaaaaaaaaaa');
+            $mail->addAddress('patrickluan.matos@gmail.com', 'aaaaaaaaaaaaaa');     // Add a recipient
+            // Content
+            $mail->isHTML(false);//email no formato html?
+            $mail->Subject = 'dfdf';//assunto
+            $mail->Body    = 'adsfsdf';//corpo do email, pode ser html
+            $mail->AltBody = 'dfdfdsff';//corpo nao html
+            $mail->send();
+            return true;
+        } catch (Exception $e) {
+            debug($mail);
+            return $mail->ErrorInfo;
+        }
+
+
+debug('fim do fim do fim');
+
         $mail  = new Mail();
         $nome                       = ucfirst( $user['user_name'] );
         $param = [];
-        $param['from']              = '	account.mycircle.click@mycircle.click';
+        $param['from']              = 'patrickluan.matos@gmail.com';
         $param['to']                = $user['user_email'];
         $param['name']              = "Circle";
         $param['name_to']           = $user['user_name'];
@@ -114,7 +152,7 @@ class User extends Home_Controller
     public function userExists( $_userName = false ){
         $userName = $this->getDataUrl(2);
 
-        $user = $this->User_model->userNameExists($userName);
+        $user = $this->User_model->userExists($userName);
 
         if( $user )
             $this->response(true);
@@ -172,33 +210,17 @@ class User extends Home_Controller
 
         $user = $this->User_model->getWhere( ["user_id"=>$jwtData->user_id],"row" );
 
-        if( !$user ):
-            $this->response('Usuário não existe!','error');
-        endif;
-
-        $nameFolder = $this->CreateFolderIfNotExists( $user->user_id );
-
-        //Download - criar serviço
-        $file_name =  md5( date('Y-m-d H:i:s') . uniqid() . $user->user_name) . $_FILES['imageFile']['name'];
-        $config = [
-            'upload_path' => 'storage/img/' . $nameFolder .'/profile/',
-            'allowed_types' => 'gif|jpg|png|jpeg|bmp',
-            'file_name' => $file_name
+        $newData = [
+            "id" => $user->user_id,
+            "name" => $user->user_name,
+            "fullName" => $user->user_full_name,
+            "email" => $user->user_email,
         ];
-        $this->load->library('upload', $config);
 
-        if ( ! $this->upload->do_upload('imageFile' ) )
-        {
-            $result = array('error' => $this->upload->display_errors());
-            $this->response($result,"error");
+        $dados  = $this->generateJWT( $newData );
+        $this->setHeaders( $dados,'x-access-token' );
 
-        }else{
-            $newData = ["user_avatar_url"=>"https://be.mycircle.click/storage/img/$nameFolder/profile/$file_name"];
-            $this->db->update('user',$newData,["user_id" => $user->user_id]);
-
-
-            $this->response("https://be.mycircle.click/storage/img/$nameFolder/profile/$file_name");
-        }
+        new Upload\Create_folder_user( $_FILES, $user,NULL,'avatar' );
 
     }
     public function uploadImgCover(){
@@ -206,33 +228,17 @@ class User extends Home_Controller
 
         $user = $this->User_model->getWhere( ["user_id"=>$jwtData->user_id],"row" );
 
-        if( !$user ):
-            $this->response('Usuário não existe!','error');
-        endif;
-
-        $nameFolder = $this->CreateFolderIfNotExists( $user->user_id );
-
-        //Download - criar serviço
-        $file_name =  md5( date('Y-m-d H:i:s') . uniqid() . $user->user_name) . $_FILES['imageFile']['name'];
-        $config = [
-            'upload_path' => 'storage/img/' . $nameFolder .'/cover/',
-            'allowed_types' => 'gif|jpg|png|jpeg|bmp',
-            'file_name' => $file_name
+        $newData = [
+            "id" => $user->user_id,
+            "name" => $user->user_name,
+            "fullName" => $user->user_full_name,
+            "email" => $user->user_email,
         ];
-        $this->load->library('upload', $config);
 
-        if ( ! $this->upload->do_upload('imageFile' ) )
-        {
-            $result = array('error' => $this->upload->display_errors());
-            $this->response($result,"error");
+        $dados  = $this->generateJWT( $newData );
+        $this->setHeaders( $dados,'x-access-token' );
 
-        }else{
-            $newData = ["user_cover_url"=>"https://be.mycircle.click/storage/img/$nameFolder/cover/$file_name"];
-            $this->db->update('user',$newData,["user_id" => $user->user_id]);
-
-
-            $this->response("https://be.mycircle.click/storage/img/$nameFolder/cover/$file_name");
-        }
+        new Upload\Create_folder_user( $_FILES, $user,NULL,'cover' );
 
     }
 
@@ -252,8 +258,8 @@ class User extends Home_Controller
         return $user->name_folder;
     }
     private function ExecShell( $nameFolder ){
-        shell_exec('sudo mkdir ' . 'storage/img/' . $nameFolder );
-        shell_exec('sudo chmod -R 777 '. 'storage/img/' . $nameFolder );
+        shell_exec('mkdir ' . 'storage/img/' . $nameFolder );
+        shell_exec('chmod -R 777 '. 'storage/img/' . $nameFolder );
         return $nameFolder;
     }
 
@@ -263,10 +269,6 @@ class User extends Home_Controller
         $dataJwt = $this->dataUserJwt('x-access-token');
 
         $user = $this->User_model->getWhere( ["user_name"=>$userName],"row" );
-
-        if( !$user ):
-            $this->response('Erro geral, por favor,tente mais tarde!','error');
-        endif;
 
         $data = [
             'user_id'=>$user->user_id,

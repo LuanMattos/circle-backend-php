@@ -20,12 +20,13 @@ class User_model extends CI_Model{
             ->get()
             ->result_array();
     }
-    public function userNameExists( $userName ){
+    public function userExists($email , $userName = null ){
         return $this->db
-            ->select("count(user_name)")
+            ->select("count(user_id)")
             ->from("user as u")
             ->limit( 1)
             ->where('u.user_name',"$userName")
+            ->or_where('u.user_email',"$email")
             ->get()
             ->row()
             ->count;

@@ -11,10 +11,10 @@ class GeneralService extends \CI_Model {
         header( 'Content-type: application/json' );
 
         if( $type == 'error' ):
-            echo json_encode( $data );
+            echo json_encode( $data, JSON_UNESCAPED_UNICODE  );
             set_status_header(404);
         endif;
-        echo json_encode($data);
+        echo json_encode($data, JSON_UNESCAPED_UNICODE );
         exit();
     }
 
