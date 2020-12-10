@@ -100,7 +100,7 @@ class User extends Home_Controller
 
         $code = [
             'user_id' => $user->user_id,
-            'user_code_verification' => $code
+            'user_code_verification' => $codigoVerificacao
         ];
 
         $this->User_model->save( $code );
