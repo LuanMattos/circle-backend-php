@@ -85,11 +85,12 @@ class User extends Home_Controller
             'user_full_name'=>$data->fullName,
             'user_password'=>password_hash( $data->password, PASSWORD_ARGON2I )
         ];
-
+        $this->db->trans_start();
         $userSave = $this->User_model->save( $user, ['user_id','user_name','user_email']);
 
         if( $userSave )
         $this->sendEmail( $userSave );
+        $this->db->trans_complete();
 
     }
     private function sendEmail( $user ){
@@ -102,7 +103,6 @@ class User extends Home_Controller
             'user_id' => $user->user_id,
             'user_code_verification' => $codigoVerificacao
         ];
-debug($user);
         $this->User_model->save( $code );
 
         $mail  = new Mail();
