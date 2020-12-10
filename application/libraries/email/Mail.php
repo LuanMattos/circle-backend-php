@@ -41,7 +41,6 @@ class Mail{
             return true;
         } catch (Exception $e) {
             echo "erro";
-            debug($mail);
             return $mail->ErrorInfo;
         }
 

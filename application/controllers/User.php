@@ -96,7 +96,7 @@ class User extends Home_Controller
 
         $code = new RestoreAccount\AccountService( $user );
         $codigoVerificacao = $code->generateCode();
-
+debug($user);
         $mail  = new Mail();
         $nome                       = $user['user_name'];
         $param = [];
