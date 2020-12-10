@@ -87,7 +87,6 @@ class User extends Home_Controller
         ];
 
         $userSave = $this->User_model->save( $user, ['user_id','user_name','user_email']);
-        debug($userSave);
 
         if( $userSave )
         $this->sendEmail( $userSave );
@@ -96,8 +95,16 @@ class User extends Home_Controller
     private function sendEmail( $user ){
         $emailFrom = $this->config->item('email_account');
 
-        $code = new RestoreAccount\AccountService( $user );
+        $code = new RestoreAccount\AccountService();
         $codigoVerificacao = $code->generateCode();
+
+        $code = [
+            'user_id' => $user->user_id,
+            'user_code_verification' => $code
+        ];
+
+        $this->User_model->save( $code );
+
         $mail  = new Mail();
         $nome                       = $user['user_name'];
         $param = [];
