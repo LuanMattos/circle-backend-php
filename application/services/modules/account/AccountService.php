@@ -19,8 +19,13 @@ class AccountService extends GeneralService {
             'user_code_verification' => $code
         ];
 
-        $this->db->update('user', $data, ['user_id' => $this->user->user_id], 1 );
-        return $code;
+        $save = $this->db->update('user', $data, ['user_id' => $this->user->user_id], 1 );
+var_dump($this->user->user_id);
+        if( $save ){
+            return $code;
+        }else{
+            http_response_code(404);
+        }
     }
 
 }
