@@ -20,7 +20,6 @@ class AccountService extends GeneralService {
         ];
 
         $save = $this->db->update('user', $data, ['user_id' => $this->user->user_id], 1 );
-var_dump($this->user->user_id);
         if( $save ){
             return $code;
         }else{

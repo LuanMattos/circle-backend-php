@@ -86,7 +86,7 @@ class User extends Home_Controller
             'user_password'=>password_hash( $data->password, PASSWORD_ARGON2I )
         ];
 
-        $userSave = $this->User_model->save( $user, ['user_name','user_email']);
+        $userSave = $this->User_model->save( $user, ['user_id','user_name','user_email']);
 
         if( $userSave )
         $this->sendEmail( $userSave );
