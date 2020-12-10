@@ -104,6 +104,7 @@ class User extends Home_Controller
         ];
 
         $this->User_model->save( $code );
+        debug($this->db->last_query());
 
         $mail  = new Mail();
         $nome                       = $user['user_name'];
