@@ -69,9 +69,10 @@ class User extends Home_Controller
                 $error .= "Senha inválida";
         endswitch;
 
-        $user = $this->User_model->userExists( $data->email, $data->user_name );
+        $user = $this->User_model->userExistsEmail( $data->user_name );
+        $userEmail = $this->User_model->userExistsEmail( $data->user_email );
 
-        if( $user ){
+        if( $user || $userEmail ){
             $error = "Usuário já cadastrado ";
         }
 
@@ -96,7 +97,6 @@ class User extends Home_Controller
 
         $code = new RestoreAccount\AccountService( $user );
         $codigoVerificacao = $code->generateCode();
-debug($user);
         $mail  = new Mail();
         $nome                       = $user['user_name'];
         $param = [];
@@ -116,10 +116,9 @@ debug($user);
         $mail->send( $param );
 
     }
-    public function userExists( $_userName = false ){
+    public function userExists(){
         $userName = $this->getDataUrl(2);
-
-        $user = $this->User_model->userExists($userName);
+        $user = $this->User_model->userExistsUserName($userName);
 
         if( $user )
             $this->response(true);
