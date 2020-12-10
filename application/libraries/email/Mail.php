@@ -5,8 +5,7 @@ use PHPMailer\PHPMailer\SMTP;
 use PHPMailer\PHPMailer\Exception;
 
 class Mail{
-    public function __construct(){
-    }
+    public function __construct(){}
     public function send( $param = Array() ){
         $mail = new PHPMailer(true);
         try {

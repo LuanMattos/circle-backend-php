@@ -44,7 +44,8 @@ class User extends Home_Controller
                 "user_full_name" => $user->user_full_name,
                 "user_email" => $user->user_email,
                 "description" => $user->description,
-                "address"=>$user->address
+                "address"=>$user->address,
+                "user_code_verification"=>$user->user_code_verification ? true : false
             ];
 
         $dados = $this->generateJWT( $newData );
