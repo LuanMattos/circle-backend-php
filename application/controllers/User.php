@@ -1,6 +1,6 @@
 <?php
 defined('BASEPATH') OR exit('No direct script access allowed');
-//use Modules\Account\RestoreAccount;
+use Modules\Account\RestoreAccount;
 use Modules\Storage\Create_folder_user as Upload;
 
 class User extends Home_Controller
@@ -10,7 +10,7 @@ class User extends Home_Controller
         parent::__construct();
         $this->load->model("user/User_model");
         $this->load->model("follower/Follower_model");
-//        $this->load->library('email/mail');
+        $this->load->library('email/mail');
     }
 
     public function login(){
@@ -54,8 +54,6 @@ class User extends Home_Controller
 
     }
     public function register(){
-//        $this->sendEmail();
-//        debug('pit stop');
         $data = $this->getDataHeader();
         $error = "";
 
@@ -85,55 +83,23 @@ class User extends Home_Controller
             'user_full_name'=>$data->fullName,
             'user_password'=>password_hash( $data->password, PASSWORD_ARGON2I )
         ];
-//        debug($user);
 
-//        $userSave = $this->User_model->save( $user, ['user_id','user_name','user_email']);
+        $userSave = $this->User_model->save( $user, ['user_name','user_email']);
 
+        if( $userSave )
+        $this->sendEmail( $userSave );
 
     }
-    private function sendEmail( $user = null){
-        $user['user_email'] = 'patrickluan.matos@gmail.com';
-        $user['user_name'] = 'teste';
-        $codigoVerificacao = 'dsdfd';
+    private function sendEmail( $user ){
+        $emailFrom = $this->config->item('email_account');
 
-//        $code = new RestoreAccount\AccountService( $user );
-//        $codigoVerificacao = $code->generateCode();
-
-        $mail = new \PHPMailer\PHPMailer\PHPMailer(true);
-        try {
-            //Server settings
-//            $mail->SMTPDebug = SMTP::DEBUG_SERVER;                      // Enable verbose debug output
-            $mail->CharSet = 'UTF-8';
-            $mail->isSMTP();                                            // Send using SMTP
-            $mail->Host       = 'email-smtp.us-east-2.amazonaws.com';      // Set the SMTP server to send through
-            $mail->SMTPAuth   = true;                                   // Enable SMTP authentication
-            $mail->Username   = 'AKIA4CJF77WXKZPTXRVX';                   // SMTP username
-            $mail->Password   = 'BAdjFuWhLPbCPF5Bj7uCDOHBZVqbCeA2ALaj18DsZKl5';                             // SMTP password
-            $mail->SMTPSecure = 'ssl';            // Enable TLS encryption; `PHPMailer::ENCRYPTION_SMTPS` encouraged
-            $mail->Port       = 465;                                    // TCP port to connect to, use 465 for `PHPMailer::ENCRYPTION_SMTPS` above
-
-            //Recipients
-            $mail->setFrom('account@mycircle.click', 'aaaaaaaaaaaaaaa');
-            $mail->addAddress('patrickluan.matos@gmail.com', 'aaaaaaaaaaaaaa');     // Add a recipient
-            // Content
-            $mail->isHTML(false);//email no formato html?
-            $mail->Subject = 'dfdf';//assunto
-            $mail->Body    = 'adsfsdf';//corpo do email, pode ser html
-            $mail->AltBody = 'dfdfdsff';//corpo nao html
-            $mail->send();
-            return true;
-        } catch (Exception $e) {
-            debug($mail);
-            return $mail->ErrorInfo;
-        }
-
-
-debug('fim do fim do fim');
+        $code = new RestoreAccount\AccountService( $user );
+        $codigoVerificacao = $code->generateCode();
 
         $mail  = new Mail();
-        $nome                       = ucfirst( $user['user_name'] );
+        $nome                       = $user['user_name'];
         $param = [];
-        $param['from']              = 'patrickluan.matos@gmail.com';
+        $param['from']              = $emailFrom;
         $param['to']                = $user['user_email'];
         $param['name']              = "Circle";
         $param['name_to']           = $user['user_name'];
@@ -146,8 +112,8 @@ debug('fim do fim do fim');
         $html = $this->load->view("email/confirme",$data,true);
         $param['corpo']      = '';
         $param['corpo_html'] = $html;
-        $send = $mail->send( $param );
-        debug($send);
+        $mail->send( $param );
+
     }
     public function userExists( $_userName = false ){
         $userName = $this->getDataUrl(2);
@@ -242,21 +208,6 @@ debug('fim do fim do fim');
 
     }
 
-    /** Criar serviço específico para isso UploadImgProfile **/
-    private function CreateFolderIfNotExists( $userId ){
-        $user = $this->User_model->getWhere(['user_id'=>$userId],"row");
-
-        if( $user && (!$user->name_folder) ):
-            $pathName = md5( $user->user_name . date('Y-m-d H:i:s') );
-            $nameFolder = $this->ExecShell( $pathName . "/profile" );
-            $this->ExecShell( $pathName . "/cover" );
-
-            $this->db->update('user',['name_folder'=>$nameFolder],['user_id'=>$user->user_id]);
-            return $nameFolder;
-        endif;
-
-        return $user->name_folder;
-    }
     private function ExecShell( $nameFolder ){
         shell_exec('mkdir ' . 'storage/img/' . $nameFolder );
         shell_exec('chmod -R 777 '. 'storage/img/' . $nameFolder );
