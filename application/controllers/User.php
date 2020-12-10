@@ -87,6 +87,7 @@ class User extends Home_Controller
         ];
 
         $userSave = $this->User_model->save( $user, ['user_id','user_name','user_email']);
+        debug($userSave);
 
         if( $userSave )
         $this->sendEmail( $userSave );
