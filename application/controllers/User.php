@@ -247,4 +247,23 @@ class User extends Home_Controller
         return false;
     }
 
+    public function verificationCode(){
+        $data = $this->getDataHeader();
+        $dataJwt = $this->dataUserJwt('x-access-token');
+        $user = $this->User_model->getWhere( ["user_name"=>$dataJwt->user_name, 'user_code_verification'=>$data],"row" );
+        $this->db->update('user',['user_code_verification'=>null],["user_id"=>$dataJwt->user_id]);
+
+        if( $user ){
+            $newData = [
+                "id" => $user->user_id,
+                "name" => $user->user_name,
+                "fullName" => $user->user_full_name,
+                "email" => $user->user_email,
+            ];
+            $dados  = $this->generateJWT( $newData );
+            $this->setHeaders( $dados,'x-access-token' );
+        }
+
+    }
+
 }
