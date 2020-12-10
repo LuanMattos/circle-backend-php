@@ -102,9 +102,8 @@ class User extends Home_Controller
             'user_id' => $user->user_id,
             'user_code_verification' => $codigoVerificacao
         ];
-
+debug($user);
         $this->User_model->save( $code );
-        debug($this->db->last_query());
 
         $mail  = new Mail();
         $nome                       = $user['user_name'];
