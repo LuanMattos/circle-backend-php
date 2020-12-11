@@ -1,2 +1,5 @@
+create file in /public_html/cron.sh
+cd /public_html/circle-backend-php && git pull
+-Instalar o cron
 crontab -e
-1 * * * *  'cd /public_html/circle-backend-php && git pull origin main' >> cron
+* * * * * /public_html/cron.sh
