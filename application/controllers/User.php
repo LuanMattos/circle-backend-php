@@ -91,9 +91,7 @@ class User extends Home_Controller
             'user_code_verification'=>$codigoVerificacao
         ];
 
-
         $userSave = $this->User_model->save( $user, ['user_id','user_name','user_email','user_code_verification']);
-        var_dump($this->db->last_query() . "<br>" . "\n");
 
         if( $userSave )
         $this->sendEmail( $userSave );
@@ -101,7 +99,6 @@ class User extends Home_Controller
     }
     private function sendEmail( $user ){
         $emailFrom = $this->config->item('email_account');
-
 
         $mail  = new Mail();
         $nome                       = $user['user_name'];
@@ -111,10 +108,9 @@ class User extends Home_Controller
         $param['name']              = "Circle";
         $param['name_to']           = $user['user_name'];
         $param['assunto']           = 'Ativação de conta Circle!';
-        $data['codigo_confirmacao'] = $user->user_code_verification;
+        $data['codigo_confirmacao'] = $user['user_code_verification'];
         $data['cadastro']           = true;
         $data['nome']               = $nome;
-
 
         $html = $this->load->view("email/confirme",$data,true);
         $param['corpo']      = '';
