@@ -5,7 +5,7 @@ $active_group   = 'default';
 $query_builder  = TRUE;
 
 if(ENVIRONMENT === 'production'){
-    $hostname = 'be.mycircle.click';
+    $hostname = 'ec2-3-129-239-85.us-east-2.compute.amazonaws.com';
 }else{
     $hostname = '192.168.100.49';
 }
