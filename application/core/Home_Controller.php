@@ -15,21 +15,22 @@ class Home_Controller extends SI_Controller {
     }
 
     private function authRequest(){
-        if( ENVIRONMENT == 'production' ){
-            if( (
-                hostOrigin($this->prod)
-                )
-                &&
-                compareVarsHttp('HTTPS',"on")) {
-               $this->_headers();
-            }else{
-                http_response_code(404);
-                exit();
-            }
-        }else if(ENVIRONMENT == 'development'
-            &&  (hostOrigin($this->devFront) || hostOrigin($this->devBack))){
-            $this->_headers();
-        }
+        $this->_headers();
+//        if( ENVIRONMENT == 'production' ){
+//            if( (
+//                hostOrigin($this->prod)
+//                )
+//                &&
+//                compareVarsHttp('HTTPS',"on")) {
+//               $this->_headers();
+//            }else{
+//                http_response_code(404);
+//                exit();
+//            }
+//        }else if(ENVIRONMENT == 'development'
+//            &&  (hostOrigin($this->devFront) || hostOrigin($this->devBack))){
+//            $this->_headers();
+//        }
     }
 
     private function _headers(){
