@@ -1,5 +1,5 @@
 create file in /public_html/cron.sh
 cd /public_html/circle-backend-php && git pull
 -Instalar o cron
-crontab -e
+SUDO crontab -e
 * * * * * /public_html/cron.sh
