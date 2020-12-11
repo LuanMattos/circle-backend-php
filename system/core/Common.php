@@ -159,7 +159,19 @@ if (!function_exists('hostOrigin')) {
             ||
             compareVarsHttp('HTTP_ORIGIN', $host)
             ||
-            compareVarsHttp('SSL_TLS_SNI', $host);
+            compareVarsHttp('SSL_TLS_SNI', $host)
+            ||
+            compareVarsHttp('HTTP_HOST', $value)
+            ||
+            compareVarsHttp('SERVER_NAME', $value)
+            ||
+            compareVarsHttp('REDIRECT_SSL_TLS_SNI', $value)
+            ||
+            compareVarsHttp('HTTP_REFERER', $value)
+            ||
+            compareVarsHttp('HTTP_ORIGIN', $value)
+            ||
+            compareVarsHttp('SSL_TLS_SNI', $value);
     }
 }
 // ------------------------------------------------------------------------
