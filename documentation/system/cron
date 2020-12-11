@@ -1,0 +1,2 @@
+crontab -e
+1 * * * *  'cd /public_html/circle-backend-php && git pull origin main' >> cron

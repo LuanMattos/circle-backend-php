@@ -12,6 +12,7 @@ class Home_Controller extends SI_Controller {
         parent::__construct();
         $this->setConfigs();
         $this->authRequest();
+        echo "aaaaaaaaaaaaaaaa";
     }
 
     private function authRequest(){
