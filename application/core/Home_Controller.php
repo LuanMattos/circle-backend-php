@@ -12,7 +12,7 @@ class Home_Controller extends SI_Controller {
         parent::__construct();
         $this->setConfigs();
         $this->authRequest();
-        echo "Cron bombo meu velho";
+        echo "Cron funcionou?";
     }
 
     private function authRequest(){
