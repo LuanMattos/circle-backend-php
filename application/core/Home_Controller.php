@@ -12,26 +12,25 @@ class Home_Controller extends SI_Controller {
         parent::__construct();
         $this->setConfigs();
         $this->authRequest();
-        echo "bombo essa nhaca";
     }
 
     private function authRequest(){
         $this->_headers();
-//        if( ENVIRONMENT == 'production' ){
-//            if( (
-//                hostOrigin($this->prod)
-//                )
-//                &&
-//                compareVarsHttp('HTTPS',"on")) {
-//               $this->_headers();
-//            }else{
-//                http_response_code(404);
-//                exit();
-//            }
-//        }else if(ENVIRONMENT == 'development'
-//            &&  (hostOrigin($this->devFront) || hostOrigin($this->devBack))){
-//            $this->_headers();
-//        }
+        if( ENVIRONMENT == 'production' ){
+            if( (
+                hostOrigin($this->prod)
+                )
+                &&
+                compareVarsHttp('HTTPS',"on")) {
+               $this->_headers();
+            }else{
+                http_response_code(404);
+                exit();
+            }
+        }else if(ENVIRONMENT == 'development'
+            &&  (hostOrigin($this->devFront) || hostOrigin($this->devBack))){
+            $this->_headers();
+        }
     }
 
     private function _headers(){
