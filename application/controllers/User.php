@@ -79,31 +79,29 @@ class User extends Home_Controller
         if( $error ):
             $this->response( $error,'error' );
         endif;
+
+        $code = new RestoreAccount\AccountService();
+        $codigoVerificacao = $code->generateCode();
+
         $user = [
             'user_name'=>$data->userName,
             'user_email'=>$data->email,
             'user_full_name'=>$data->fullName,
-            'user_password'=>password_hash( $data->password, PASSWORD_ARGON2I )
+            'user_password'=>password_hash( $data->password, PASSWORD_ARGON2I ),
+            'user_code_verification'=>$codigoVerificacao
         ];
-        $this->db->trans_start();
-        $userSave = $this->User_model->save( $user, ['user_id','user_name','user_email']);
+
+
+        $userSave = $this->User_model->save( $user, ['user_id','user_name','user_email','user_code_verification']);
+        var_dump($this->db->last_query() . "<br>" . "\n");
 
         if( $userSave )
         $this->sendEmail( $userSave );
-        $this->db->trans_complete();
 
     }
     private function sendEmail( $user ){
         $emailFrom = $this->config->item('email_account');
 
-        $code = new RestoreAccount\AccountService();
-        $codigoVerificacao = $code->generateCode();
-
-        $code = [
-            'user_id' => $user->user_id,
-            'user_code_verification' => $codigoVerificacao
-        ];
-        $this->User_model->save( $code );
 
         $mail  = new Mail();
         $nome                       = $user['user_name'];
@@ -113,7 +111,7 @@ class User extends Home_Controller
         $param['name']              = "Circle";
         $param['name_to']           = $user['user_name'];
         $param['assunto']           = 'Ativação de conta Circle!';
-        $data['codigo_confirmacao'] = $codigoVerificacao;
+        $data['codigo_confirmacao'] = $user->user_code_verification;
         $data['cadastro']           = true;
         $data['nome']               = $nome;
 
