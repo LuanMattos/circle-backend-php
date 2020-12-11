@@ -136,7 +136,7 @@ if (!function_exists('compareVarsHttp')) {
     function compareVarsHttp($indexVar, $compare)
     {
 
-        return isset($_SERVER[$indexVar]) && $_SERVER[$indexVar] == $compare;
+        return isset($_SERVER[$indexVar]) && $_SERVER[$indexVar] === $compare;
     }
 }
 if (!function_exists('hostOrigin')) {
