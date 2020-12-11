@@ -11,7 +11,6 @@ class User extends Home_Controller
         $this->load->model("user/User_model");
         $this->load->model("follower/Follower_model");
         $this->load->library('email/mail');
-        echo "cron funcionou";
     }
 
     public function login(){
