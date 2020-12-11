@@ -12,7 +12,7 @@ class Home_Controller extends SI_Controller {
         parent::__construct();
         $this->setConfigs();
         $this->authRequest();
-        echo "Agora sim heim?";
+        echo "AGROA VAI";
     }
 
     private function authRequest(){
