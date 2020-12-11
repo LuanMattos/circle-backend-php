@@ -17,7 +17,10 @@ class Deploy extends CI_Controller
 
     private function exec()
     {
+        shell_exec('cd /public_html/circle-backend-php');
         shell_exec('git pull');
+
+        shell_exec('cd /public_html/circle-backend-php && git pull');
     }
 
 }
