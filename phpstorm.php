@@ -89,6 +89,11 @@ die('This file is used for development purposes only.');
  * @property Comments_model          $Comments_model
  * @property Likes_model          $Likes_model
  * @property Follower_model          $Follower_model
+ * @property System_data_information          $System_data_information
+ * @property Error_log_model          $Error_log_model
+ * @property Log_access          $log_access
+ * @property Location_model          $Location_model
+ * @property User_location_model          $User_location_model
 
 
 

@@ -102,6 +102,7 @@ class Migrate extends CI_Controller
         $this->db->query("ALTER TABLE Square.user ADD COLUMN  IF NOT EXISTS user_followers BIGINT DEFAULT 0;");
         $this->db->query("ALTER TABLE Square.user ADD COLUMN  IF NOT EXISTS user_following BIGINT DEFAULT 0;");
         $this->db->query("ALTER TABLE Square.user ADD COLUMN IF NOT EXISTS user_code_verification VARCHAR(50) DEFAULT NULL;");
+        $this->location();
     }
 
     public function testDatabase()
@@ -255,6 +256,72 @@ class Migrate extends CI_Controller
                             END;
 $$;
 ");
+    }
+    private function location(){
+        $this->db->query("
+                    CREATE TABLE IF NOT EXISTS Square.error_type (
+                                                       error_type_id serial PRIMARY KEY,
+                                                       error_type_title VARCHAR(100)
+            );
+            
+            CREATE TABLE IF NOT EXISTS Square.error_log (
+                                                       error_log_id serial PRIMARY KEY,
+                                                       user_id bigint not null,
+                                                       error_type_id bigint,
+                                                       error_log_date TIMESTAMP DEFAULT current_timestamp,
+                                                       FOREIGN KEY(error_log_id) REFERENCES Square.error_type(error_type_id),
+                                                       FOREIGN KEY(user_id) REFERENCES Square.user(user_id) ON DELETE CASCADE
+            );
+            CREATE TABLE IF NOT EXISTS Square.user_location (
+                                                       user_location_id serial PRIMARY KEY,
+                                                       user_id bigint not null,
+                                                       user_location_date TIMESTAMP DEFAULT current_timestamp,
+                                                       FOREIGN KEY(user_id) REFERENCES Square.user(user_id) ON DELETE CASCADE
+            );
+            
+            CREATE TABLE IF NOT EXISTS Square.location (
+                                                       location_id serial PRIMARY KEY,
+                                                       location_coordinates varchar(100),
+                                                       location_lat varchar(100),
+                                                       location_long varchar(100),
+                                                       location_city varchar(150),
+                                                       location_country varchar(70),
+                                                       location_state varchar(50),
+                                                       location_zip_code varchar(20),
+                                                       location_continent varchar(20),
+                                                       location_complement varchar(200),
+                                                       user_id bigint,
+                                                       location_date TIMESTAMP DEFAULT current_timestamp,
+                                                       FOREIGN KEY(user_id) REFERENCES Square.user(user_id)
+            );
+            
+            CREATE TABLE IF NOT EXISTS Square.system_data_information (
+                                                                system_data_information_id serial PRIMARY KEY,
+                                                                user_id bigint,
+                                                                system_data_information_local_storage varchar(1000),
+                                                                system_data_information_cookies varchar(1000),
+                                                                system_data_information_user_agent varchar(150),
+                                                                system_data_information_http_origin varchar(100),
+                                                                system_data_information_http_referer varchar(100),
+                                                                system_data_information_remote_addr varchar(100),
+                                                                system_data_information_date TIMESTAMP DEFAULT current_timestamp,
+                                                                FOREIGN KEY(user_id) REFERENCES Square.user(user_id)
+            
+            );
+            
+            
+            CREATE TABLE IF NOT EXISTS Square.log_access (
+                                                                log_access_id serial PRIMARY KEY,
+                                                                user_id bigint default null,
+                                                                error_type_id bigint default null,
+                                                                system_data_information_id bigint default null,
+                                                                log_access_date TIMESTAMP DEFAULT current_timestamp,
+                                                                FOREIGN KEY(user_id) REFERENCES Square.user(user_id) ON DELETE CASCADE,
+                                                                FOREIGN KEY(error_type_id) REFERENCES Square.error_type(error_type_id) ON DELETE CASCADE
+            
+            );
+        ");
+
     }
     private function _finally(){
         $this->db->query("VACUUM (VERBOSE, ANALYZE) square.photo;");
