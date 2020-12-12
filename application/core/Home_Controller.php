@@ -15,7 +15,7 @@ class Home_Controller extends SI_Controller {
     }
 
     private function authRequest(){
-//        debug($_SERVER);
+        debug($_SERVER);
         var_dump(hostOrigin($this->prod));
         if( ENVIRONMENT == 'production' ){
             if( hostOrigin($this->prod)) {
