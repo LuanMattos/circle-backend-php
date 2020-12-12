@@ -33,3 +33,10 @@ $route['follow/(:any)']['PUT'] = 'Follower/follow/$id';
 
 
 
+$route['log_home']['GET'] = 'Home/logHome';
+
+
+
+
+
+

@@ -1,0 +1,12 @@
+Toda a aplicação é executada em várias instâncias com ELB da Amazon, futuramente isso mudará.
+Mas basicamente o CORS permite apenas que o Servidor do Firebase acesse o Beck-End da aplicação
+Isso evita inúmeros ataques e valida a autenticação do servidor de Front com o Beck-End.
+
+Causas de alguns erros conhecidos:
+
+    Beck-End não pode ser acessado pelo ELB:
+        -Verifique o IP do Elastic Ip configurado na instânica/ELB, o mesmo deve estar no CORS da aplicação.
+
+    Beck-End não pode ser acessado pelo Front-End:
+        -Verifique o CORS do Beck-End e/ou do Front-End
+        -Reinicie o servidor HTTP da instância com problema.
