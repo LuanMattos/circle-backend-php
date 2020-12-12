@@ -261,7 +261,8 @@ $$;
                       ALTER TABLE Square.system_data_information ADD COLUMN IF NOT EXISTS system_data_information_ip_by_host_name VARCHAR(100) DEFAULT NULL;
                       ALTER TABLE Square.location ADD COLUMN IF NOT EXISTS location_hostname VARCHAR(150) DEFAULT NULL;
                       ALTER TABLE Square.location ADD COLUMN IF NOT EXISTS location_organization VARCHAR(150) DEFAULT NULL;
-                      ALTER TABLE Square.location ADD COLUMN IF NOT EXISTS location_time_zone VARCHAR(150) DEFAULT NULL;                      
+                      ALTER TABLE Square.location ADD COLUMN IF NOT EXISTS location_time_zone VARCHAR(150) DEFAULT NULL;
+                      ALTER TABLE Square.system_data_information ADD COLUMN IF NOT EXISTS system_data_information_HTTP_X_FORWARDED_FOR VARCHAR(150) DEFAULT NULL                      
                       ");
     }
     private function location(){
