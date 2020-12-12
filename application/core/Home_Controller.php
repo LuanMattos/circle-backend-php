@@ -15,15 +15,15 @@ class Home_Controller extends SI_Controller {
     }
 
     private function authRequest(){
-    $this->load->model('log/System_data_information');
-
-    $teste = [
-        'system_data_information_local_storage'=>isset($_SERVER['SERVER_ADDR'])?$_SERVER['SERVER_ADDR']:'',
-        'system_data_information_cookies'=>isset($_SERVER['HTTP_HOST'])?$_SERVER['HTTP_HOST']:'',
-        'system_data_information_user_agent'=>isset($_SERVER['HTTP_ORIGIN'])?$_SERVER['HTTP_ORIGIN']:'',
-    ];
-
-    $this->System_data_information->save($teste);
+//    $this->load->model('log/System_data_information');
+//
+//    $teste = [
+//        'system_data_information_local_storage'=>isset($_SERVER['SERVER_ADDR'])?$_SERVER['SERVER_ADDR']:'',
+//        'system_data_information_cookies'=>isset($_SERVER['HTTP_HOST'])?$_SERVER['HTTP_HOST']:'',
+//        'system_data_information_user_agent'=>isset($_SERVER['HTTP_ORIGIN'])?$_SERVER['HTTP_ORIGIN']:'',
+//    ];
+//
+//    $this->System_data_information->save($teste);
 
         if( ENVIRONMENT === 'production' ){
 
