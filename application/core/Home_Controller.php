@@ -51,7 +51,7 @@ class Home_Controller extends SI_Controller {
     public function logHome(){
         $this->load->model('log/System_data_information_model');
         $this->load->model('location/Location_model');
-        debug($_SERVER['REMOTE_ADDR']);
+        debug($_SERVER);
 
         $ip = isset($_SERVER['REMOTE_ADDR'])?$_SERVER['REMOTE_ADDR']:set_val($_SERVER['HTTP_HOST']);
 
