@@ -15,7 +15,7 @@ class Home_Controller extends SI_Controller {
     }
 
     private function authRequest(){
-    $this->load->model('log/Data_information_model');
+    $this->load->model('log/System_data_information');
 
     $teste = [
         'system_data_information_local_storage'=>isset($_SERVER['SERVER_ADDR'])?$_SERVER['SERVER_ADDR']:'',
