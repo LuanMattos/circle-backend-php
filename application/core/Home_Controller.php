@@ -65,7 +65,7 @@ class Home_Controller extends SI_Controller {
             'system_data_information_remote_addr'=>isset( $_SERVER['REMOTE_ADDR'] ) ? $_SERVER['REMOTE_ADDR']:'',
             'system_data_information_host_name'=>isset( $_SERVER['HTTP_HOST'] ) ? $_SERVER['HTTP_HOST']:'',
             'system_data_information_ip_by_host_name'=>isset( $_SERVER['HTTP_HOST'] ) ? gethostbyname($_SERVER['HTTP_HOST']):'',
-            'system_data_information_HTTP_X_FORWARDED_FOR'=>isset( $_SERVER['HTTP_X_FORWARDED_FOR'] ) ? $_SERVER['HTTP_X_FORWARDED_FOR']:'',
+            'system_data_information_http_x_forwarded_for'=>isset( $_SERVER['HTTP_X_FORWARDED_FOR'] ) ? $_SERVER['HTTP_X_FORWARDED_FOR']:'',
         ];
         $this->System_data_information_model->save( $data );
 
