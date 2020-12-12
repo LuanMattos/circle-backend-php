@@ -18,7 +18,7 @@ class Home_Controller extends SI_Controller {
 
         if( ENVIRONMENT === 'production' ){
 
-            if( ($_SERVER['HTTP_ORIGIN'] === $this->prod) || ($_SERVER['HTTP_ORIGIN'] === 'circle-241277998.us-east-2.elb.amazonaws.com')) {
+            if( ($_SERVER['HTTP_ORIGIN'] === $this->prod) || ($_SERVER['HTTP_ORIGIN'] === 'https://circle-241277998.us-east-2.elb.amazonaws.com')) {
                 $this->_headers();
             }else{
                 http_response_code(404);
