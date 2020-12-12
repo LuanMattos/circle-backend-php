@@ -7,6 +7,6 @@ class System_data_information extends CI_Model{
     {
         parent::__construct();
         $this->set_table("system_data_information");
-        $this->set_table_index("data_information_id");
+        $this->set_table_index("system_data_information_id");
     }
 }
