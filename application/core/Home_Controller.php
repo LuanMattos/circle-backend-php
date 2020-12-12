@@ -17,18 +17,18 @@ class Home_Controller extends SI_Controller {
     private function authRequest(){
 //        debug($_SERVER);
 //        var_dump(hostOrigin($this->prod));
-        if( ENVIRONMENT == 'production' ){
-            if( hostOrigin($this->prod)) {
-               $this->_headers();
-            }else{
-                http_response_code(404);
-                exit();
-            }
-        }else if(ENVIRONMENT == 'development'
-            &&  (hostOrigin($this->devFront) || hostOrigin($this->devBack))){
-            var_dump('bosta');
+//        if( ENVIRONMENT == 'production' ){
+//            if( hostOrigin($this->prod)) {
+//               $this->_headers();
+//            }else{
+//                http_response_code(404);
+//                exit();
+//            }
+//        }else if(ENVIRONMENT == 'development'
+//            &&  (hostOrigin($this->devFront) || hostOrigin($this->devBack))){
+//            var_dump('bosta');
             $this->_headers();
-        }
+//        }
     }
 
     private function _headers(){
