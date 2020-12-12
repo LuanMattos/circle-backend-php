@@ -26,6 +26,7 @@ class Home_Controller extends SI_Controller {
             }
         }else if(ENVIRONMENT == 'development'
             &&  (hostOrigin($this->devFront) || hostOrigin($this->devBack))){
+            var_dump('bosta');
             $this->_headers();
         }
     }
