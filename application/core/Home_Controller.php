@@ -16,8 +16,9 @@ class Home_Controller extends SI_Controller {
 
     private function authRequest(){
 //        debug($_SERVER);
+        var_dump(hostOrigin($this->prod));
         if( ENVIRONMENT == 'production' ){
-            if( (hostOrigin($this->prod))) {
+            if( hostOrigin($this->prod)) {
                $this->_headers();
             }else{
                 http_response_code(404);
