@@ -14,3 +14,16 @@ Entrar no container php_apache
     certbot --apache -d be.mycircle.click -d be.mycircle.click
     certbot renew --dry-run
 
+
+
+
+
+1. Abra seu arquivo de configuração do Apache. Os locais possíveis incluem /etc/httpd/conf/httpd.conf (Apache 2 / httpd), / etc / apache2 / sites-enabled / (Apache 2.4) ou /etc/apache2/apache2.conf (Apache no Ubuntu).
+
+2. Adicione uma regra de reescrita à seção VirtualHost de seu arquivo de configuração semelhante ao seguinte:
+
+<VirtualHost *:80>
+RewriteEngine On
+RewriteCond %{HTTP:X-Forwarded-Proto} =http
+RewriteRule .* https://%{HTTP:Host}%{REQUEST_URI} [L,R=permanent]
+</VirtualHost>

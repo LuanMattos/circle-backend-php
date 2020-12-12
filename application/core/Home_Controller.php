@@ -12,12 +12,11 @@ class Home_Controller extends SI_Controller {
         parent::__construct();
         $this->setConfigs();
         $this->authRequest();
-        echo "que inferno";
     }
 
     private function authRequest(){
-        debug($_SERVER);
-        var_dump(hostOrigin($this->prod));
+//        debug($_SERVER);
+//        var_dump(hostOrigin($this->prod));
         if( ENVIRONMENT == 'production' ){
             if( hostOrigin($this->prod)) {
                $this->_headers();
