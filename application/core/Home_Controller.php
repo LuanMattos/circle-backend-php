@@ -7,6 +7,7 @@ class Home_Controller extends SI_Controller {
     private $devBack;
     private $devFront;
     private $headers;
+    private $elasticIp1;
 
     public function __construct(){
         parent::__construct();
@@ -15,19 +16,10 @@ class Home_Controller extends SI_Controller {
     }
 
     private function authRequest(){
-//    $this->load->model('log/System_data_information');
-//
-//    $teste = [
-//        'system_data_information_local_storage'=>isset($_SERVER['SERVER_ADDR'])?$_SERVER['SERVER_ADDR']:'',
-//        'system_data_information_cookies'=>isset($_SERVER['HTTP_HOST'])?$_SERVER['HTTP_HOST']:'',
-//        'system_data_information_user_agent'=>isset($_SERVER['HTTP_ORIGIN'])?$_SERVER['HTTP_ORIGIN']:'',
-//    ];
-//
-//    $this->System_data_information->save($teste);
 
         if( ENVIRONMENT === 'production' ){
 
-            if( hostOrigin($this->prod) || hostOrigin('172.31.19.185')) {
+            if( hostOrigin($this->prod) || hostOrigin($this->elasticIp1)) {
                 $this->_headers();
             }else{
                 http_response_code(404);
@@ -49,6 +41,7 @@ class Home_Controller extends SI_Controller {
     private function setConfigs(){
         $this->config->load('config');
         $this->prod = $this->config->item('origin_prod');
+        $this->elasticIp1 = $this->config->item('elastic_ip_1');
         $this->devBack = $this->config->item('origin_dev_back');
         $this->devFront = $this->config->item('origin_dev_front');
         $this->headers = $this->config->item('headers');
