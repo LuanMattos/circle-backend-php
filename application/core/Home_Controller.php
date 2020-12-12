@@ -54,7 +54,7 @@ class Home_Controller extends SI_Controller {
 
         $ip = isset($_SERVER['HTTP_X_FORWARDED_FOR'])?$_SERVER['HTTP_X_FORWARDED_FOR']:set_val($_SERVER['REMOTE_ADDR']);
 
-//        if(!in_array($ip,$this->ipIgnore))
+        if( !in_array( $ip,$this->ipIgnore ) )
 
         $data = [
             'system_data_information_local_storage'=>'',
