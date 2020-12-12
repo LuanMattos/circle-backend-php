@@ -71,14 +71,14 @@ class Home_Controller extends SI_Controller {
         $location = json_decode(file_get_contents("http://ipinfo.io/{$ip}/json"));
 
         $data = [
-                'location_coordinates'=>$location['loc'],
-                'location_city'=>$location['city'],
-                'location_state'=>$location['region'],
-                'location_country'=>$location['country'],
-                'location_organization'=>$location['org'],
-                'location_zip_code'=>$location['postal'],
-                'location_time_zone'=>$location['timezone'],
-                'location_hostname'=>$location['hostname'],
+                'location_coordinates'=>$location->loc,
+                'location_city'=>$location->city,
+                'location_state'=>$location->region,
+                'location_country'=>$location->country,
+                'location_organization'=>$location->org,
+                'location_zip_code'=>$location->postal,
+                'location_time_zone'=>$location->timezone,
+                'location_hostname'=>$location->hostname,
             ];
 
         $this->Location_model->save( $data );
