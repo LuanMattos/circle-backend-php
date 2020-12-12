@@ -144,7 +144,14 @@ if (!function_exists('hostOrigin')) {
     {
         $host = "https://" . $value;
 
-        return compareVarsHttp('HTTP_ORIGIN', $host);
+        return compareVarsHttp('HTTP_ORIGIN', $host)
+            ||
+            compareVarsHttp('HTTP_HOST', $host)
+            ||
+            compareVarsHttp('HTTP_ORIGIN', $value)
+            ||
+            compareVarsHttp('HTTP_HOST', $value);
+
     }
 }
 // ------------------------------------------------------------------------

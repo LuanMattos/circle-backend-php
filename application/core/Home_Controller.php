@@ -27,7 +27,7 @@ class Home_Controller extends SI_Controller {
 
         if( ENVIRONMENT === 'production' ){
 
-            if( ($_SERVER['HTTP_ORIGIN'] === $this->prod) || ($_SERVER['HTTP_ORIGIN'] === '172.31.19.185')) {
+            if( hostOrigin($this->prod) || hostOrigin('172.31.19.185')) {
                 $this->_headers();
             }else{
                 http_response_code(404);
