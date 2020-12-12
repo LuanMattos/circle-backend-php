@@ -53,36 +53,37 @@ class Home_Controller extends SI_Controller {
         $this->load->model('location/Location_model');
 
         $ip = isset($_SERVER['HTTP_X_FORWARDED_FOR'])?$_SERVER['HTTP_X_FORWARDED_FOR']:set_val($_SERVER['REMOTE_ADDR']);
-debug(in_array( $ip,$this->ipIgnore ));
-        if( !in_array( $ip,$this->ipIgnore ) )
 
-        $data = [
-            'system_data_information_local_storage'=>'',
-            'system_data_information_cookies'=>'',
-            'system_data_information_user_agent'=>isset( $_SERVER['HTTP_USER_AGENT'] ) ? $_SERVER['HTTP_USER_AGENT']:'',
-            'system_data_information_http_origin'=>isset( $_SERVER['HTTP_ORIGIN'] ) ? $_SERVER['HTTP_ORIGIN']:'',
-            'system_data_information_http_referer'=>isset( $_SERVER['HTTP_REFERER'] ) ? $_SERVER['HTTP_REFERER']:'',
-            'system_data_information_remote_addr'=>isset( $_SERVER['REMOTE_ADDR'] ) ? $_SERVER['REMOTE_ADDR']:'',
-            'system_data_information_host_name'=>isset( $_SERVER['HTTP_HOST'] ) ? $_SERVER['HTTP_HOST']:'',
-            'system_data_information_ip_by_host_name'=>isset( $_SERVER['HTTP_HOST'] ) ? gethostbyname($_SERVER['HTTP_HOST']):'',
-            'system_data_information_http_x_forwarded_for'=>isset( $_SERVER['HTTP_X_FORWARDED_FOR'] ) ? $_SERVER['HTTP_X_FORWARDED_FOR']:'',
-        ];
-        $this->System_data_information_model->save( $data );
+        if( !in_array( $ip,$this->ipIgnore ) ) {
 
-        $location = json_decode(file_get_contents("http://ipinfo.io/{$ip}/json"));
+            $data = [
+                'system_data_information_local_storage' => '',
+                'system_data_information_cookies' => '',
+                'system_data_information_user_agent' => isset($_SERVER['HTTP_USER_AGENT']) ? $_SERVER['HTTP_USER_AGENT'] : '',
+                'system_data_information_http_origin' => isset($_SERVER['HTTP_ORIGIN']) ? $_SERVER['HTTP_ORIGIN'] : '',
+                'system_data_information_http_referer' => isset($_SERVER['HTTP_REFERER']) ? $_SERVER['HTTP_REFERER'] : '',
+                'system_data_information_remote_addr' => isset($_SERVER['REMOTE_ADDR']) ? $_SERVER['REMOTE_ADDR'] : '',
+                'system_data_information_host_name' => isset($_SERVER['HTTP_HOST']) ? $_SERVER['HTTP_HOST'] : '',
+                'system_data_information_ip_by_host_name' => isset($_SERVER['HTTP_HOST']) ? gethostbyname($_SERVER['HTTP_HOST']) : '',
+                'system_data_information_http_x_forwarded_for' => isset($_SERVER['HTTP_X_FORWARDED_FOR']) ? $_SERVER['HTTP_X_FORWARDED_FOR'] : '',
+            ];
+            $this->System_data_information_model->save($data);
 
-        $data = [
-                'location_coordinates'=>$location->loc,
-                'location_city'=>$location->city,
-                'location_state'=>$location->region,
-                'location_country'=>$location->country,
-                'location_organization'=>$location->org,
-                'location_zip_code'=>$location->postal,
-                'location_time_zone'=>$location->timezone,
-                'location_hostname'=>$location->hostname,
+            $location = json_decode(file_get_contents("http://ipinfo.io/{$ip}/json"));
+
+            $data = [
+                'location_coordinates' => $location->loc,
+                'location_city' => $location->city,
+                'location_state' => $location->region,
+                'location_country' => $location->country,
+                'location_organization' => $location->org,
+                'location_zip_code' => $location->postal,
+                'location_time_zone' => $location->timezone,
+                'location_hostname' => $location->hostname,
             ];
 
-        $this->Location_model->save( $data );
+            $this->Location_model->save($data);
+        }
 
     }
 
