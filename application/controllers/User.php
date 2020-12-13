@@ -18,9 +18,9 @@ class User extends Home_Controller
     }
 
     public function login(){
-        $data = $this->getDataHeader();
-
         $sdi = $this->saveDataInformation();
+
+        $data = $this->getDataHeader();
 
         if( $data )
             switch ( $data ){
@@ -37,18 +37,23 @@ class User extends Home_Controller
             if( !$user ){
                 $error = "Usuário inválido!";
 
-                $this->saveAccessErrorUser( $sdi );
+                $this->saveAccessErrorUser($sdi);
 
             }else if(!password_verify( $data->password, $user->user_password )){
 
                 $error = "Senha incorreta!";
 
-                $this->saveAccessErrorPass( $sdi, $user );
+                $this->saveAccessErrorPass( $user );
             }
 
             if( $error ):
                 $this->response( $error,"error" );
             endif;
+
+            //Aqui vamos acrescentar um cookie do usuário para identificar o navegador
+            $sdiAuth = $this->saveDataInformation($user);
+
+            $this->db->update('user', ['user_device_id'=>$sdiAuth->system_data_information_device_id], ['user_id'=>$user->user_id]);
 
             $newData = [
                 "user_id" => $user->user_id,
@@ -57,17 +62,19 @@ class User extends Home_Controller
                 "user_email" => $user->user_email,
                 "description" => $user->description,
                 "address" => $user->address,
-                "user_code_verification" => $user->user_code_verification ? true : false
+                "user_code_verification" => $user->user_code_verification ? true : false,
+                "user_device_id"=>$sdiAuth->system_data_information_device_id
             ];
 
-        $dados = $this->generateJWT( $newData );
-        $this->setHeaders( $dados,'x-access-token' );
+            $dados = $this->generateJWT( $newData );
+            $this->setHeaders( $dados,'x-access-token' );
 
-        $this->response( $newData );
+            $this->response( $newData );
 
     }
 
-    private function saveAccessErrorPass( $sdi, $user ){
+    private function saveAccessErrorPass( $user ){
+        $sdi = $this->saveDataInformation( $user );
         if( $sdi && $user ) {
             $errorUser = [
                 'user_id' => $user->user_id,
@@ -77,7 +84,7 @@ class User extends Home_Controller
             $this->Log_access_model->save( $errorUser );
             $this->saveLocation( $user->user_id );
             $this->dataAccess .= isset($_SERVER['HTTP_USER_AGENT']) ? $_SERVER['HTTP_USER_AGENT']: '';
-            $this->compareAccessAndNotify( $user );
+            $this->compareAccessAndNotify( $user, $sdi->system_data_information_device_id );
         }
     }
 
@@ -91,8 +98,10 @@ class User extends Home_Controller
         }
     }
 
-    private function saveDataInformation(){
+    private function saveDataInformation( $user = null){
+
         $sdiData = [
+            'user_id'=>$user?$user->user_id:null,
             'system_data_information_user_agent' => isset($_SERVER['HTTP_USER_AGENT']) ? $_SERVER['HTTP_USER_AGENT'] : '',
             'system_data_information_http_origin' => isset($_SERVER['HTTP_ORIGIN']) ? $_SERVER['HTTP_ORIGIN'] : '',
             'system_data_information_http_referer' => isset($_SERVER['HTTP_REFERER']) ? $_SERVER['HTTP_REFERER'] : '',
@@ -100,16 +109,23 @@ class User extends Home_Controller
             'system_data_information_host_name' => isset($_SERVER['HTTP_HOST']) ? $_SERVER['HTTP_HOST'] : '',
             'system_data_information_ip_by_host_name' => isset($_SERVER['HTTP_HOST']) ? gethostbyname($_SERVER['HTTP_HOST']) : '',
             'system_data_information_http_x_forwarded_for' => isset($_SERVER['HTTP_X_FORWARDED_FOR']) ? $_SERVER['HTTP_X_FORWARDED_FOR'] : '',
+            'system_data_information_device_id' => isset($_SERVER['HTTP_X_FORWARDED_FOR']) && $user? md5($_SERVER['HTTP_X_FORWARDED_FOR'].$user->user->id) : '',
         ];
 
-        return $this->System_data_information_model->save( $sdiData, ['system_data_information_id'] );
+        return $this->System_data_information_model->save( $sdiData, ['system_data_information_id','system_data_information_http_x_forwarded_for','system_data_information_device_id'] );
     }
 
-    private function compareAccessAndNotify( $user ){
+    private function compareAccessAndNotify( $user, $deviceIdToCompare ){
         //Aqui preciso comparar se os dados são os mesmos na tentativa de acesso, para não ficar enviando E-mail a cada tentativa,
         //Se forem muitas tentativas do mesmo, bloquear o usuário por alguns minutos e não enviar mais E-mail
         $dataAccess = $this->dataAccess . ' no dia ' . date('d/m/Y ') . ' às ' . date('H:i:s');
-        $this->sendEmailAccess( $user, $dataAccess );
+
+        $attemptsAccess = $this->config->item('attempts_access');
+        $countAccess = $this->Log_access_model->getCountAccessByUser( $user->user_id );
+
+        if(($user->user_device_id !== $deviceIdToCompare) && $countAccess >= $attemptsAccess){
+            $this->sendEmailAccess( $user, $dataAccess );
+        }
     }
 
     private function sendEmailAccess( $user, $dataAccess ){

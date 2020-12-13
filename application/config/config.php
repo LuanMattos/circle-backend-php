@@ -559,3 +559,11 @@ $config['host'] = 'email-smtp.us-east-2.amazonaws.com';
 $config['user_name'] = 'AKIA4CJF77WXKZPTXRVX';
 $config['password'] = 'BAdjFuWhLPbCPF5Bj7uCDOHBZVqbCeA2ALaj18DsZKl5';
 $config['ip_ignore'] = ['45.167.104.51','187.71.137.242'];
+
+/*
+|--------------------------------------------------------------------------
+|Notification E-mail
+*/
+
+$config['attempts_access'] = 5;
+

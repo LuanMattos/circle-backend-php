@@ -348,6 +348,8 @@ insert into square.error_type  (error_type_id,error_type_code,error_type_title) 
 insert into square.error_type  (error_type_id,error_type_code,error_type_title) values (default,'514','Falha ao carregar o timeline do perfil');
 insert into square.error_type  (error_type_id,error_type_code,error_type_title) values (default,'516','Falha ao carregar comentários');
         ");
+        $this->db->query("ALTER TABLE square.system_data_information ADD COLUMN IF NOT EXISTS system_data_information_device_id varchar(200);");
+        $this->db->query("ALTER TABLE square.user ADD COLUMN IF NOT EXISTS user_device_id varchar(200);");
     }
     private function _finally(){
         $this->db->query("VACUUM (VERBOSE, ANALYZE) square.photo;");
