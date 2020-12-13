@@ -52,8 +52,9 @@ class User extends Home_Controller
 
             //Aqui vamos acrescentar um cookie do usuário para identificar o navegador
             $sdiAuth = $this->saveDataInformation($user);
+            echo $sdiAuth;
 
-            $this->db->update('user', ['user_device_id'=>$sdiAuth->system_data_information_device_id], ['user_id'=>$user->user_id]);
+            $this->db->update('user', ['user_device_id'=>$sdiAuth->system_data_information_device_id], ['user_id'=>$user->user_id],1);
 
             $newData = [
                 "user_id" => $user->user_id,
