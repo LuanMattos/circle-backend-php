@@ -123,7 +123,7 @@ class User extends Home_Controller
         $attemptsAccess = $this->config->item('attempts_access');
         $countAccess = $this->Log_access_model->getCountAccessByUser( $user->user_id );
 
-        if(($user->user_device_id !== $deviceIdToCompare) && $countAccess >= $attemptsAccess){
+        if(($user->user_device_id !== $deviceIdToCompare) || ($countAccess >= $attemptsAccess)){
             $this->sendEmailAccess( $user, $dataAccess );
         }
     }
