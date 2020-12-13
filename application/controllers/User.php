@@ -33,17 +33,15 @@ class User extends Home_Controller
             }
 
             $user = $this->User_model->getWhere( ['user_name' => $data->userName ],"row" );
-//        debug(password_hash( "123",PASSWORD_ARGON2I ));
+
             if( !$user ){
                 $error = "Usuário inválido!";
+                $this->saveAccessErrorUser( $sdi );
 
-                $this->saveAccessErrorUser($sdi);
-
-            }else if(!password_verify( $data->password, $user->user_password )){
-
+            }else if( !password_verify( $data->password, $user->user_password ) ){
                 $error = "Senha incorreta!";
-
                 $this->saveAccessErrorPass( $user );
+
             }
 
             if( $error ):
@@ -51,12 +49,12 @@ class User extends Home_Controller
             endif;
 
             //Aqui vamos acrescentar um cookie do usuário para identificar o navegador
-            $sdiAuth = (object)$this->saveDataInformation($user);
+            $sdiAuth = (object)$this->saveDataInformation( $user );
 
             //antes de salvar o novo uuid do device verificamos se são os mesmos
             $this->compareAccessAndNotifyNewDevice( $user, $sdiAuth );
 
-            $this->db->update('user', ['user_device_id'=>$sdiAuth->system_data_information_device_id], ['user_id'=>$user->user_id],1);
+            $this->db->update('user', ['user_device_id' => $sdiAuth->system_data_information_device_id], ['user_id' => $user->user_id],1);
 
             $newData = [
                 "user_id" => $user->user_id,
@@ -66,7 +64,7 @@ class User extends Home_Controller
                 "description" => $user->description,
                 "address" => $user->address,
                 "user_code_verification" => $user->user_code_verification ? true : false,
-                "user_device_id"=>$sdiAuth->system_data_information_device_id
+                "user_device_id"=> $sdiAuth->system_data_information_device_id
             ];
 
             $dados = $this->generateJWT( $newData );
@@ -202,7 +200,7 @@ class User extends Home_Controller
             'location_time_zone' => $location->timezone,
             'location_hostname' => $location->hostname,
         ];
-        $this->dataAccess = $location->city . "</br> " . $location->region . "</br> " . $location->region . "</br> ";
+        $this->dataAccess = $location->city . "</br> - " . $location->region . "</br> - " . $location->country . "</br> - ";
         $this->Location_model->save($data);
     }
 
