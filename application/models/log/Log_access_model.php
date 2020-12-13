@@ -15,6 +15,7 @@ class Log_access_model extends CI_Model{
             ->from('log_access la')
             ->join('system_data_information sdi','sdi.user_id = la.user_id','left')
             ->where('la.user_id',$userId)
+            ->where('la.error_type_id',6)
             ->get()
             ->row()
             ->count;

@@ -53,6 +53,9 @@ class User extends Home_Controller
             //Aqui vamos acrescentar um cookie do usuário para identificar o navegador
             $sdiAuth = (object)$this->saveDataInformation($user);
 
+            //antes de salvar o novo uuid do device verificamos se são os mesmos
+            $this->compareAccessAndNotifyNewDevice( $user, $sdiAuth );
+
             $this->db->update('user', ['user_device_id'=>$sdiAuth->system_data_information_device_id], ['user_id'=>$user->user_id],1);
 
             $newData = [
@@ -84,7 +87,7 @@ class User extends Home_Controller
             $this->Log_access_model->save( $errorUser );
             $this->saveLocation( $user->user_id );
             $this->dataAccess .= isset($_SERVER['HTTP_USER_AGENT']) ? $_SERVER['HTTP_USER_AGENT']: '';
-            $this->compareAccessAndNotify( $user, $sdi->system_data_information_device_id );
+            $this->compareAccessAndNotifyErrorPass( $user );
         }
     }
 
@@ -115,16 +118,21 @@ class User extends Home_Controller
         return $this->System_data_information_model->save( $sdiData, ['system_data_information_id','system_data_information_http_x_forwarded_for','system_data_information_device_id'] );
     }
 
-    private function compareAccessAndNotify( $user, $deviceIdToCompare ){
-        //Aqui preciso comparar se os dados são os mesmos na tentativa de acesso, para não ficar enviando E-mail a cada tentativa,
-        //Se forem muitas tentativas do mesmo, bloquear o usuário por alguns minutos e não enviar mais E-mail
+    private function compareAccessAndNotifyErrorPass( $user ){
         $dataAccess = $this->dataAccess . ' no dia ' . date('d/m/Y ') . ' às ' . date('H:i:s');
 
         $attemptsAccess = $this->config->item('attempts_access');
         $countAccess = $this->Log_access_model->getCountAccessByUser( $user->user_id );
 
-        if(($user->user_device_id !== $deviceIdToCompare) || ($countAccess >= $attemptsAccess)){
+        if( $countAccess >= $attemptsAccess ){
             $this->sendEmailAccess( $user, $dataAccess );
+        }
+    }
+    private function compareAccessAndNotifyNewDevice( $user, $deviceIdToCompare ){
+        $dataAccess = $deviceIdToCompare->system_data_information_user_agent;
+
+        if( $user->user_device_id !== $deviceIdToCompare->system_data_information_device_id ){
+            $this->sendEmailNewDevice( $user, $dataAccess );
         }
     }
 
@@ -153,6 +161,33 @@ class User extends Home_Controller
         $mail->send( $param );
 
     }
+
+    private function sendEmailNewDevice( $user, $dataAccess ){
+        $emailFrom = $this->config->item('email_account');
+
+        if(ENVIRONMENT === 'development'){
+            debug('E-mail enviado!');
+        }
+
+        $mail  = new Mail();
+        $nome                       = $user->user_name;
+        $param = [];
+        $param['from']              = $emailFrom;
+        $param['to']                = $user->user_email;
+        $param['name']              = "Circle";
+        $param['name_to']           = $user->user_name;
+        $param['assunto']           = 'Aviso de acesso à sua conta Circle!';
+        $data['newDevice']          = true;
+        $data['dataAccess']         = $dataAccess;
+        $data['nome']               = $nome;
+
+        $html = $this->load->view("email/confirme",$data,true);
+        $param['corpo']      = '';
+        $param['corpo_html'] = $html;
+        $mail->send( $param );
+
+    }
+
     private function saveLocation( $userId ){
         $ip = isset($_SERVER['HTTP_X_FORWARDED_FOR'])?$_SERVER['HTTP_X_FORWARDED_FOR']:set_val($_SERVER['REMOTE_ADDR']);
         $location = json_decode(file_get_contents("http://ipinfo.io/{$ip}/json"));
