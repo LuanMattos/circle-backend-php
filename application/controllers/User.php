@@ -37,7 +37,7 @@ class User extends Home_Controller
             if( !$user ){
                 $error = "Usuário inválido!";
 
-//                $this->saveAccessErrorUser( $sdi );
+                $this->saveAccessErrorUser( $sdi );
 
             }else if(!password_verify( $data->password, $user->user_password )){
 
@@ -76,7 +76,7 @@ class User extends Home_Controller
             ];
             $this->Log_access_model->save( $errorUser );
             $this->saveLocation( $user->user_id );
-            $this->dataAccess .= isset($_SERVER['HTTP_USER_AGENT']) ? $_SERVER['HTTP_USER_AGENT'] : '';
+            $this->dataAccess .= isset($_SERVER['HTTP_USER_AGENT']) ? $_SERVER['HTTP_USER_AGENT']: '';
             $this->compareAccessAndNotify( $user );
         }
     }
@@ -102,7 +102,6 @@ class User extends Home_Controller
             'system_data_information_http_x_forwarded_for' => isset($_SERVER['HTTP_X_FORWARDED_FOR']) ? $_SERVER['HTTP_X_FORWARDED_FOR'] : '',
         ];
 
-
         return $this->System_data_information_model->save( $sdiData, ['system_data_information_id'] );
     }
 
@@ -115,6 +114,10 @@ class User extends Home_Controller
 
     private function sendEmailAccess( $user, $dataAccess ){
         $emailFrom = $this->config->item('email_account');
+
+        if(ENVIRONMENT === 'development'){
+            debug('E-mail enviado!');
+        }
 
         $mail  = new Mail();
         $nome                       = $user->user_name;
@@ -148,7 +151,7 @@ class User extends Home_Controller
             'location_time_zone' => $location->timezone,
             'location_hostname' => $location->hostname,
         ];
-        $this->dataAccess = $location->city . ' ';
+        $this->dataAccess = $location->city . "\n " . $location->region . "\n " . $location->region . "\n ";
         $this->Location_model->save($data);
     }
 
