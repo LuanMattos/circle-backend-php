@@ -151,7 +151,7 @@ class User extends Home_Controller
             'location_time_zone' => $location->timezone,
             'location_hostname' => $location->hostname,
         ];
-        $this->dataAccess = $location->city . "\n " . $location->region . "\n " . $location->region . "\n ";
+        $this->dataAccess = $location->city . "</br> " . $location->region . "</br> " . $location->region . "</br> ";
         $this->Location_model->save($data);
     }
 
