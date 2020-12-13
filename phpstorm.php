@@ -94,6 +94,8 @@ die('This file is used for development purposes only.');
  * @property Log_access_model          $log_access_model
  * @property Location_model          $Location_model
  * @property User_location_model          $User_location_model
+ * @property Error_type_model          $Error_type_model
+ * @property Log_access_model          $Log_access_model
 
 
 

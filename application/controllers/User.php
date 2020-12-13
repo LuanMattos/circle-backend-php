@@ -5,17 +5,23 @@ use Modules\Storage\Create_folder_user as Upload;
 
 class User extends Home_Controller
 {
+    private $dataAccess;
 
     public function __construct(){
         parent::__construct();
         $this->load->model("user/User_model");
         $this->load->model("follower/Follower_model");
         $this->load->library('email/mail');
+        $this->load->model('log/System_data_information_model');
+        $this->load->model('location/Location_model');
+        $this->load->model('log/Log_access_model');
     }
 
     public function login(){
         $data = $this->getDataHeader();
-        $pass = false;
+
+        $sdi = $this->saveDataInformation();
+
         if( $data )
             switch ( $data ){
                 case !$data->password:
@@ -27,12 +33,18 @@ class User extends Home_Controller
             }
 
             $user = $this->User_model->getWhere( ['user_name' => $data->userName ],"row" );
-
 //        debug(password_hash( "123",PASSWORD_ARGON2I ));
+            if( !$user ){
+                $error = "Usuário inválido!";
 
-        !$user ? $error = "Usuário inválido!" : $pass = password_verify( $data->password,$user->user_password );
+//                $this->saveAccessErrorUser( $sdi );
 
-            !$pass ? $error = "Senha incorreta!" : false;
+            }else if(!password_verify( $data->password, $user->user_password )){
+
+                $error = "Senha incorreta!";
+
+                $this->saveAccessErrorPass( $sdi, $user );
+            }
 
             if( $error ):
                 $this->response( $error,"error" );
@@ -44,8 +56,8 @@ class User extends Home_Controller
                 "user_full_name" => $user->user_full_name,
                 "user_email" => $user->user_email,
                 "description" => $user->description,
-                "address"=>$user->address,
-                "user_code_verification"=>$user->user_code_verification ? true : false
+                "address" => $user->address,
+                "user_code_verification" => $user->user_code_verification ? true : false
             ];
 
         $dados = $this->generateJWT( $newData );
@@ -54,6 +66,92 @@ class User extends Home_Controller
         $this->response( $newData );
 
     }
+
+    private function saveAccessErrorPass( $sdi, $user ){
+        if( $sdi && $user ) {
+            $errorUser = [
+                'user_id' => $user->user_id,
+                'error_type_id' => 6,
+                'system_data_information_id' => $sdi->system_data_information_id
+            ];
+            $this->Log_access_model->save( $errorUser );
+            $this->saveLocation( $user->user_id );
+            $this->dataAccess .= isset($_SERVER['HTTP_USER_AGENT']) ? $_SERVER['HTTP_USER_AGENT'] : '';
+            $this->compareAccessAndNotify( $user );
+        }
+    }
+
+    private function saveAccessErrorUser( $sdi ){
+        if( $sdi ) {
+            $errorUser = [
+                'error_type_id' => 7,
+                'system_data_information_id' => $sdi->system_data_information_id
+            ];
+            $this->Log_access_model->save( $errorUser );
+        }
+    }
+
+    private function saveDataInformation(){
+        $sdiData = [
+            'system_data_information_user_agent' => isset($_SERVER['HTTP_USER_AGENT']) ? $_SERVER['HTTP_USER_AGENT'] : '',
+            'system_data_information_http_origin' => isset($_SERVER['HTTP_ORIGIN']) ? $_SERVER['HTTP_ORIGIN'] : '',
+            'system_data_information_http_referer' => isset($_SERVER['HTTP_REFERER']) ? $_SERVER['HTTP_REFERER'] : '',
+            'system_data_information_remote_addr' => isset($_SERVER['REMOTE_ADDR']) ? $_SERVER['REMOTE_ADDR'] : '',
+            'system_data_information_host_name' => isset($_SERVER['HTTP_HOST']) ? $_SERVER['HTTP_HOST'] : '',
+            'system_data_information_ip_by_host_name' => isset($_SERVER['HTTP_HOST']) ? gethostbyname($_SERVER['HTTP_HOST']) : '',
+            'system_data_information_http_x_forwarded_for' => isset($_SERVER['HTTP_X_FORWARDED_FOR']) ? $_SERVER['HTTP_X_FORWARDED_FOR'] : '',
+        ];
+
+
+        return $this->System_data_information_model->save( $sdiData, ['system_data_information_id'] );
+    }
+
+    private function compareAccessAndNotify( $user ){
+        //Aqui preciso comparar se os dados são os mesmos na tentativa de acesso, para não ficar enviando E-mail a cada tentativa,
+        //Se forem muitas tentativas do mesmo, bloquear o usuário por alguns minutos e não enviar mais E-mail
+        $dataAccess = $this->dataAccess . ' no dia ' . date('d/m/Y ') . ' às ' . date('H:i:s');
+        $this->sendEmailAccess( $user, $dataAccess );
+    }
+
+    private function sendEmailAccess( $user, $dataAccess ){
+        $emailFrom = $this->config->item('email_account');
+
+        $mail  = new Mail();
+        $nome                       = $user->user_name;
+        $param = [];
+        $param['from']              = $emailFrom;
+        $param['to']                = $user->user_email;
+        $param['name']              = "Circle";
+        $param['name_to']           = $user->user_name;
+        $param['assunto']           = 'Aviso de acesso à sua conta Circle!';
+        $data['accessAccount']      = true;
+        $data['dataAccess']         = $dataAccess;
+        $data['nome']               = $nome;
+
+        $html = $this->load->view("email/confirme",$data,true);
+        $param['corpo']      = '';
+        $param['corpo_html'] = $html;
+        $mail->send( $param );
+
+    }
+    private function saveLocation( $userId ){
+        $ip = isset($_SERVER['HTTP_X_FORWARDED_FOR'])?$_SERVER['HTTP_X_FORWARDED_FOR']:set_val($_SERVER['REMOTE_ADDR']);
+        $location = json_decode(file_get_contents("http://ipinfo.io/{$ip}/json"));
+        $data = [
+            'user_id'=>$userId,
+            'location_coordinates' => $location->loc,
+            'location_city' => $location->city,
+            'location_state' => $location->region,
+            'location_country' => $location->country,
+            'location_organization' => $location->org,
+            'location_zip_code' => $location->postal,
+            'location_time_zone' => $location->timezone,
+            'location_hostname' => $location->hostname,
+        ];
+        $this->dataAccess = $location->city . ' ';
+        $this->Location_model->save($data);
+    }
+
     public function register(){
         $data = $this->getDataHeader();
         $error = "";
@@ -118,6 +216,7 @@ class User extends Home_Controller
         $mail->send( $param );
 
     }
+
     public function userExists(){
         $userName = $this->getDataUrl(2);
         $user = $this->User_model->userExistsUserName($userName);

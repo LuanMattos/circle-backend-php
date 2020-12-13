@@ -180,6 +180,12 @@
             <!--		<textarea name="address" placeholder="Address"></textarea>-->
             <!--            <input type="button" name="previous" class="previous action-button" value="Não fui eu!"/>-->
         </fieldset>
+    <?php elseif($accessAccount): ?>
+        <fieldset>
+            <h2 class="fs-title">Olá <?= set_val( $nome )  ?> Houve uma tentativa de acesso à sua conta!</h2>
+            <h2 class="fs-title">Dados de acesso:</h2>
+            <h3 class="fs-subtitle"><?= set_val( $dataAccess )  ?></h3>
+        </fieldset>
     <?php else: ?>
         <ul id="progressbar" style="<?= isset( $cadastro ) ?'':'display:none' ?>">
             <li class="active">Cadastro</li>
