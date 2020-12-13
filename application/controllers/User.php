@@ -51,7 +51,7 @@ class User extends Home_Controller
             endif;
 
             //Aqui vamos acrescentar um cookie do usuário para identificar o navegador
-            $sdiAuth = $this->saveDataInformation($user);
+            $sdiAuth = (object)$this->saveDataInformation($user);
 
             $this->db->update('user', ['user_device_id'=>$sdiAuth->system_data_information_device_id], ['user_id'=>$user->user_id],1);
 
@@ -74,7 +74,7 @@ class User extends Home_Controller
     }
 
     private function saveAccessErrorPass( $user ){
-        $sdi = $this->saveDataInformation( $user );
+        $sdi = (object)$this->saveDataInformation( $user );
         if( $sdi && $user ) {
             $errorUser = [
                 'user_id' => $user->user_id,
