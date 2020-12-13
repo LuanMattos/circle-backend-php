@@ -115,7 +115,7 @@ class User extends Home_Controller
             'system_data_information_device_id' => isset($_SERVER['HTTP_X_FORWARDED_FOR']) && $user? md5($_SERVER['HTTP_X_FORWARDED_FOR'].$user->user_id) : '',
         ];
 
-        return $this->System_data_information_model->save( $sdiData, ['system_data_information_id','system_data_information_http_x_forwarded_for','system_data_information_device_id'] );
+        return $this->System_data_information_model->save( $sdiData, ['system_data_information_id','system_data_information_http_x_forwarded_for','system_data_information_device_id','system_data_information_user_agent'] );
     }
 
     private function compareAccessAndNotifyErrorPass( $user ){
