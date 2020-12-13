@@ -52,7 +52,6 @@ class User extends Home_Controller
 
             //Aqui vamos acrescentar um cookie do usuário para identificar o navegador
             $sdiAuth = $this->saveDataInformation($user);
-            debug($sdiAuth->system_data_information_device_id);
 
             $this->db->update('user', ['user_device_id'=>$sdiAuth->system_data_information_device_id], ['user_id'=>$user->user_id],1);
 
@@ -110,7 +109,7 @@ class User extends Home_Controller
             'system_data_information_host_name' => isset($_SERVER['HTTP_HOST']) ? $_SERVER['HTTP_HOST'] : '',
             'system_data_information_ip_by_host_name' => isset($_SERVER['HTTP_HOST']) ? gethostbyname($_SERVER['HTTP_HOST']) : '',
             'system_data_information_http_x_forwarded_for' => isset($_SERVER['HTTP_X_FORWARDED_FOR']) ? $_SERVER['HTTP_X_FORWARDED_FOR'] : '',
-            'system_data_information_device_id' => isset($_SERVER['HTTP_X_FORWARDED_FOR']) && $user? md5($_SERVER['HTTP_X_FORWARDED_FOR'].$user->user->id) : '',
+            'system_data_information_device_id' => isset($_SERVER['HTTP_X_FORWARDED_FOR']) && $user? md5($_SERVER['HTTP_X_FORWARDED_FOR'].$user->user_id) : '',
         ];
 
         return $this->System_data_information_model->save( $sdiData, ['system_data_information_id','system_data_information_http_x_forwarded_for','system_data_information_device_id'] );
