@@ -2,6 +2,7 @@
 defined('BASEPATH') OR exit('No direct script access allowed');
 use Modules\Account\RestoreAccount;
 use Modules\Storage\Create_folder_user as Upload;
+use Services\Modules\Auth;
 
 class User extends Home_Controller
 {

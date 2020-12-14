@@ -7,11 +7,9 @@
   "autoload": {
     "psr-4": {
       "Services\\": "services",
-      "ServiceSms\\": "services",
-      "ServiceZenvia\\": "services",
       "Modules\\Storage\\Create_folder_user\\": "services/modules/storage",
       "PHPMailer\\PHPMailer\\": "libraries/email/vendor/phpmailer/phpmailer/src",
-      "Libraries\\Amazon\\": "libraries/amazon"
+      "Services\\Modules\\Auth\\": "services/modules/auth",
     }
   }
 }

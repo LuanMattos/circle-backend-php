@@ -4,15 +4,13 @@
 
 namespace Composer\Autoload;
 
-class ComposerStaticInitb943c46219488dafaf89f7e969c8c84e
+class ComposerStaticInit1cca8763c9fc2af40fe209ed4f2a2657
 {
     public static $prefixLengthsPsr4 = array (
         'S' => 
         array (
-            'Services\\Modules\\Area_a\\' => 24,
+            'Services\\Modules\\Auth\\' => 22,
             'Services\\' => 9,
-            'ServiceZenvia\\' => 14,
-            'ServiceSms\\' => 11,
         ),
         'P' => 
         array (
@@ -21,36 +19,15 @@ class ComposerStaticInitb943c46219488dafaf89f7e969c8c84e
         'M' => 
         array (
             'Modules\\Storage\\Create_folder_user\\' => 35,
-            'Modules\\Register\\RegisterMeService\\' => 35,
-            'Modules\\Account\\RestoreAccount\\' => 31,
-        ),
-        'L' => 
-        array (
-            'Luthier\\Auth\\' => 13,
-            'Luthier\\' => 8,
-            'Libraries\\Amazon\\' => 17,
-        ),
-        'D' => 
-        array (
-            'DebugBar\\DataCollector\\' => 23,
-            'DebugBar\\' => 9,
         ),
     );
 
     public static $prefixDirsPsr4 = array (
-        'Services\\Modules\\Area_a\\' => 
+        'Services\\Modules\\Auth\\' => 
         array (
-            0 => __DIR__ . '/../..' . '/services/modules/area_a',
+            0 => __DIR__ . '/../..' . '/services/modules/auth',
         ),
         'Services\\' => 
-        array (
-            0 => __DIR__ . '/../..' . '/services',
-        ),
-        'ServiceZenvia\\' => 
-        array (
-            0 => __DIR__ . '/../..' . '/services',
-        ),
-        'ServiceSms\\' => 
         array (
             0 => __DIR__ . '/../..' . '/services',
         ),
@@ -62,41 +39,13 @@ class ComposerStaticInitb943c46219488dafaf89f7e969c8c84e
         array (
             0 => __DIR__ . '/../..' . '/services/modules/storage',
         ),
-        'Modules\\Register\\RegisterMeService\\' => 
-        array (
-            0 => __DIR__ . '/../..' . '/services/modules/register',
-        ),
-        'Modules\\Account\\RestoreAccount\\' => 
-        array (
-            0 => __DIR__ . '/../..' . '/services/modules/account',
-        ),
-        'Luthier\\Auth\\' => 
-        array (
-            0 => __DIR__ . '/../..' . '/services/routes/src/Auth',
-        ),
-        'Luthier\\' => 
-        array (
-            0 => __DIR__ . '/../..' . '/services/routes/src',
-        ),
-        'Libraries\\Amazon\\' => 
-        array (
-            0 => __DIR__ . '/../..' . '/libraries/amazon',
-        ),
-        'DebugBar\\DataCollector\\' => 
-        array (
-            0 => __DIR__ . '/../..' . '/services/routes/vendor/maximebf/debugbar/src/DebugBar/DataCollector',
-        ),
-        'DebugBar\\' => 
-        array (
-            0 => __DIR__ . '/../..' . '/services/routes/vendor/maximebf/debugbar/src/DebugBar',
-        ),
     );
 
     public static function getInitializer(ClassLoader $loader)
     {
         return \Closure::bind(function () use ($loader) {
-            $loader->prefixLengthsPsr4 = ComposerStaticInitb943c46219488dafaf89f7e969c8c84e::$prefixLengthsPsr4;
-            $loader->prefixDirsPsr4 = ComposerStaticInitb943c46219488dafaf89f7e969c8c84e::$prefixDirsPsr4;
+            $loader->prefixLengthsPsr4 = ComposerStaticInit1cca8763c9fc2af40fe209ed4f2a2657::$prefixLengthsPsr4;
+            $loader->prefixDirsPsr4 = ComposerStaticInit1cca8763c9fc2af40fe209ed4f2a2657::$prefixDirsPsr4;
 
         }, null, ClassLoader::class);
     }
