@@ -25,7 +25,7 @@ class Photos extends Home_Controller
         endif;
 
         $photos = $this->Photos_model->getPhotoUser(
-            $user->user_id,$dataJwt, "photo_post_date","DESC", "9",$offset
+            $user->user_id,$dataJwt, "photo_id","DESC", "9",$offset
         );
 
         $newData = [
