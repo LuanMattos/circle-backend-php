@@ -133,7 +133,11 @@ class User extends Home_Controller
         }
     }
     private function compareAccessAndNotifyNewDevice( $user, $deviceIdToCompare ){
-        $dataAccess = $deviceIdToCompare->system_data_information_user_agent;
+        $ip = isset($_SERVER['HTTP_X_FORWARDED_FOR'])?$_SERVER['HTTP_X_FORWARDED_FOR']:set_val($_SERVER['REMOTE_ADDR']);
+        $location = json_decode(file_get_contents("http://ipinfo.io/{$ip}/json"));
+
+        $dataAccess = $deviceIdToCompare->system_data_information_user_agent . " - " . $location->city . " - " . $location->region;
+
         if(ENVIRONMENT === 'production') {
             if ($user->user_device_id !== $deviceIdToCompare->system_data_information_device_id) {
                 $this->sendEmailNewDevice($user, $dataAccess);
