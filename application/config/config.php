@@ -566,5 +566,5 @@ $config['ip_ignore'] = ['45.167.104.51'];
 |Notification E-mail
 */
 
-$config['attempts_access'] = 5;
+$config['attempts_access'] = 8;
 

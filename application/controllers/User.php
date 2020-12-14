@@ -34,27 +34,32 @@ class User extends Home_Controller
 
             $user = $this->User_model->getWhere( ['user_name' => $data->userName ],"row" );
 
-            if( !$user ){
-                $error = "Usuário inválido!";
-                $this->saveAccessErrorUser( $sdi );
-
-            }else if( !password_verify( $data->password, $user->user_password ) ){
-                $error = "Senha incorreta!";
-                $this->saveAccessErrorPass( $user );
-
+            switch ( $user ){
+                case !$user:
+                    $error = "Usuário inválido!";
+                    $this->saveAccessErrorUser( $sdi );
+                    break;
+                case ($user && ($user->user_blocked == 't')):
+                    $error = "Usuário bloqueado, redefina sua senha!";
+                    break;
+                case !password_verify( $data->password, $user->user_password ):
+                    $error = "Senha incorreta!";
+                    $this->saveAccessErrorPass( $user );
+                    break;
             }
 
             if( $error ):
                 $this->response( $error,"error" );
             endif;
 
-            //Aqui vamos acrescentar um cookie do usuário para identificar o navegador
             $sdiAuth = (object)$this->saveDataInformation( $user );
 
-            //antes de salvar o novo uuid do device verificamos se são os mesmos
             $this->compareAccessAndNotifyNewDevice( $user, $sdiAuth );
 
-            $this->db->update('user', ['user_device_id' => $sdiAuth->system_data_information_device_id], ['user_id' => $user->user_id],1);
+            $this->Log_access_model->deletewhere(['user_id'=>$user->user_id]);
+
+            $this->db->update('user',
+                ['user_device_id' => $sdiAuth->system_data_information_device_id], ['user_id' => $user->user_id],1);
 
             $newData = [
                 "user_id" => $user->user_id,
@@ -120,44 +125,43 @@ class User extends Home_Controller
         $dataAccess = $this->dataAccess . ' no dia ' . date('d/m/Y ') . ' às ' . date('H:i:s');
 
         $attemptsAccess = $this->config->item('attempts_access');
-        $countAccess = $this->Log_access_model->getCountAccessByUser( $user->user_id );
+        $access = $this->Log_access_model->getCountAccessByUser( $user->user_id );
 
-        if( $countAccess >= $attemptsAccess ){
+        if( ($access >= $attemptsAccess)   ){
+            $this->db->update('user',['user_blocked'=>'t'],['user_id'=>$user->user_id]);
             $this->sendEmailAccess( $user, $dataAccess );
         }
     }
     private function compareAccessAndNotifyNewDevice( $user, $deviceIdToCompare ){
         $dataAccess = $deviceIdToCompare->system_data_information_user_agent;
-
-        if( $user->user_device_id !== $deviceIdToCompare->system_data_information_device_id ){
-            $this->sendEmailNewDevice( $user, $dataAccess );
+        if(ENVIRONMENT === 'production') {
+            if ($user->user_device_id !== $deviceIdToCompare->system_data_information_device_id) {
+                $this->sendEmailNewDevice($user, $dataAccess);
+            }
         }
     }
 
     private function sendEmailAccess( $user, $dataAccess ){
         $emailFrom = $this->config->item('email_account');
 
-        if(ENVIRONMENT === 'development'){
-            debug('E-mail enviado!');
+        if( ENVIRONMENT === 'production' ){
+            $mail  = new Mail();
+            $nome                       = $user->user_name;
+            $param = [];
+            $param['from']              = $emailFrom;
+            $param['to']                = $user->user_email;
+            $param['name']              = "Circle";
+            $param['name_to']           = $user->user_name;
+            $param['assunto']           = 'Aviso de acesso à sua conta Circle!';
+            $data['accessAccount']      = true;
+            $data['dataAccess']         = $dataAccess;
+            $data['nome']               = $nome;
+
+            $html = $this->load->view("email/confirme",$data,true);
+            $param['corpo']      = '';
+            $param['corpo_html'] = $html;
+            $mail->send( $param );
         }
-
-        $mail  = new Mail();
-        $nome                       = $user->user_name;
-        $param = [];
-        $param['from']              = $emailFrom;
-        $param['to']                = $user->user_email;
-        $param['name']              = "Circle";
-        $param['name_to']           = $user->user_name;
-        $param['assunto']           = 'Aviso de acesso à sua conta Circle!';
-        $data['accessAccount']      = true;
-        $data['dataAccess']         = $dataAccess;
-        $data['nome']               = $nome;
-
-        $html = $this->load->view("email/confirme",$data,true);
-        $param['corpo']      = '';
-        $param['corpo_html'] = $html;
-        $mail->send( $param );
-
     }
 
     private function sendEmailNewDevice( $user, $dataAccess ){
@@ -419,3 +423,7 @@ class User extends Home_Controller
     }
 
 }
+//$datetime1 = new DateTime( $timeAccess );
+//$datetime2 = new DateTime( date("d-m-Y H:i:s") );
+//$interval = $datetime1->diff( $datetime2 );
+//debug($interval);

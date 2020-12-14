@@ -49,10 +49,11 @@ class CI_Controller
         header( 'Content-type: application/json' );
 
         if( $type == 'error' ):
-            echo json_encode( $data );
+            echo json_encode( $data,JSON_UNESCAPED_UNICODE );
             set_status_header(404);
+        else:
+            echo json_encode($data,JSON_UNESCAPED_UNICODE);
         endif;
-            echo json_encode($data);
         exit();
 
     }
