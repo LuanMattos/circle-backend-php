@@ -1,6 +1,6 @@
 <?php
 namespace Services;
-
+require_once('tools/firebase/php-jwt/vendor/autoload.php');
 class GeneralService extends \CI_Model {
 
     public  function __construct(){
@@ -11,11 +11,18 @@ class GeneralService extends \CI_Model {
         header( 'Content-type: application/json' );
 
         if( $type == 'error' ):
-            echo json_encode( $data, JSON_UNESCAPED_UNICODE  );
+            echo json_encode( $data, JSON_UNESCAPED_UNICODE );
             set_status_header(404);
         endif;
         echo json_encode($data, JSON_UNESCAPED_UNICODE );
         exit();
+    }
+
+    static public function setHeaders( $data ,$name ){
+        header("Access-Control-Allow-Methods: GET, POST");
+        header("Access-Control-Allow-Headers: Origin, X-Requested-With, Content-Type, Accept, Authorization, $name");
+        header("Access-Control-Expose-Headers: $name");
+        header("$name: $data");
     }
 
 }

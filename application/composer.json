@@ -2,7 +2,8 @@
   "description": "",
   "name": "System/App",
   "require": {
-    "php": ">=5.3"
+    "firebase/php-jwt":"dev-master",
+    "php": ">=7.0"
   },
   "autoload": {
     "psr-4": {
@@ -10,6 +11,8 @@
       "Modules\\Storage\\Create_folder_user\\": "services/modules/storage",
       "PHPMailer\\PHPMailer\\": "libraries/email/vendor/phpmailer/phpmailer/src",
       "Services\\Modules\\Auth\\": "services/modules/auth",
+      "Firebase\\JWT\\":"services/tools/firebase/php-jwt/src",
+      "Services\\Cor\\": "services/cor"
     }
   }
 }

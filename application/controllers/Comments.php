@@ -1,14 +1,22 @@
 <?php
 defined('BASEPATH') OR exit('No direct script access allowed');
 
+use Services\Modules\Auth;
+use Services\Cor;
+
 class Comments extends Home_Controller
 {
+    private $jwt;
+    private $http;
 
     public function __construct(){
         parent::__construct();
         $this->load->model("comments/Comments_model");
         $this->load->model("photos/Photos_model");
         $this->load->model("user/User_model");
+
+        $this->jwt = new Auth\Jwt();
+        $this->http = new Cor\Http();
     }
 
     public function index(){
@@ -20,21 +28,21 @@ class Comments extends Home_Controller
         $comments = $this->Comments_model->getCommentsByPhoto( $data,3,$off );
 
 
-//        $dados  = $this->generateJWT( $newData );
-//        $this->setHeaders( $dados,'x-access-token' );
+//        $this->jwt->encode($newData );
+//
 
         $this->response( $comments );
 
     }
     public function save(){
-        $photoId = $this->getDataUrl( 2);
-        $commentHeader = $this->getDataHeader();
+        $photoId = $this->http->getDataUrl(2);
+        $commentHeader = $this->http::getDataHeader();
 
         if( !$commentHeader ):
             $this->response('Erro interno, tente mais tarde','error');
         endif;
 
-        $userHeader = $this->dataUserJwt( 'x-access-token' );
+        $userHeader = $this->jwt->decode();
 
         $user = $this->User_model->getWhere(['user_name'=>$userHeader->user_name],'row');
         $countComment = $this->Comments_model->getWhere(['photo_id'=>$photoId]);
@@ -68,9 +76,9 @@ class Comments extends Home_Controller
     }
 
     public function delete(){
-        $commentId = $this->getDataUrl( 2);
+        $commentId = $this->http->getDataUrl(2);
 
-        $userHeader = $this->dataUserJwt( 'x-access-token' );
+        $userHeader = $this->jwt->decode();
 
         if( !$userHeader ):
             $this->response('Erro interno, tente mais tarde','error');
@@ -88,8 +96,7 @@ class Comments extends Home_Controller
     }
 
     public function getCommentId(){
-        $uri  = $this->uri->slash_segment(2);
-        $id = str_replace(['/','?','´'],'',$uri);
+        $id = $this->http->getDataUrl(2);
         $comment = $this->Comments_model->getWhere(['comment_id'=>$id]);
         $this->response($comment);
     }

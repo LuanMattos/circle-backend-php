@@ -3,10 +3,13 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 use Modules\Account\RestoreAccount;
 use Modules\Storage\Create_folder_user as Upload;
 use Services\Modules\Auth;
+use Services\Cor;
 
 class User extends Home_Controller
 {
     private $dataAccess;
+    private $jwt;
+    private $http;
 
     public function __construct(){
         parent::__construct();
@@ -16,12 +19,16 @@ class User extends Home_Controller
         $this->load->model('log/System_data_information_model');
         $this->load->model('location/Location_model');
         $this->load->model('log/Log_access_model');
+
+        $this->jwt = new Auth\Jwt();
+        $this->http = new Cor\Http();
+
     }
 
     public function login(){
         $sdi = $this->saveDataInformation();
 
-        $data = $this->getDataHeader();
+        $data = $this->http::getDataHeader();
 
         if( $data )
             switch ( $data ){
@@ -73,11 +80,9 @@ class User extends Home_Controller
                 "user_device_id"=> $sdiAuth->system_data_information_device_id
             ];
 
-            $dados = $this->generateJWT( $newData );
-            $this->setHeaders( $dados,'x-access-token' );
+            $this->jwt->encode( $newData );
 
             $this->response( $newData );
-
     }
 
     private function saveAccessErrorPass( $user ){
@@ -133,6 +138,7 @@ class User extends Home_Controller
             $this->sendEmailAccess( $user, $dataAccess );
         }
     }
+
     private function compareAccessAndNotifyNewDevice( $user, $deviceIdToCompare ){
         $ip = isset($_SERVER['HTTP_X_FORWARDED_FOR'])?$_SERVER['HTTP_X_FORWARDED_FOR']:set_val($_SERVER['REMOTE_ADDR']);
         $location = json_decode(file_get_contents("http://ipinfo.io/{$ip}/json"));
@@ -214,7 +220,7 @@ class User extends Home_Controller
     }
 
     public function register(){
-        $data = $this->getDataHeader();
+        $data = $this->http::getDataHeader();
         $error = "";
 
         switch ( $data ):
@@ -256,6 +262,7 @@ class User extends Home_Controller
         $this->sendEmail( $userSave );
 
     }
+
     private function sendEmail( $user ){
         $emailFrom = $this->config->item('email_account');
 
@@ -279,25 +286,27 @@ class User extends Home_Controller
     }
 
     public function userExists(){
-        $userName = $this->getDataUrl(2);
+        $userName =  $data = $this->http->getDataUrl(2);
         $user = $this->User_model->userExistsUserName($userName);
 
         if( $user )
             $this->response(true);
 
     }
+
     public function search(){
-        $data = $this->getDataHeader();
-        $offset = $this->getDataUrl( 2);
+        $data = $this->http::getDataHeader();
+        $offset = $this->http->getDataUrl(2);
 
         if( $data )
 
         $users =  $this->User_model->searchUser( $data->name,$offset );
         $this->response( $users );
     }
+
     public function saveSetting(){
-        $data = $this->getDataHeader();
-        $userHeader = $this->dataUserJwt( 'x-access-token' );
+        $data = $this->http::getDataHeader();
+        $userHeader = $this->jwt->decode();
 
         if( !$data->userEmail || !$data->userPassword ){
             $this->response('Os campos acima devem ser preenchidos!','error');
@@ -333,8 +342,9 @@ class User extends Home_Controller
         $this->User_model->save( $newData );
         $this->response('Salvo com sucesso');
     }
+
     public function uploadImgProfile(){
-        $jwtData = $this->dataUserJwt( 'x-access-token' );
+        $jwtData = $this->jwt->decode();
 
         $user = $this->User_model->getWhere( ["user_id"=>$jwtData->user_id],"row" );
 
@@ -345,14 +355,14 @@ class User extends Home_Controller
             "email" => $user->user_email,
         ];
 
-        $dados  = $this->generateJWT( $newData );
-        $this->setHeaders( $dados,'x-access-token' );
+        $this->jwt->encode( $newData );
 
         new Upload\Create_folder_user( $_FILES, $user,NULL,'avatar' );
 
     }
+
     public function uploadImgCover(){
-        $jwtData = $this->dataUserJwt( 'x-access-token' );
+        $jwtData = $this->jwt->encode();
 
         $user = $this->User_model->getWhere( ["user_id"=>$jwtData->user_id],"row" );
 
@@ -363,23 +373,16 @@ class User extends Home_Controller
             "email" => $user->user_email,
         ];
 
-        $dados  = $this->generateJWT( $newData );
-        $this->setHeaders( $dados,'x-access-token' );
+        $this->jwt->encode( $newData );
 
         new Upload\Create_folder_user( $_FILES, $user,NULL,'cover' );
 
     }
 
-    private function ExecShell( $nameFolder ){
-        shell_exec('mkdir ' . 'storage/img/' . $nameFolder );
-        shell_exec('chmod -R 777 '. 'storage/img/' . $nameFolder );
-        return $nameFolder;
-    }
-
     public function dataUserBasic( ){
-        $userName = $this->getDataUrl(2);
+        $userName = $this->http->getDataUrl(2);
 
-        $dataJwt = $this->dataUserJwt('x-access-token');
+        $dataJwt = $this->jwt->decode();
 
         $user = $this->User_model->getWhere( ["user_name"=>$userName],"row" );
 
@@ -400,6 +403,7 @@ class User extends Home_Controller
         $this->response( $data );
 
     }
+
     private function followingOwner( $dataJwt, $userIdUrl ){
         if( $dataJwt ):
             $data = [ 'user_id_from'=>$dataJwt->user_id, 'user_id_to'=>$userIdUrl ];
@@ -409,8 +413,8 @@ class User extends Home_Controller
     }
 
     public function verificationCode(){
-        $data = $this->getDataHeader();
-        $dataJwt = $this->dataUserJwt('x-access-token');
+        $data = $this->http::getDataHeader();
+        $dataJwt = $this->jwt->decode();
         $user = $this->User_model->getWhere( ["user_name"=>$dataJwt->user_name, 'user_code_verification'=>$data],"row" );
         $this->db->update('user',['user_code_verification'=>null],["user_id"=>$dataJwt->user_id]);
 
@@ -421,8 +425,7 @@ class User extends Home_Controller
                 "fullName" => $user->user_full_name,
                 "email" => $user->user_email,
             ];
-            $dados  = $this->generateJWT( $newData );
-            $this->setHeaders( $dados,'x-access-token' );
+            $this->jwt->encode( $newData );
         }
 
     }

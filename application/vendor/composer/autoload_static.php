@@ -10,6 +10,7 @@ class ComposerStaticInit1cca8763c9fc2af40fe209ed4f2a2657
         'S' => 
         array (
             'Services\\Modules\\Auth\\' => 22,
+            'Services\\Cor\\' => 13,
             'Services\\' => 9,
         ),
         'P' => 
@@ -20,12 +21,20 @@ class ComposerStaticInit1cca8763c9fc2af40fe209ed4f2a2657
         array (
             'Modules\\Storage\\Create_folder_user\\' => 35,
         ),
+        'F' => 
+        array (
+            'Firebase\\JWT\\' => 13,
+        ),
     );
 
     public static $prefixDirsPsr4 = array (
         'Services\\Modules\\Auth\\' => 
         array (
             0 => __DIR__ . '/../..' . '/services/modules/auth',
+        ),
+        'Services\\Cor\\' => 
+        array (
+            0 => __DIR__ . '/../..' . '/services/cor',
         ),
         'Services\\' => 
         array (
@@ -38,6 +47,11 @@ class ComposerStaticInit1cca8763c9fc2af40fe209ed4f2a2657
         'Modules\\Storage\\Create_folder_user\\' => 
         array (
             0 => __DIR__ . '/../..' . '/services/modules/storage',
+        ),
+        'Firebase\\JWT\\' => 
+        array (
+            0 => __DIR__ . '/../..' . '/services/tools/firebase/php-jwt/src',
+            1 => __DIR__ . '/..' . '/firebase/php-jwt/src',
         ),
     );
 

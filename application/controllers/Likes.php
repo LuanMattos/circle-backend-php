@@ -1,18 +1,26 @@
 <?php
 defined('BASEPATH') OR exit('No direct script access allowed');
 
+use Services\Modules\Auth;
+use Services\Cor;
+
 class Likes extends Home_Controller
 {
+    private $jwt;
+    private $http;
+
     public function __construct(){
         parent::__construct();
         $this->load->model("likes/Likes_model");
         $this->load->model("user/User_model");
         $this->load->model("photos/Photos_model");
+
+        $this->jwt = new Auth\Jwt();
+        $this->http = new Cor\Http();
     }
 
     public function index(){
-        $uri  = $this->uri->slash_segment(2);
-        $data = str_replace(['/','?','´'],'',$uri);
+        $data  = $this->http->getDataUrl(2);
 
         $user = $this->User_model->getWhere( ['user_name'=>$data ],'row' );
 
@@ -30,17 +38,18 @@ class Likes extends Home_Controller
         ];
 
 
-        $dados  = $this->generateJWT( $newData );
-        $this->setHeaders( $dados,'x-access-token' );
+        $this->jwt->encode($newData );
+
 
         $this->response( $photos );
 
     }
     public function like(){
-        $data = $this->getDataHeader();
+        $data = $this->http::getDataHeader();
+        $userDecode = $this->jwt->decode();
 
         $this->db->trans_start();
-            $user = $this->User_model->getWhere(['user_name' => $data->userName ],"row");
+            $user = $this->User_model->getWhere(['user_name' => $userDecode->data->user_name ],"row");
 
             if( !$user ){
                 $this->response('Usuário não existe!','error');

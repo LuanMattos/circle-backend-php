@@ -1,22 +1,32 @@
 <?php
 defined('BASEPATH') OR exit('No direct script access allowed');
 
+use Services\Modules\Auth;
+use Services\Cor;
+
 class Follower extends Home_Controller
 {
+    private $jwt;
+    private $http;
+
     public function __construct(){
         parent::__construct();
         $this->load->model("likes/Likes_model");
         $this->load->model("user/User_model");
         $this->load->model("photos/Photos_model");
         $this->load->model("follower/Follower_model");
+
+        $this->jwt = new Auth\Jwt();
+        $this->http = new Cor\Http();
+
     }
 
     public function follow(){
         $follow = false;
-        $dataTo = $this->getDataUrl(2);
-        $data   = $this->dataUserJwt('x-access-token');
+        $dataTo = $this->http->getDataUrl(2);
+        $data   = $this->jwt->decode();
 
-        $user = $this->User_model->getWhere(['user_name'=>$data->user_name],"row");
+        $user = $this->User_model->getWhere(['user_name'=>$data->data->user_name],"row");
 
         if( !$user ){
             $this->response('Usuário não existe','error');

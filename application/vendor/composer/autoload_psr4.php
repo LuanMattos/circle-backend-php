@@ -7,7 +7,9 @@ $baseDir = dirname($vendorDir);
 
 return array(
     'Services\\Modules\\Auth\\' => array($baseDir . '/services/modules/auth'),
+    'Services\\Cor\\' => array($baseDir . '/services/cor'),
     'Services\\' => array($baseDir . '/services'),
     'PHPMailer\\PHPMailer\\' => array($baseDir . '/libraries/email/vendor/phpmailer/phpmailer/src'),
     'Modules\\Storage\\Create_folder_user\\' => array($baseDir . '/services/modules/storage'),
+    'Firebase\\JWT\\' => array($baseDir . '/services/tools/firebase/php-jwt/src', $vendorDir . '/firebase/php-jwt/src'),
 );
