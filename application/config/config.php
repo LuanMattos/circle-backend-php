@@ -572,7 +572,8 @@ $config['attempts_access'] = 8;
 |JWT(sensive)
 */
 $config['leeway_token'] = 10;
-$config['expire_token'] = 600;
+//15 min
+$config['expire_token'] = 20;
 $config['private_key_jwt'] = <<<EOD
 -----BEGIN RSA PRIVATE KEY-----
 MIICXAIBAAKBgQC8kGa1pSjbSYZVebtTRBLxBz5H4i2p/llLCrEeQhta5kaQu/Rn

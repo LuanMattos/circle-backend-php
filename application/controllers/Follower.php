@@ -26,7 +26,7 @@ class Follower extends Home_Controller
         $dataTo = $this->http->getDataUrl(2);
         $data   = $this->jwt->decode();
 
-        $user = $this->User_model->getWhere(['user_name'=>$data->data->user_name],"row");
+        $user = $this->User_model->getWhere(['user_name'=>$data->user_name],"row");
 
         if( !$user ){
             $this->response('Usuário não existe','error');

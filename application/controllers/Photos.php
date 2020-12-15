@@ -21,6 +21,7 @@ class Photos extends Home_Controller
 
     public function index(){
         $data = $this->http->getDataUrl(2);
+        $dataJwt = $this->jwt->decode();
 
 
         $offset = $this->input->get('page',true);

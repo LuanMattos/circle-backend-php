@@ -379,7 +379,7 @@ class User extends Home_Controller
 
     }
 
-    public function dataUserBasic( ){
+    public function dataUserBasic(){
         $userName = $this->http->getDataUrl(2);
 
         $dataJwt = $this->jwt->decode();
@@ -399,6 +399,7 @@ class User extends Home_Controller
             'user_followers'=>$user->user_followers,
             'user_following'=>$user->user_following
         ];
+        $this->jwt->encode( $data );
 
         $this->response( $data );
 
@@ -428,6 +429,27 @@ class User extends Home_Controller
             $this->jwt->encode( $newData );
         }
 
+    }
+
+    public function refreshToken(){
+        $dataJwt   = $this->jwt->decode();
+        $user = $this->User_model->getWhere( ["user_name"=>$dataJwt->user_name, 'user_code_verification'=>null],"row" );
+
+        $data = [
+            'user_id'=>$user->user_id,
+            'user_avatar_url'=>$user->user_avatar_url,
+            'user_cover_url'=>$user->user_cover_url,
+            'user_full_name'=>$user->user_full_name,
+            'user_email'=>$user->user_email,
+            'user_name'=>$user->user_name,
+            'address'=>$user->address,
+            'description'=>$user->description,
+            'user_followers'=>$user->user_followers,
+            'user_following'=>$user->user_following
+        ];
+
+        $this->jwt->encode( $data );
+        $this->response();
     }
 
 }

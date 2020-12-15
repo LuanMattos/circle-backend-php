@@ -19,37 +19,12 @@ class Likes extends Home_Controller
         $this->http = new Cor\Http();
     }
 
-    public function index(){
-        $data  = $this->http->getDataUrl(2);
-
-        $user = $this->User_model->getWhere( ['user_name'=>$data ],'row' );
-
-        if( !$user ):
-            $this->response('Usuário não existe','error');
-        endif;
-
-        $photos = $this->Photos_model->getWhere( [ 'user_id' => $user->user_id ] );
-
-        $newData = [
-            "id" => $user->user_id,
-            "name" => $user->user_name,
-            "fullName" => $user->user_full_name,
-            "email" => $user->user_email,
-        ];
-
-
-        $this->jwt->encode($newData );
-
-
-        $this->response( $photos );
-
-    }
     public function like(){
         $data = $this->http::getDataHeader();
         $userDecode = $this->jwt->decode();
 
         $this->db->trans_start();
-            $user = $this->User_model->getWhere(['user_name' => $userDecode->data->user_name ],"row");
+            $user = $this->User_model->getWhere(['user_name' => $userDecode->user_name ],"row");
 
             if( !$user ){
                 $this->response('Usuário não existe!','error');

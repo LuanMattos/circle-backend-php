@@ -15,6 +15,7 @@ $route['upload_img_profile']['POST'] = 'user/uploadImgProfile';
 $route['upload_img_cover']['POST'] = 'user/uploadImgCover';
 $route['data_user_basic/(:any)']['POST'] = 'user/dataUserBasic';
 $route['verify']['POST'] = 'user/verificationCode';
+$route['valid']['POST'] = 'user/refreshToken';
 
 $route['photos/(:any)/?(:any)?']['GET'] = 'photos/index/$id';
 $route['photos_upload']['POST'] = 'photos/upload';
