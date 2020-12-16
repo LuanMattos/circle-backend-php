@@ -59,5 +59,60 @@ class UserService extends GeneralService
         return $user;
     }
 
+    public static function validaDataRegister( $data ){
+        $error = "";
+
+        switch ( $data ):
+            case !$data->email || !filter_var( $data->email, FILTER_VALIDATE_EMAIL ):
+                $error .= "E-mail inválido";
+            case !$data->userName || strlen( $data->userName ) < 3:
+                $error .= "Nome de usuário inválido";
+            case !$data->fullName:
+                $error .= "Nome de usuário inválido";
+            case !$data->password || strlen( $data->password ) < 8:
+                $error .= "Senha inválida";
+        endswitch;
+
+        $user = static::$userRepository->userExistsUserName( $data->user_name );
+        $userEmail = static::$userRepository->userExistsEmail( $data->user_email );
+
+        if( $user || $userEmail ){
+            $error = "Usuário já cadastrado ";
+        }
+
+        if( $error ):
+            self::Success( $error,'error' );
+        endif;
+        return $data;
+    }
+
+    public function saveUserRegister( $user ){
+        $userSave = static::$userRepository->saveUserRegister( $user );
+
+        if( $userSave )
+            $this->sendEmail( $userSave );
+    }
+
+    private function sendEmail( $user ){
+        $emailFrom = $this->config->item('email_account');
+
+        $mail  = new \Mail();
+        $nome                       = $user['user_name'];
+        $param = [];
+        $param['from']              = $emailFrom;
+        $param['to']                = $user['user_email'];
+        $param['name']              = "Circle";
+        $param['name_to']           = $user['user_name'];
+        $param['assunto']           = 'Ativação de conta Circle!';
+        $data['codigo_confirmacao'] = $user['user_code_verification'];
+        $data['cadastro']           = true;
+        $data['nome']               = $nome;
+
+        $html = $this->load->view("email/confirme",$data,true);
+        $param['corpo']      = '';
+        $param['corpo_html'] = $html;
+        return $mail->send( $param );
+
+    }
 
 }

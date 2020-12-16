@@ -48,30 +48,7 @@ class User extends Home_Controller
     }
 
     public function register(){
-        $data = $this->http::getDataHeader();
-        $error = "";
-
-        switch ( $data ):
-            case !$data->email || !filter_var( $data->email, FILTER_VALIDATE_EMAIL ):
-                $error .= "E-mail inválido";
-            case !$data->userName || strlen( $data->userName ) < 3:
-                $error .= "Nome de usuário inválido";
-            case !$data->fullName:
-                $error .= "Nome de usuário inválido";
-            case !$data->password || strlen( $data->password ) < 8:
-                $error .= "Senha inválida";
-        endswitch;
-
-        $user = $this->User_model->userExistsEmail( $data->user_name );
-        $userEmail = $this->User_model->userExistsEmail( $data->user_email );
-
-        if( $user || $userEmail ){
-            $error = "Usuário já cadastrado ";
-        }
-
-        if( $error ):
-            $this->response( $error,'error' );
-        endif;
+        $data = $this->userService::validaDataRegister( $this->http::getDataHeader() );
 
         $code = new RestoreAccount\AccountService();
         $codigoVerificacao = $code->generateCode();
@@ -84,33 +61,10 @@ class User extends Home_Controller
             'user_code_verification' => $codigoVerificacao
         ];
 
-        $userSave = $this->User_model->save( $user, ['user_id','user_name','user_email','user_code_verification']);
 
-        if( $userSave )
-        $this->sendEmail( $userSave );
 
-    }
 
-    private function sendEmail( $user ){
-        $emailFrom = $this->config->item('email_account');
-
-        $mail  = new Mail();
-        $nome                       = $user['user_name'];
-        $param = [];
-        $param['from']              = $emailFrom;
-        $param['to']                = $user['user_email'];
-        $param['name']              = "Circle";
-        $param['name_to']           = $user['user_name'];
-        $param['assunto']           = 'Ativação de conta Circle!';
-        $data['codigo_confirmacao'] = $user['user_code_verification'];
-        $data['cadastro']           = true;
-        $data['nome']               = $nome;
-
-        $html = $this->load->view("email/confirme",$data,true);
-        $param['corpo']      = '';
-        $param['corpo_html'] = $html;
-        $mail->send( $param );
-
+        $this->userService->saveUserRegister( $user );
     }
 
     public function userExists(){
@@ -185,7 +139,7 @@ class User extends Home_Controller
 
         $this->jwt->encode( $newData );
 
-        new Upload\Create_folder_user( $_FILES, $user,NULL,'avatar' );
+        new Upload\CreateFolderUserRepository( $_FILES, $user,NULL,'avatar' );
 
     }
 
@@ -203,7 +157,7 @@ class User extends Home_Controller
 
         $this->jwt->encode( $newData );
 
-        new Upload\Create_folder_user( $_FILES, $user,NULL,'cover' );
+        new Upload\CreateFolderUserRepository( $_FILES, $user,NULL,'cover' );
 
     }
 

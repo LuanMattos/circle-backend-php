@@ -63,7 +63,7 @@ class Photos extends Home_Controller
 
         $this->jwt->encode( $newData );
 
-        new Upload\Create_folder_user( $_FILES, $user,$datapost );
+        new Upload\CreateFolderUserRepository( $_FILES, $user,$datapost );
 
     }
     public function getPhotoId(){
