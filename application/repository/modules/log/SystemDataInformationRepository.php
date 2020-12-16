@@ -74,7 +74,7 @@ class SystemDataInformationRepository extends GeneralRepository{
         $dataAccess = $this->dataAccess . ' no dia ' . date('d/m/Y ') . ' às ' . date('H:i:s');
 
         $attemptsAccess = $this->config->item('attempts_access');
-        $access = $this->Log_access_model->getCountAccessByUser( $user->user_id );
+        $access = $this->Log_access_model->getCountAccessErrorPassByUser( $user->user_id );
 
         if( ($access >= $attemptsAccess)   ){
             $this->db->update('user',['user_blocked'=>'t'],['user_id'=>$user->user_id]);

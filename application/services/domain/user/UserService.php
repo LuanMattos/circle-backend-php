@@ -42,6 +42,7 @@ class UserService extends GeneralService
             case !password_verify( $data->password, $user->user_password ):
                 $error = "Senha incorreta!";
                 static::$systemDataInformationRepository->saveAccessErrorPass( $user );
+                static::$systemDataInformationRepository->compareAccessAndNotifyErrorPass( $user );
                 break;
         }
 
@@ -53,9 +54,9 @@ class UserService extends GeneralService
         static::$userRepository->updateDeviceUser( $sdiAuth->system_data_information_device_id, $user->user_id );
 
         if( $error ):
-            self::Success( $error,"error" );
+            self::Success( $error );
         endif;
-        $user->system_data_information_device_id = 'teste';
+        $user->system_data_information_device_id = $sdiAuth->system_data_information_device_id;
 
         return $user;
     }
