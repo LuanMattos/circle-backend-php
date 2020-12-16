@@ -4,6 +4,7 @@ namespace Services\Domain\User\UserService;
 use Services\GeneralService;
 use Repository\Domain\User;
 use Repository\Modules\Log;
+use Modules\Account\RestoreAccount;
 
 class UserService extends GeneralService
 {
@@ -93,7 +94,60 @@ class UserService extends GeneralService
             $this->sendEmail( $userSave );
     }
 
-    private function sendEmail( $user ){
+    public function forgotPassword( $dataHeader ){
+        $user = static::$userRepository->distinctEmailOrUserName( $dataHeader );
+
+        if( !$user ){
+            $error = 'Usuário não encotrado!';
+        }
+
+        if( $error ):
+            self::Success( $error,'error' );
+        endif;
+
+        $code = new RestoreAccount\AccountService();
+        $codeLink = $code->generateCodeLink( $user );
+
+        $linkUri = 'https://mycircle.click/change-password/' . $codeLink;
+
+        if ( ENVIRONMENT === 'development' ){
+            $linkUri = 'http://localhost:4200/change-password/' . $codeLink;
+        }
+
+        self::$userRepository->updateLinkForgotPass( $codeLink, $user->user_id );
+        $user->user_link_forgot_password = $linkUri;
+        $this->sendEmailForgotPassword( $user );
+        self::Success('Enviamos um E-mail de confirmação para a conta informada, clique no link e redefina sua senha.');
+
+    }
+
+    public function changePassowrd( $code, $pass ){
+        self::$userRepository->changePassowrd( $code, $pass );
+    }
+
+    private function sendEmailForgotPassword( $user, $title = 'Relembrar Senha!' ){
+        $emailFrom = $this->config->item('email_account');
+
+        $mail  = new \Mail();
+        $nome                       = $user->user_name;
+        $param = [];
+        $param['from']              = $emailFrom;
+        $param['to']                = $user->user_email;
+        $param['name']              = "Circle";
+        $param['name_to']           = $user->user_name;
+        $param['assunto']           = $title;
+        $data['link']               = $user->user_link_forgot_password;
+        $data['relembrar_senha']    = true;
+        $data['nome']               = $nome;
+
+        $html = $this->load->view("email/confirme",$data,true);
+        $param['corpo']      = '';
+        $param['corpo_html'] = $html;
+        $mail->send( $param );
+
+    }
+
+    private function sendEmail( $user, $title = 'Ativação de conta Circle!' ){
         $emailFrom = $this->config->item('email_account');
 
         $mail  = new \Mail();
@@ -103,7 +157,7 @@ class UserService extends GeneralService
         $param['to']                = $user['user_email'];
         $param['name']              = "Circle";
         $param['name_to']           = $user['user_name'];
-        $param['assunto']           = 'Ativação de conta Circle!';
+        $param['assunto']           = $title;
         $data['codigo_confirmacao'] = $user['user_code_verification'];
         $data['cadastro']           = true;
         $data['nome']               = $nome;

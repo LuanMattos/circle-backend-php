@@ -192,6 +192,15 @@
             <h2 class="fs-title">Dados do novo dispositivo:</h2>
             <h3 class="fs-subtitle"><?= set_val( $dataAccess )  ?></h3>
         </fieldset>
+    <?php elseif(isset($relembrar_senha)): ?>
+        <fieldset>
+            <h2 class="fs-title">Olá <?= set_val( $nome )  ?> Recebemos um pedido de alteração de senha. Para redefinir sua senha</h2>
+            <a href="<?= set_val( $link )  ?>" target="_blank" title="Clique para refefinir a senha"> clique aqui</a>
+            <br>
+            <p>Nós não enviamos senhas ou dados pessoas por E-mail, suspeite de qualquer ato!</p>
+            <br>
+            <p>Confie apenas em domínios mycircle.click!</p>
+        </fieldset>
     <?php else: ?>
         <ul id="progressbar" style="<?= isset( $cadastro ) ?'':'display:none' ?>">
             <li class="active">Cadastro</li>

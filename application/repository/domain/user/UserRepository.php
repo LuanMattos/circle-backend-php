@@ -33,4 +33,25 @@ class UserRepository extends GeneralRepository{
     public function saveUserRegister( $user ){
         return $this->User_model->save( $user, ['user_id','user_name','user_email','user_code_verification']);
     }
+
+    public function distinctEmailOrUserName( $dataHeader ){
+        if(filter_var( $dataHeader, FILTER_VALIDATE_EMAIL )){
+            $user = $this->User_model->getWhere( ["user_email" => $dataHeader ],"row" );
+        }else{
+            $user = $this->User_model->getWhere( ["user_name" => $dataHeader ],"row" );
+        }
+        return $user;
+    }
+
+    public function updateCodeVerificationUser( $codeVerification, $userId ){
+        $this->db->update('user', ['user_code_verification' => $codeVerification],["user_id" => $userId ] );
+    }
+
+    public function updateLinkForgotPass( $codeVerification, $userId ){
+        $this->db->update('user', ['user_link_forgot_password' => $codeVerification],["user_id" => $userId ] );
+    }
+
+    public function changePassowrd( $code, $pass ){
+        $this->db->update('user', ['user_password'=>$pass],[ 'user_link_forgot_password'=>$code ] );
+    }
 }

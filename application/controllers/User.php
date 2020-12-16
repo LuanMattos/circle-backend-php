@@ -212,6 +212,12 @@ class User extends Home_Controller
         }
     }
 
+    public function forgotPassword(){
+        $dataHeader    = $this->http::getDataHeader();
+
+        $this->userService->forgotPassword( $dataHeader );
+    }
+
     public function refreshToken(){
         $dataJwt   = $this->jwt->decode();
         $user = $this->User_model->getWhere( ["user_name"=>$dataJwt->user_name, 'user_code_verification'=>null],"row" );
@@ -231,6 +237,15 @@ class User extends Home_Controller
 
         $this->jwt->encode( $data );
         $this->response();
+    }
+    public function ChangePass(){
+        $dataHeader = $this->http::getDataHeader();
+        if( ( $dataHeader->password === $dataHeader->repPassword ) && ( $dataHeader->code ) ){
+            $pass = password_hash( $dataHeader->password, PASSWORD_ARGON2I );
+            $this->userService->changePassowrd( $dataHeader->code, $pass );
+            $this->response('Senha atualizada');
+        }
+        $this->response('Tempo excedido para esta solicitação, tente novamente!');
     }
 
 }

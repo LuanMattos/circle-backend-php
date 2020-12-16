@@ -102,6 +102,7 @@ class Migrate extends CI_Controller
         $this->db->query("ALTER TABLE Square.user ADD COLUMN  IF NOT EXISTS user_followers BIGINT DEFAULT 0;");
         $this->db->query("ALTER TABLE Square.user ADD COLUMN  IF NOT EXISTS user_following BIGINT DEFAULT 0;");
         $this->db->query("ALTER TABLE Square.user ADD COLUMN IF NOT EXISTS user_code_verification VARCHAR(50) DEFAULT NULL;");
+        $this->db->query("ALTER TABLE Square.user ADD COLUMN IF NOT EXISTS user_link_forgot_password VARCHAR(500) DEFAULT NULL;");
         $this->location();
     }
 
