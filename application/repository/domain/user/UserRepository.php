@@ -10,7 +10,19 @@ class UserRepository extends GeneralRepository{
     }
 
     public function getUserByUserName( $userName, $return = "row"){
-        return $this->User_model->getWhere( ['user_name' => $userName ], $return );
+        $user = $this->User_model->getWhere( ['user_name' => $userName ], $return );
+        if(!$user){
+            self::Success('Usuário não existe!','error');
+        }
+        return $user;
+    }
+
+    public function getUserByCodeLink( $code, $return = "row"){
+        $user = $this->User_model->getWhere( ['user_link_forgot_password' => $code ], $return );
+        if(!$user){
+            self::Success('Usuário não existe!','error');
+        }
+        return $user;
     }
 
     public function deleteLogUser( $userId ){
@@ -52,6 +64,6 @@ class UserRepository extends GeneralRepository{
     }
 
     public function changePassowrd( $code, $pass ){
-        $this->db->update('user', ['user_password'=>$pass],[ 'user_link_forgot_password'=>$code ] );
+        $this->db->update('user', ['user_password'=>$pass,'user_blocked'=>null,'user_link_forgot_password'=>null],[ 'user_link_forgot_password'=>$code ] );
     }
 }

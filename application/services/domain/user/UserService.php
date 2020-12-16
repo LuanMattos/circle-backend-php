@@ -42,9 +42,12 @@ class UserService extends GeneralService
             case !password_verify( $data->password, $user->user_password ):
                 $error = "Senha incorreta!";
                 static::$systemDataInformationRepository->saveAccessErrorPass( $user );
-                static::$systemDataInformationRepository->compareAccessAndNotifyErrorPass( $user );
                 break;
         }
+
+        if( $error ):
+            self::Success( $error );
+        endif;
 
         $sdiAuth = (object)static::$systemDataInformationRepository->saveDataInformation( $user );
 
@@ -53,9 +56,7 @@ class UserService extends GeneralService
         static::$userRepository->deleteLogUser( $user->user_id );
         static::$userRepository->updateDeviceUser( $sdiAuth->system_data_information_device_id, $user->user_id );
 
-        if( $error ):
-            self::Success( $error );
-        endif;
+
         $user->system_data_information_device_id = $sdiAuth->system_data_information_device_id;
 
         return $user;
@@ -124,6 +125,8 @@ class UserService extends GeneralService
 
     public function changePassowrd( $code, $pass ){
         self::$userRepository->changePassowrd( $code, $pass );
+        $user = self::$userRepository->getUserByCodeLink( $code );
+        static::$userRepository->deleteLogUser( $user->user_id );
     }
 
     private function sendEmailForgotPassword( $user, $title = 'Relembrar Senha!' ){
