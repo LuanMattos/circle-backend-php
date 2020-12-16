@@ -1,9 +1,9 @@
 <?php
 namespace Modules\Account\RestoreAccount;
 
-use Services\GeneralService;
+use Repository\GeneralRepository;
 
-class AccountService extends GeneralService {
+class AccountService extends GeneralRepository  {
 
     public function generateCode(){
         $code = substr( uniqid(),6,10);

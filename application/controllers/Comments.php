@@ -1,8 +1,8 @@
 <?php
 defined('BASEPATH') OR exit('No direct script access allowed');
 
-use Services\Modules\Auth;
-use Services\Cor;
+use Repository\Modules\Auth;
+use Repository\Core;
 
 class Comments extends Home_Controller
 {
@@ -16,20 +16,15 @@ class Comments extends Home_Controller
         $this->load->model("user/User_model");
 
         $this->jwt = new Auth\Jwt();
-        $this->http = new Cor\Http();
+        $this->http = new Core\Http();
     }
 
     public function index(){
-        $uri  = $this->uri->slash_segment(2);
-        $offset  = $this->uri->slash_segment(3);
-        $off = $offset?$offset:0;
-        $data = str_replace(['/','?','´'],'',$uri);
+        $id  = $this->http->getDataUrl(2);
+        $offset  = $this->http->getDataUrl(3);
+        $off = $offset ? $offset : 0;
 
-        $comments = $this->Comments_model->getCommentsByPhoto( $data,3,$off );
-
-
-//        $this->jwt->encode($newData );
-//
+        $comments = $this->Comments_model->getCommentsByPhoto( $id,3,$off );
 
         $this->response( $comments );
 
@@ -42,9 +37,9 @@ class Comments extends Home_Controller
             $this->response('Erro interno, tente mais tarde','error');
         endif;
 
-        $userHeader = $this->jwt->decode();
+        $userJwt = $this->jwt->decode();
 
-        $user = $this->User_model->getWhere(['user_name'=>$userHeader->user_name],'row');
+        $user = $this->User_model->getWhere(['user_name'=>$userJwt->user_name],'row');
         $countComment = $this->Comments_model->getWhere(['photo_id'=>$photoId]);
 
         $data = [
@@ -55,12 +50,10 @@ class Comments extends Home_Controller
 
         ];
 
-        //Editar (Impede que usuárioi salve em outro comentário, mesmo se tentar a sorte, vai apenas adicionar um novo para ele mesmo)
         if( $commentHeader->commentId ){
-            $validComment = $this->Comments_model->validateCommentEdit( $commentHeader->commentId,$userHeader->user_name );
+            $validComment = $this->Comments_model->validateCommentEdit( $commentHeader->commentId, $userJwt->user_name );
 
             if( !$validComment ):
-                //salvar ip do usuário
                 $this->response('Erro geral, tente mais tarde, ou não.','error');
             endif;
 

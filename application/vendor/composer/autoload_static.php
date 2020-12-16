@@ -9,9 +9,16 @@ class ComposerStaticInit1cca8763c9fc2af40fe209ed4f2a2657
     public static $prefixLengthsPsr4 = array (
         'S' => 
         array (
-            'Services\\Modules\\Auth\\' => 22,
-            'Services\\Cor\\' => 13,
+            'Services\\Domain\\User\\UserService\\' => 33,
             'Services\\' => 9,
+        ),
+        'R' => 
+        array (
+            'Repository\\Modules\\Log\\' => 23,
+            'Repository\\Modules\\Auth\\' => 24,
+            'Repository\\Domain\\User\\' => 23,
+            'Repository\\Core\\' => 16,
+            'Repository\\' => 11,
         ),
         'P' => 
         array (
@@ -19,7 +26,8 @@ class ComposerStaticInit1cca8763c9fc2af40fe209ed4f2a2657
         ),
         'M' => 
         array (
-            'Modules\\Storage\\Create_folder_user\\' => 35,
+            'Modules\\Storage\\CreateFolderUserRepository\\' => 43,
+            'Modules\\Account\\RestoreAccount\\' => 31,
         ),
         'F' => 
         array (
@@ -28,29 +36,49 @@ class ComposerStaticInit1cca8763c9fc2af40fe209ed4f2a2657
     );
 
     public static $prefixDirsPsr4 = array (
-        'Services\\Modules\\Auth\\' => 
+        'Services\\Domain\\User\\UserService\\' => 
         array (
-            0 => __DIR__ . '/../..' . '/services/modules/auth',
-        ),
-        'Services\\Cor\\' => 
-        array (
-            0 => __DIR__ . '/../..' . '/services/cor',
+            0 => __DIR__ . '/../..' . '/services/domain/user',
         ),
         'Services\\' => 
         array (
             0 => __DIR__ . '/../..' . '/services',
         ),
+        'Repository\\Modules\\Log\\' => 
+        array (
+            0 => __DIR__ . '/../..' . '/repository/modules/log',
+        ),
+        'Repository\\Modules\\Auth\\' => 
+        array (
+            0 => __DIR__ . '/../..' . '/repository/modules/auth',
+        ),
+        'Repository\\Domain\\User\\' => 
+        array (
+            0 => __DIR__ . '/../..' . '/repository/domain/user',
+        ),
+        'Repository\\Core\\' => 
+        array (
+            0 => __DIR__ . '/../..' . '/repository/core',
+        ),
+        'Repository\\' => 
+        array (
+            0 => __DIR__ . '/../..' . '/repository',
+        ),
         'PHPMailer\\PHPMailer\\' => 
         array (
             0 => __DIR__ . '/../..' . '/libraries/email/vendor/phpmailer/phpmailer/src',
         ),
-        'Modules\\Storage\\Create_folder_user\\' => 
+        'Modules\\Storage\\CreateFolderUserRepository\\' => 
         array (
-            0 => __DIR__ . '/../..' . '/services/modules/storage',
+            0 => __DIR__ . '/../..' . '/repository/modules/storage',
+        ),
+        'Modules\\Account\\RestoreAccount\\' => 
+        array (
+            0 => __DIR__ . '/../..' . '/repository/modules/account',
         ),
         'Firebase\\JWT\\' => 
         array (
-            0 => __DIR__ . '/../..' . '/services/tools/firebase/php-jwt/src',
+            0 => __DIR__ . '/../..' . '/repository/tools/firebase/php-jwt/src',
             1 => __DIR__ . '/..' . '/firebase/php-jwt/src',
         ),
     );

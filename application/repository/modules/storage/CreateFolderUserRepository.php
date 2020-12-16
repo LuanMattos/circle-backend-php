@@ -1,9 +1,9 @@
 <?php
 
-namespace Modules\Storage\Create_folder_user;
-use Services;
+namespace Modules\Storage\CreateFolderUserRepository;
+use Repository;
 
-class Create_folder_user extends Services\GeneralService
+class CreateFolderUserRepository extends Repository\GeneralRepository
 {
     private $user;
     private $file;

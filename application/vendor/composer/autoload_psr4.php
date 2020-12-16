@@ -6,10 +6,15 @@ $vendorDir = dirname(dirname(__FILE__));
 $baseDir = dirname($vendorDir);
 
 return array(
-    'Services\\Modules\\Auth\\' => array($baseDir . '/services/modules/auth'),
-    'Services\\Cor\\' => array($baseDir . '/services/cor'),
+    'Services\\Domain\\User\\UserService\\' => array($baseDir . '/services/domain/user'),
     'Services\\' => array($baseDir . '/services'),
+    'Repository\\Modules\\Log\\' => array($baseDir . '/repository/modules/log'),
+    'Repository\\Modules\\Auth\\' => array($baseDir . '/repository/modules/auth'),
+    'Repository\\Domain\\User\\' => array($baseDir . '/repository/domain/user'),
+    'Repository\\Core\\' => array($baseDir . '/repository/core'),
+    'Repository\\' => array($baseDir . '/repository'),
     'PHPMailer\\PHPMailer\\' => array($baseDir . '/libraries/email/vendor/phpmailer/phpmailer/src'),
-    'Modules\\Storage\\Create_folder_user\\' => array($baseDir . '/services/modules/storage'),
-    'Firebase\\JWT\\' => array($baseDir . '/services/tools/firebase/php-jwt/src', $vendorDir . '/firebase/php-jwt/src'),
+    'Modules\\Storage\\CreateFolderUserRepository\\' => array($baseDir . '/repository/modules/storage'),
+    'Modules\\Account\\RestoreAccount\\' => array($baseDir . '/repository/modules/account'),
+    'Firebase\\JWT\\' => array($baseDir . '/repository/tools/firebase/php-jwt/src', $vendorDir . '/firebase/php-jwt/src'),
 );

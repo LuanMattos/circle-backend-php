@@ -1,8 +1,8 @@
 <?php
 defined('BASEPATH') OR exit('No direct script access allowed');
 
-use Services\Modules\Auth;
-use Services\Cor;
+use Repository\Modules\Auth;
+use Repository\Core;
 
 class Likes extends Home_Controller
 {
@@ -16,7 +16,7 @@ class Likes extends Home_Controller
         $this->load->model("photos/Photos_model");
 
         $this->jwt = new Auth\Jwt();
-        $this->http = new Cor\Http();
+        $this->http = new Core\Http();
     }
 
     public function like(){
@@ -26,13 +26,9 @@ class Likes extends Home_Controller
         $this->db->trans_start();
             $user = $this->User_model->getWhere(['user_name' => $userDecode->user_name ],"row");
 
-            if( !$user ){
-                $this->response('Usuário não existe!','error');
-            }
-
             $save = [
-                'photo_id'=>$data->photoId,
-                'user_id'=>$user->user_id
+                'photo_id' => $data->photoId,
+                'user_id' => $user->user_id
             ];
             $hasLiked = $this->Likes_model->getWhere( $save );
 

@@ -7,12 +7,17 @@
   },
   "autoload": {
     "psr-4": {
+      "Repository\\": "repository",
       "Services\\": "services",
-      "Modules\\Storage\\Create_folder_user\\": "services/modules/storage",
+      "Modules\\Storage\\CreateFolderUserRepository\\": "repository/modules/storage",
       "PHPMailer\\PHPMailer\\": "libraries/email/vendor/phpmailer/phpmailer/src",
-      "Services\\Modules\\Auth\\": "services/modules/auth",
-      "Firebase\\JWT\\":"services/tools/firebase/php-jwt/src",
-      "Services\\Cor\\": "services/cor"
+      "Repository\\Modules\\Auth\\": "repository/modules/auth",
+      "Firebase\\JWT\\":"repository/tools/firebase/php-jwt/src",
+      "Repository\\Core\\": "repository/core",
+      "Modules\\Account\\RestoreAccount\\": "repository/modules/account",
+      "Services\\Domain\\User\\UserService\\": "services/domain/user",
+      "Repository\\Domain\\User\\": "repository/domain/user",
+      "Repository\\Modules\\Log\\": "repository/modules/log"
     }
   }
 }

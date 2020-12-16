@@ -1,0 +1,23 @@
+<?php
+namespace Repository\Domain\User;
+use Repository\GeneralRepository;
+
+class UserRepository extends GeneralRepository{
+    function __construct(){
+        parent::__construct();
+        $this->load->model('user/User_model');
+    }
+
+    public function getUserByUserName( $userName, $return = "row"){
+        return $this->User_model->getWhere( ['user_name' => $userName ], $return );
+    }
+
+    public function deleteLogUser( $userId ){
+        $this->Log_access_model->deletewhere( ['user_id' => $userId ] );
+    }
+
+    public function updateDeviceUser( $sdiDeviceID, $userId ){
+        $this->db->update('user',
+            [ 'user_device_id' => $sdiDeviceID ], ['user_id' => $userId],1);
+    }
+}

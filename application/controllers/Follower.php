@@ -1,8 +1,8 @@
 <?php
 defined('BASEPATH') OR exit('No direct script access allowed');
 
-use Services\Modules\Auth;
-use Services\Cor;
+use Repository\Modules\Auth;
+use Repository\Core;
 
 class Follower extends Home_Controller
 {
@@ -17,7 +17,7 @@ class Follower extends Home_Controller
         $this->load->model("follower/Follower_model");
 
         $this->jwt = new Auth\Jwt();
-        $this->http = new Cor\Http();
+        $this->http = new Core\Http();
 
     }
 
@@ -27,10 +27,6 @@ class Follower extends Home_Controller
         $data   = $this->jwt->decode();
 
         $user = $this->User_model->getWhere(['user_name'=>$data->user_name],"row");
-
-        if( !$user ){
-            $this->response('Usuário não existe','error');
-        }
 
         $data = ['user_id_from'=>$user->user_id,'user_id_to'=>$dataTo];
 

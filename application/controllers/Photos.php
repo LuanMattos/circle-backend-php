@@ -1,9 +1,9 @@
 <?php
 defined('BASEPATH') OR exit('No direct script access allowed');
 
-use Modules\Storage\Create_folder_user as Upload;
-use Services\Modules\Auth;
-use Services\Cor;
+use Modules\Storage\CreateFolderUserRepository as Upload;
+use Repository\Modules\Auth;
+use Repository\Core;
 
 class Photos extends Home_Controller
 {
@@ -16,21 +16,16 @@ class Photos extends Home_Controller
         $this->load->model("user/User_model");
 
         $this->jwt = new Auth\Jwt();
-        $this->http = new Cor\Http();
+        $this->http = new Core\Http();
     }
 
     public function index(){
         $data = $this->http->getDataUrl(2);
         $dataJwt = $this->jwt->decode();
 
-
         $offset = $this->input->get('page',true);
 
         $user = $this->User_model->getWhere( ['user_name'=>$data ],'row' );
-
-        if( !$user ):
-            $this->response('Usuário não existe','error');
-        endif;
 
         $photos = $this->Photos_model->getPhotoUser(
             $user->user_id,$dataJwt, "photo_id","DESC", "9",$offset
@@ -43,7 +38,7 @@ class Photos extends Home_Controller
             "user_email" => $user->user_email,
             "description" => $user->description,
             "address" => $user->address,
-            "user_avatar_url"=>$user->user_avatar_url,
+            "user_avatar_url" => $user->user_avatar_url,
             "user_code_verification" => $user->user_code_verification ? true : false
         ];
 
@@ -59,10 +54,6 @@ class Photos extends Home_Controller
 
         $user = $this->User_model->getWhere( ["user_id"=>$jwtData->user_id],"row" );
 
-        if( !$user ):
-            $this->response('Usuário não existe!','error');
-        endif;
-
         $newData = [
             "id" => $user->user_id,
             "name" => $user->user_name,
@@ -70,15 +61,13 @@ class Photos extends Home_Controller
             "email" => $user->user_email,
         ];
 
-
-        $this->jwt->encode($newData );
-
+        $this->jwt->encode( $newData );
 
         new Upload\Create_folder_user( $_FILES, $user,$datapost );
 
     }
     public function getPhotoId(){
-        $uri  = $this->uri->slash_segment(2);
+        $uri  = $this->http->getDataUrl(2);
         $id = number( $uri );
 
         $data = $this->jwt->decode();
@@ -90,7 +79,7 @@ class Photos extends Home_Controller
         $this->response( $dataResponse );
     }
     public function getPhoto(){
-        $uri  = $this->uri->slash_segment(2);
+        $uri  = $this->http->getDataUrl(2);
         $fileName = str_replace(['/','?','´'],'',$uri);
         $url = $this->Photos_model->getWhere( [ 'photo_url' => "https://be.mycircle.click/get_photo/{$fileName}" ],"row" );
         return $url;

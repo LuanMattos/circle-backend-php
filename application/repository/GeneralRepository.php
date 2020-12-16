@@ -1,6 +1,7 @@
 <?php
-namespace Services;
-class GeneralService extends \CI_Model {
+namespace Repository;
+require_once('tools/firebase/php-jwt/vendor/autoload.php');
+class GeneralRepository extends \CI_Model {
 
     public  function __construct(){
         parent::__construct();

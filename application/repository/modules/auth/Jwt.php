@@ -1,13 +1,13 @@
 <?php
 
-namespace Services\Modules\Auth;
+namespace Repository\Modules\Auth;
 use Firebase\JWT as LibJwt;
 
 use PHPMailer\PHPMailer\Exception;
-use Services;
+use Repository;
 use \DateTime;
 
-class Jwt extends Services\GeneralService {
+class Jwt extends Repository\GeneralRepository {
     private $jwtInstance;
     private $private_key_jwt;
     private $public_key_jwt;

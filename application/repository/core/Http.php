@@ -1,9 +1,9 @@
 <?php
 
-namespace Services\Cor;
-use Services;
+namespace Repository\Core;
+use Repository;
 
-class Http extends Services\GeneralService{
+class Http extends Repository\GeneralRepository{
 
     public  function __construct(){
         parent::__construct();
