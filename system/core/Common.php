@@ -123,7 +123,7 @@ if (!function_exists('debug')) {
         }
 
         echo '</pre>';
-        if($c[0]){
+        if(isset($c[0])){
             exit;
         }
     }
