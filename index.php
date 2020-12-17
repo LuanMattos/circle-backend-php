@@ -59,7 +59,7 @@ if(strstr($_SERVER['HTTP_HOST'],"localhost")){
 }else{
     define('ENVIRONMENT','production' );
 }
-debug(ENVIRONMENT);
+var_dump(ENVIRONMENT);
 /*
  *---------------------------------------------------------------
  * ERROR REPORTING
