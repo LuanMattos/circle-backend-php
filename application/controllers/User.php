@@ -45,7 +45,7 @@ class User extends Home_Controller
             ];
 
             $this->jwt->encode( $newData );
-        debug($newData);
+//        debug($newData);
             $this->response( $newData );
     }
 
