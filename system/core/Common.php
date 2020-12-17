@@ -123,7 +123,9 @@ if (!function_exists('debug')) {
         }
 
         echo '</pre>';
-        exit;
+        if($c[0]){
+            exit;
+        }
     }
 }
 if (!function_exists('number')) {

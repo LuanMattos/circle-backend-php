@@ -27,11 +27,11 @@ class User extends Home_Controller
 
     public function login(){
         $data = $this->http::getDataHeader();
-        var_dump('dataHeader: ' . $data . '<br>');
+        var_dump($data);
 
         if( $data )
             $user = $this->userService::validaDataLogin( $data );
-        var_dump('user: ' . $user . '<br>');
+        debug( $user );
 
             $newData = [
                 "user_id"                => $user->user_id,
@@ -45,7 +45,7 @@ class User extends Home_Controller
             ];
 
             $this->jwt->encode( $newData );
-        var_dump('dataHeader: ' . $newData . '<br>');
+        debug($newData);
             $this->response( $newData );
     }
 
