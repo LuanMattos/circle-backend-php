@@ -107,8 +107,12 @@ class Photos extends Home_Controller
     public function updatePhoto(){
         $dataJwt = $this->jwt->decode();
         $header = $this->http::getDataHeader();
-        $this->photoRepository->updatePhoto( $header->photoId, $header->photoDescription, $dataJwt->user_id );
-        $this->response(['photoDescription'=>$header->photoDescription]);
+        if(strlen($header->photoDescription ) >= 900 ){
+            $this->response('Máximo de 900 caractéres','error');
+        }else{
+            $this->photoRepository->updatePhoto( $header->photoId, $header->photoDescription, $dataJwt->user_id );
+            $this->response(['photoDescription'=>$header->photoDescription]);
+        }
     }
 
 }
