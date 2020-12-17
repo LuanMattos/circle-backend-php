@@ -27,11 +27,11 @@ class User extends Home_Controller
 
     public function login(){
         $data = $this->http::getDataHeader();
-        var_dump($data);
+//        var_dump($data);
 
         if( $data )
             $user = $this->userService::validaDataLogin( $data );
-        debug( $user );
+//        debug( $user );
 
             $newData = [
                 "user_id"                => $user->user_id,
