@@ -24,6 +24,7 @@ $route['photos/(:any)']['DELETE'] = 'photos/delete/$id';
 $route['photos_upload']['POST'] = 'photos/upload';
 $route['get_photo/(:any)']['GET'] = 'photos/getPhoto';
 $route['get_photo_id/(:any)']['GET'] = 'photos/getPhotoId';
+$route['update_photo']['PUT'] = 'photos/updatePhoto';
 
 $route['comments_photo/(:any)/?(:any)?']['GET'] = 'comments/index/$id';
 $route['save_comment/(:any)']['PUT'] = 'comments/save';

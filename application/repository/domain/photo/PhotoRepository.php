@@ -11,4 +11,8 @@ class PhotoRepository extends GeneralRepository{
     public function deletePhotoByUser( $photoId, $userId ){
         $this->Photos_model->deletewhere(['photo_id'=>$photoId,'user_id'=>$userId]);
     }
+
+    public function updatePhoto( $photoId, $photoDescription, $userId ){
+       $this->db->update('photo',['photo_description'=>$photoDescription],['photo_id'=>$photoId,'user_id'=>$userId]);
+    }
 }

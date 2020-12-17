@@ -2,7 +2,6 @@
 defined('BASEPATH') OR exit('No direct script access allowed');
 
 use Modules\Storage\CreateFolderUserRepository as Upload;
-use Services\Domain\User\UserService;
 use Repository\Domain\Photo as Photo;
 use Repository\Domain\User;
 use Repository\Modules\Auth;
@@ -55,6 +54,7 @@ class Photos extends Home_Controller
         $this->response( $photos );
 
     }
+
     public function upload(){
         $datapost = (object)$this->input->post(null,true);
 
@@ -74,6 +74,7 @@ class Photos extends Home_Controller
         new Upload\CreateFolderUserRepository( $_FILES, $user,$datapost );
 
     }
+
     public function getPhotoId(){
         $uri  = $this->http->getDataUrl(2);
         $id = number( $uri );
@@ -86,12 +87,14 @@ class Photos extends Home_Controller
         $dataResponse->liked = $data & $this->Likes_model->getWhere(['photo_id'=>$id,'user_id'=>$data->user_id],"row")?true:false;
         $this->response( $dataResponse );
     }
+
     public function getPhoto(){
         $uri  = $this->http->getDataUrl(2);
         $fileName = str_replace(['/','?','´'],'',$uri);
         $url = $this->Photos_model->getWhere( [ 'photo_url' => "https://be.mycircle.click/get_photo/{$fileName}" ],"row" );
         return $url;
     }
+
     public function delete(){
         $photoId = $this->http->getDataUrl(2);
         $jwt = $this->jwt->decode();
@@ -99,6 +102,13 @@ class Photos extends Home_Controller
         $user = $this->userRepository->getUserByUserName( $jwt->user_name );
         $this->photoRepository->deletePhotoByUser( $photoId, $user->user_id );
         $this->response();
+    }
+
+    public function updatePhoto(){
+        $dataJwt = $this->jwt->decode();
+        $header = $this->http::getDataHeader();
+        $this->photoRepository->updatePhoto( $header->photoId, $header->photoDescription, $dataJwt->user_id );
+        $this->response(['photoDescription'=>$header->photoDescription]);
     }
 
 }
