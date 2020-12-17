@@ -28,11 +28,14 @@ class Photos extends Home_Controller
 
     public function index(){
         $data = $this->http->getDataUrl(2);
+        var_dump('data:' . $data);
         $dataJwt = $this->jwt->decode();
+        var_dump('xotaJW:' . $data);
 
         $offset = $this->input->get('page',true);
 
         $user = $this->User_model->getWhere( ['user_name'=>$data ],'row' );
+        var_dump('user:' . $user);
 
         $photos = $this->Photos_model->getPhotoUser(
             $user->user_id,$dataJwt, "photo_id","DESC", "9",$offset
