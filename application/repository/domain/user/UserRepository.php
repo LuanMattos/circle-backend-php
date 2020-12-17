@@ -66,4 +66,5 @@ class UserRepository extends GeneralRepository{
     public function changePassowrd( $code, $pass ){
         $this->db->update('user', ['user_password'=>$pass,'user_blocked'=>null,'user_link_forgot_password'=>null],[ 'user_link_forgot_password'=>$code ] );
     }
+
 }

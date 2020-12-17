@@ -20,6 +20,7 @@ $route['valid']['POST'] = 'user/refreshToken';
 $route['change_pass']['POST'] = 'user/ChangePass';
 
 $route['photos/(:any)/?(:any)?']['GET'] = 'photos/index/$id';
+$route['photos/(:any)']['DELETE'] = 'photos/delete/$id';
 $route['photos_upload']['POST'] = 'photos/upload';
 $route['get_photo/(:any)']['GET'] = 'photos/getPhoto';
 $route['get_photo_id/(:any)']['GET'] = 'photos/getPhotoId';

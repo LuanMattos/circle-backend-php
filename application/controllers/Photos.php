@@ -2,6 +2,9 @@
 defined('BASEPATH') OR exit('No direct script access allowed');
 
 use Modules\Storage\CreateFolderUserRepository as Upload;
+use Services\Domain\User\UserService;
+use Repository\Domain\Photo as Photo;
+use Repository\Domain\User;
 use Repository\Modules\Auth;
 use Repository\Core;
 
@@ -9,6 +12,8 @@ class Photos extends Home_Controller
 {
     private $jwt;
     private $http;
+    private $photoRepository;
+    private $userRepository;
 
     public function __construct(){
         parent::__construct();
@@ -17,6 +22,9 @@ class Photos extends Home_Controller
 
         $this->jwt = new Auth\Jwt();
         $this->http = new Core\Http();
+        $this->photoRepository = new Photo\PhotoRepository();
+        $this->userRepository = new User\UserRepository();
+
     }
 
     public function index(){
@@ -83,6 +91,14 @@ class Photos extends Home_Controller
         $fileName = str_replace(['/','?','´'],'',$uri);
         $url = $this->Photos_model->getWhere( [ 'photo_url' => "https://be.mycircle.click/get_photo/{$fileName}" ],"row" );
         return $url;
+    }
+    public function delete(){
+        $photoId = $this->http->getDataUrl(2);
+        $jwt = $this->jwt->decode();
+
+        $user = $this->userRepository->getUserByUserName( $jwt->user_name );
+        $this->photoRepository->deletePhotoByUser( $photoId, $user->user_id );
+        $this->response();
     }
 
 }

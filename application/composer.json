@@ -17,7 +17,8 @@
       "Modules\\Account\\RestoreAccount\\": "repository/modules/account",
       "Services\\Domain\\User\\UserService\\": "services/domain/user",
       "Repository\\Domain\\User\\": "repository/domain/user",
-      "Repository\\Modules\\Log\\": "repository/modules/log"
+      "Repository\\Modules\\Log\\": "repository/modules/log",
+      "Repository\\Domain\\Photo\\": "repository/domain/photo"
     }
   }
 }
