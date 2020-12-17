@@ -79,7 +79,7 @@ class JWT
             throw new InvalidArgumentException('Chave não pode ser vazia');
         }
         $tks = explode('.', $jwt);
-        debug($tks);
+
         if (count($tks) != 3) {
             throw new UnexpectedValueException('Número errado de segmentos');
         }
