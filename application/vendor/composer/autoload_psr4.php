@@ -11,6 +11,7 @@ return array(
     'Repository\\Modules\\Log\\' => array($baseDir . '/repository/modules/log'),
     'Repository\\Modules\\Auth\\' => array($baseDir . '/repository/modules/auth'),
     'Repository\\Domain\\User\\' => array($baseDir . '/repository/domain/user'),
+    'Repository\\Domain\\Photo\\' => array($baseDir . '/repository/domain/photo'),
     'Repository\\Core\\' => array($baseDir . '/repository/core'),
     'Repository\\' => array($baseDir . '/repository'),
     'PHPMailer\\PHPMailer\\' => array($baseDir . '/libraries/email/vendor/phpmailer/phpmailer/src'),

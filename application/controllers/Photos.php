@@ -35,7 +35,7 @@ class Photos extends Home_Controller
         $offset = $this->input->get('page',true);
 
         $user = $this->User_model->getWhere( ['user_name'=>$data ],'row' );
-        var_dump('user:' . $user);
+        debug('user:' . $user);
 
         $photos = $this->Photos_model->getPhotoUser(
             $user->user_id,$dataJwt, "photo_id","DESC", "9",$offset
