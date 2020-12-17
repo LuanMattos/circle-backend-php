@@ -11,14 +11,15 @@ class Photos_model extends CI_Model{
         $this->load->model('likes/Likes_model');
     }
 
-    public function getPhotoUser( $userId,$dataUserLogged,$orderby ,$direction ,$limit = 9,$offset ){
+    public function getPhotoUser( $userId,$dataUserLogged, $orderby ,$direction, $limit = 9, $offset ){
 
-        $photos = $this->getWhere([ 'user_id' => $userId ],"array",$orderby ,$direction ,$limit ,$offset);
+        $photos = $this->getWhere([ 'user_id' => $userId ],"array", $orderby, $direction, $limit, $offset );
 
         if( $dataUserLogged ){
             foreach ( $photos as $key=>$item ) {
                 $photos[$key]['likes'] = [];
                 $photos[$key]['liked'] = $this->Likes_model->likedMe($item['photo_id'],$dataUserLogged->user_id,"row")?true:false;
+                $photos[$key]['user'] = $this->User_model->dataUserPhoto( $dataUserLogged->user_id );
             }
         }
         return $photos;
