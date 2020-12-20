@@ -20,7 +20,7 @@
       "Repository\\Modules\\Log\\": "repository/modules/log",
       "Repository\\Domain\\Photo\\": "repository/domain/photo",
       "Services\\Domain\\Storage\\StorageService\\": "services/domain/storage",
-      "Services\\Domain\\Storage\\Amazon": "services/domain/storage/amazon"
+      "Services\\Domain\\Storage\\Amazon\\": "services/domain/storage/amazon"
     }
   }
 }

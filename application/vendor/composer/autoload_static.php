@@ -11,6 +11,7 @@ class ComposerStaticInit1cca8763c9fc2af40fe209ed4f2a2657
         array (
             'Services\\Domain\\User\\UserService\\' => 33,
             'Services\\Domain\\Storage\\StorageService\\' => 39,
+            'Services\\Domain\\Storage\\Amazon\\' => 31,
             'Services\\' => 9,
         ),
         'R' => 
@@ -45,6 +46,10 @@ class ComposerStaticInit1cca8763c9fc2af40fe209ed4f2a2657
         'Services\\Domain\\Storage\\StorageService\\' => 
         array (
             0 => __DIR__ . '/../..' . '/services/domain/storage',
+        ),
+        'Services\\Domain\\Storage\\Amazon\\' => 
+        array (
+            0 => __DIR__ . '/../..' . '/services/domain/storage/amazon',
         ),
         'Services\\' => 
         array (
