@@ -10,6 +10,7 @@ class ComposerStaticInit1cca8763c9fc2af40fe209ed4f2a2657
         'S' => 
         array (
             'Services\\Domain\\User\\UserService\\' => 33,
+            'Services\\Domain\\Storage\\StorageService\\' => 39,
             'Services\\' => 9,
         ),
         'R' => 
@@ -40,6 +41,10 @@ class ComposerStaticInit1cca8763c9fc2af40fe209ed4f2a2657
         'Services\\Domain\\User\\UserService\\' => 
         array (
             0 => __DIR__ . '/../..' . '/services/domain/user',
+        ),
+        'Services\\Domain\\Storage\\StorageService\\' => 
+        array (
+            0 => __DIR__ . '/../..' . '/services/domain/storage',
         ),
         'Services\\' => 
         array (

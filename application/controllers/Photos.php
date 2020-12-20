@@ -6,9 +6,10 @@ use Repository\Domain\Photo as Photo;
 use Repository\Domain\User;
 use Repository\Modules\Auth;
 use Repository\Core;
-
+use Services\Domain\Storage\StorageService;
 class Photos extends Home_Controller
 {
+    private $s3;
     private $jwt;
     private $http;
     private $photoRepository;
@@ -23,7 +24,7 @@ class Photos extends Home_Controller
         $this->http = new Core\Http();
         $this->photoRepository = new Photo\PhotoRepository();
         $this->userRepository = new User\UserRepository();
-
+        $this->s3 = new StorageService\StorageService();
     }
 
     public function index(){
@@ -62,6 +63,9 @@ class Photos extends Home_Controller
 
         $user = $this->User_model->getWhere( ["user_id"=>$jwtData->user_id],"row" );
 
+
+        $this->s3->saveImage( $user, $_FILES['imageFile'], $datapost );
+
         $newData = [
             "id" => $user->user_id,
             "name" => $user->user_name,
@@ -70,8 +74,8 @@ class Photos extends Home_Controller
         ];
 
         $this->jwt->encode( $newData );
-
-        new Upload\CreateFolderUserRepository( $_FILES, $user,$datapost );
+//Servidor de imagens próprio
+//        new Upload\CreateFolderUserRepository( $_FILES, $user,$datapost );
 
     }
 

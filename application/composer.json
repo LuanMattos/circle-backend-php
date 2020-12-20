@@ -18,7 +18,9 @@
       "Services\\Domain\\User\\UserService\\": "services/domain/user",
       "Repository\\Domain\\User\\": "repository/domain/user",
       "Repository\\Modules\\Log\\": "repository/modules/log",
-      "Repository\\Domain\\Photo\\": "repository/domain/photo"
+      "Repository\\Domain\\Photo\\": "repository/domain/photo",
+      "Services\\Domain\\Storage\\StorageService\\": "services/domain/storage",
+      "Services\\Domain\\Storage\\Amazon": "services/domain/storage/amazon"
     }
   }
 }

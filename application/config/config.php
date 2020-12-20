@@ -600,3 +600,13 @@ $config['public_key_jwt'] = 'teste';
 //-----END PUBLIC KEY-----
 //EOD;
 
+/*
+|--------------------------------------------------------------------------
+|S3(sensive)
+*/
+
+$config['s3']["accessKey"] = 'AKIA4CJF77WXHXLOKX74';
+$config['s3']["secretKey"] = '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';
+$config['s3']["useSSL"] = false;
+$config['bucket_name'] = 'circle-photo';
+$config['end_point'] = 's3.sa-east-1.amazonaws.com';

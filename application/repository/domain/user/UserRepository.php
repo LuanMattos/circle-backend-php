@@ -9,6 +9,10 @@ class UserRepository extends GeneralRepository{
         $this->load->model('log/Log_access_model');
     }
 
+    public function updateUserByUserName( Array $fields ){
+        $this->db->update('user', $fields, ['user_name' => $fields['user_name'] ],1);
+    }
+
     public function getUserByUserName( $userName, $return = "row"){
         $user = $this->User_model->getWhere( ['user_name' => $userName ], $return );
         if(!$user){

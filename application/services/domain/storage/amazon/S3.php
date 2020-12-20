@@ -1,5 +1,5 @@
 <?php
-namespace Libraries\Amazon;
+namespace Services\Domain\Storage\Amazon;
 
 require_once 'S3Request.php';
 require_once 'S3Exception.php';
@@ -15,7 +15,7 @@ class S3{
     private static $__accessKey             = null;
     private static $__secretKey             = null;
     private static $__sslKey                = null;
-    public static $endpoint                 = 'us-east-2';
+    public static $endpoint                 = '';
     public static $proxy                    = null;
     public static $useSSL                   = false;
     public static $useSSLValidation         = true;
@@ -36,14 +36,13 @@ class S3{
      */
     public function __construct()
     {
-        $awsAccessKey           = 'AKIA4CJF77WXHXLOKX74';
-        $awsSecretKey           = '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';
-        $config["accessKey"]    = $awsAccessKey;
-        $config["secretKey"]    = $awsSecretKey;
+        $config["accessKey"]    = '';
+        $config["secretKey"]    = '';
         $config["useSSL"] = FALSE;
+        $endpoint = get_instance()->config->item('end_point');
+        self::$endpoint = $endpoint;
 
-        if (empty($config)) {
-            get_instance()->config->load('s3', TRUE);
+        if (empty($config["accessKey"])) {
             $config = get_instance()->config->item('s3');
         }
 
@@ -60,6 +59,7 @@ class S3{
     public function initialize($config) {
         foreach ($config as $key => $val) {
             if(!in_array($key, array('accessKey', 'secretKey'))) {
+
                 self::$$key = $val;
             }
         }
@@ -218,7 +218,7 @@ class S3{
      */
     public static function listBuckets($detailed = false)
     {
-        $rest = new S3Request('GET', '', '', self::$endpoint);
+        $rest = new \S3Request('GET', '', '', self::$endpoint);
         $rest = $rest->getResponse();
         if ($rest->error === false && $rest->code !== 200)
             $rest->error = array('code' => $rest->code, 'message' => 'Unexpected HTTP status');
@@ -378,6 +378,7 @@ class S3{
             $rest->error = array('code' => $rest->code, 'message' => 'Unexpected HTTP status');
         if ($rest->error !== false)
         {
+            debug($rest->error);
             self::__triggerError(sprintf("S3::putBucket({$bucket}, {$acl}, {$location}): [%s] %s",
                 $rest->error['code'], $rest->error['message']), __FILE__, __LINE__);
             return false;
@@ -525,10 +526,13 @@ class S3{
             $rest->response->error = array('code' => $rest->response->code, 'message' => 'Unexpected HTTP status');
         if ($rest->response->error !== false)
         {
+            debug($rest->response->error);
+
             self::__triggerError(sprintf("S3::putObject(): [%s] %s",
                 $rest->response->error['code'], $rest->response->error['message']), __FILE__, __LINE__);
             return false;
         }
+
         return true;
     }
 

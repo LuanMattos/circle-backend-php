@@ -7,6 +7,7 @@ $baseDir = dirname($vendorDir);
 
 return array(
     'Services\\Domain\\User\\UserService\\' => array($baseDir . '/services/domain/user'),
+    'Services\\Domain\\Storage\\StorageService\\' => array($baseDir . '/services/domain/storage'),
     'Services\\' => array($baseDir . '/services'),
     'Repository\\Modules\\Log\\' => array($baseDir . '/repository/modules/log'),
     'Repository\\Modules\\Auth\\' => array($baseDir . '/repository/modules/auth'),
