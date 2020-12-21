@@ -15,8 +15,8 @@ class Mail{
             $mail->isSMTP();                                            // Send using SMTP
             $mail->Host       = 'email-smtp.us-east-2.amazonaws.com';      // Set the SMTP server to send through
             $mail->SMTPAuth   = true;                                   // Enable SMTP authentication
-            $mail->Username   = 'AKIA4CJF77WXKZPTXRVX';                   // SMTP username
-            $mail->Password   = 'BAdjFuWhLPbCPF5Bj7uCDOHBZVqbCeA2ALaj18DsZKl5';                             // SMTP password
+            $mail->Username   = 'AKIA4CJF77WXMXSQHVB6';                   // SMTP username
+            $mail->Password   = 'BAPiXWI0Amu5GMbuyFMvE8wdfpDDDr9VXjY8mnpKoFCX';                             // SMTP password
             $mail->SMTPSecure = PHPMailer::ENCRYPTION_SMTPS;            // Enable TLS encryption; `PHPMailer::ENCRYPTION_SMTPS` encouraged
             $mail->Port       = 465;                                    // TCP port to connect to, use 465 for `PHPMailer::ENCRYPTION_SMTPS` above
 
@@ -37,8 +37,9 @@ class Mail{
             $mail->Body    = $param['corpo_html'];//corpo do email, pode ser html
             $mail->AltBody = $param['corpo'];//corpo nao html
 
-            return $mail->send();
+            $mail->send();
         } catch (Exception $e) {
+            debug($mail->ErrorInfo);
             return $mail->ErrorInfo;
         }
 
