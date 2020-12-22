@@ -53,7 +53,7 @@
  *
  * NOTE: If you change these, also change the error_reporting() code below
  */
-define('ENVIRONMENT', $_SERVER['HTTP_HOST'] === 'localhost'  ? 'development' : 'production');
+//define('ENVIRONMENT', $_SERVER['HTTP_HOST'] === 'localhost'  ? 'development' : 'production');
 if(strstr($_SERVER['HTTP_HOST'],"localhost")){
     define('ENVIRONMENT','development' );
 }else{
