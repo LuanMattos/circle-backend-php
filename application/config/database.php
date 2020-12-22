@@ -3,15 +3,14 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 
 $active_group   = 'default';
 $query_builder  = TRUE;
-//nova base = ec2-3-129-239-85.us-east-2.compute.amazonaws.com
 if(ENVIRONMENT === 'production'){
-    $hostname = 'ec2-3-129-239-85.us-east-2.compute.amazonaws.com';
+    $hostname = 'ec2-3-19-28-81.us-east-2.compute.amazonaws.com';
 }else{
     $hostname = '192.168.100.49';
 }
 $db['default']  = [
 	'dsn'	        => '',
-	'hostname'      => $hostname,
+	'hostname'      => 'ec2-3-19-28-81.us-east-2.compute.amazonaws.com',
 	'username'      => 'square_db1',
 	'port'          => '5432',
 	'password'      => 'J3K6051ER4u824VQP2A3I81QLO6uCCCg51zZ29H3V2KKlAWiJ3',
