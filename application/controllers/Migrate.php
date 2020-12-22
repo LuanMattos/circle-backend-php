@@ -8278,7 +8278,34 @@ insert into square.error_type  (error_type_id,error_type_code,error_type_title) 
     }
 
     public function createPostFake(){
-        $this->db->query("");
+        $this->db->query("DO $$
+                                DECLARE
+                                    userId INTEGER;
+                                    photoId INTEGER;
+                                BEGIN
+                                    userId = 10742;
+                                    photoId = 4001;
+                                    LOOP
+                                        INSERT INTO square.photo values(
+                                                                           default,
+                                                                           now(),
+                                                                           'https://circle-photo.s3-sa-east-1.amazonaws.com/photos/' ||  photoId || '.jpg',
+                                                                           '',
+                                                                           default,
+                                                                           0,
+                                                                           userId,
+                                                                           0,
+                                                                           default
+                                                                       );
+                            
+                            
+                                        EXIT WHEN userId >= 14742;
+                                        userId:=userId+1;
+                                        photoId := photoId+1;
+                                    END LOOP;
+                                    commit;
+                                END
+                            $$;");
     }
 
     private function finallyVacuum(){
@@ -8308,7 +8335,7 @@ insert into square.error_type  (error_type_id,error_type_code,error_type_title) 
     }
 
     public function getImageRandom(){
-        $start = 4443;
+        $start = 7729;
         for($i = $start; $i <= 10000; $i++){
             echo $i;
             $url = "https://source.unsplash.com/random";

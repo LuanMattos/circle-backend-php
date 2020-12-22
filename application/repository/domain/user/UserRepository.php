@@ -20,6 +20,13 @@ class UserRepository extends GeneralRepository{
         }
         return $user;
     }
+    public function getUserByUserNameValidateCodeVerification( $userName, $return = "row"){
+        $user = $this->User_model->getWhere( ['user_name' => $userName,'user_code_verification' => null ], $return );
+        if(!$user){
+            self::Success('Usuário não existe!','error');
+        }
+        return $user;
+    }
 
     public function getUserByCodeLink( $code, $return = "row"){
         $user = $this->User_model->getWhere( ['user_link_forgot_password' => $code ], $return );

@@ -9,6 +9,7 @@ return array(
     'Services\\Domain\\User\\UserService\\' => array($baseDir . '/services/domain/user'),
     'Services\\Domain\\Storage\\StorageService\\' => array($baseDir . '/services/domain/storage'),
     'Services\\Domain\\Storage\\Amazon\\' => array($baseDir . '/services/domain/storage/amazon'),
+    'Services\\Domain\\Auth\\' => array($baseDir . '/services/domain/auth'),
     'Services\\' => array($baseDir . '/services'),
     'Repository\\Modules\\Log\\' => array($baseDir . '/repository/modules/log'),
     'Repository\\Modules\\Auth\\' => array($baseDir . '/repository/modules/auth'),

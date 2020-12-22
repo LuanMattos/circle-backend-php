@@ -42,4 +42,20 @@ class PhotoRepository extends GeneralRepository{
             self::Success('Error on upload type','error');
         endif;
     }
+
+    public function getPhotoToExplorer( $offset, $user ){
+
+
+        $photos = $this->Photos_model->getWhere([],"array", 'photo_post_date', 'DESC', 10, $offset );
+
+        if( $user ){
+            foreach ( $photos as $key=>$item ) {
+                $photos[$key]['likes'] = [];
+                $photos[$key]['liked'] = $this->Likes_model->likedMe($item['photo_id'],$user->user_id,"row")?true:false;
+                $photos[$key]['user'] = $this->User_model->getWhere( ['user_id'=>$item['user_id']], 'row', NULL, NULL, 1, NULL );
+            }
+            return $photos;
+        }
+        return [];
+    }
 }

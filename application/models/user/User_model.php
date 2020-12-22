@@ -42,7 +42,7 @@ class User_model extends CI_Model{
     }
     public function dataUserPhoto( $userId  ){
         return $this->db
-            ->select("user_avatar_url, user_id, user_name, user_full_name")
+            ->select("user_avatar_url, user_id, user_name, user_full_name, user_cover_url")
             ->from("user as u")
             ->limit( 1)
             ->where('u.user_id',"$userId")
