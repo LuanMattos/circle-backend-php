@@ -3,7 +3,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 
 $active_group   = 'default';
 $query_builder  = TRUE;
-
+//nova base = ec2-3-129-239-85.us-east-2.compute.amazonaws.com
 if(ENVIRONMENT === 'production'){
     $hostname = 'ec2-3-129-239-85.us-east-2.compute.amazonaws.com';
 }else{
