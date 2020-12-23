@@ -13,10 +13,10 @@ class Mail{
 //            $mail->SMTPDebug = SMTP::DEBUG_SERVER;                      // Enable verbose debug output
             $mail->CharSet = 'UTF-8';
             $mail->isSMTP();                                            // Send using SMTP
-            $mail->Host       = 'email-smtp.us-east-2.amazonaws.com';      // Set the SMTP server to send through
+            $mail->Host       = '	email-smtp.us-east-1.amazonaws.com';      // Set the SMTP server to send through
             $mail->SMTPAuth   = true;                                   // Enable SMTP authentication
-            $mail->Username   = 'AKIA4CJF77WXMXSQHVB6';                   // SMTP username
-            $mail->Password   = 'BAPiXWI0Amu5GMbuyFMvE8wdfpDDDr9VXjY8mnpKoFCX';                             // SMTP password
+            $mail->Username   = 'AKIA4CJF77WXLNQY4DGD';                   // SMTP username
+            $mail->Password   = 'BISHihrauHQA/kcnRBsbRwDfBTqMK9CCSIVfK0xwM7+o';                             // SMTP password
             $mail->SMTPSecure = PHPMailer::ENCRYPTION_SMTPS;            // Enable TLS encryption; `PHPMailer::ENCRYPTION_SMTPS` encouraged
             $mail->Port       = 465;                                    // TCP port to connect to, use 465 for `PHPMailer::ENCRYPTION_SMTPS` above
 
@@ -39,6 +39,7 @@ class Mail{
 
             $mail->send();
         } catch (Exception $e) {
+            echo $mail->ErrorInfo;
             return $mail->ErrorInfo;
         }
 

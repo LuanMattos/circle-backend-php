@@ -68,11 +68,16 @@ class User extends Home_Controller
 
     public function userExists(){
         $userName =  $data = $this->http->getDataUrl(2);
-        $user = $this->User_model->userExistsUserName($userName);
-
-        if( $user )
+        $this->userService::userExistsUserName( $userName );
+    }
+    public function userExistsEmail(){
+        $data =  $this->http::getDataHeader();
+        $user = $this->userService::userExistsUserEmail( $data->userEmail );
+        if($user){
             $this->response(true);
-
+        }else{
+            $this->response(false);
+        }
     }
 
     public function search(){

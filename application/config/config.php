@@ -555,9 +555,9 @@ $config['proxy_ips'] = '';
 */
 
 $config['email_account'] = 'noreplay@mycircle.click';
-$config['host'] = 'email-smtp.us-east-2.amazonaws.com';
-$config['user_name'] = 'AKIA4CJF77WXMXSQHVB6';
-$config['password'] = 'BAPiXWI0Amu5GMbuyFMvE8wdfpDDDr9VXjY8mnpKoFCX';
+$config['host'] = 'email-smtp.us-east-1.amazonaws.com';
+$config['user_name'] = 'AKIA4CJF77WXLNQY4DGD';
+$config['password'] = 'BISHihrauHQA/kcnRBsbRwDfBTqMK9CCSIVfK0xwM7+o';
 
 $config['ip_ignore'] = ['45.167.104.110','187.71.137.242'];
 

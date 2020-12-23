@@ -64,7 +64,6 @@ class UserService extends GeneralService
 
     public static function validaDataRegister( $data ){
         $error = "";
-
         switch ( $data ):
             case !$data->email || !filter_var( $data->email, FILTER_VALIDATE_EMAIL ):
                 $error .= "E-mail inválido";
@@ -77,7 +76,7 @@ class UserService extends GeneralService
         endswitch;
 
         $user = static::$userRepository->userExistsUserName( $data->user_name );
-        $userEmail = static::$userRepository->userExistsEmail( $data->user_email );
+        $userEmail = static::$userRepository->userExistsEmail( $data->email );
 
         if( $user || $userEmail ){
             $error = "Usuário já cadastrado ";
@@ -171,6 +170,15 @@ class UserService extends GeneralService
         $param['corpo_html'] = $html;
         return $mail->send( $param );
 
+    }
+    public static function userExistsUserName( $userName ){
+        $user = static::$userRepository->userExistsUserName( $userName );
+        if( $user )
+            self::Success(true);
+    }
+    public static function userExistsUserEmail( $userEmail ){;
+        $user = static::$userRepository->userExistsEmail( $userEmail );
+        return $user;
     }
 
 }
