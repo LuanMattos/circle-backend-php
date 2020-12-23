@@ -5,12 +5,14 @@ use Modules\Storage\CreateFolderUserRepository as Upload;
 use Repository\Modules\Auth;
 use Repository\Core;
 use Services\Domain\User\UserService;
+use Repository\Domain\User as UserRepository;
 
 class User extends Home_Controller
 {
     private $jwt;
     private $http;
     private $userService;
+    private $userRepository;
 
     public function __construct(){
         parent::__construct();
@@ -22,6 +24,7 @@ class User extends Home_Controller
         $this->jwt = new Auth\Jwt();
         $this->http = new Core\Http();
         $this->userService = new UserService\UserService();
+        $this->userRepository = new UserRepository\UserRepository();
 
     }
 
@@ -83,10 +86,11 @@ class User extends Home_Controller
     public function search(){
         $data = $this->http::getDataHeader();
         $offset = $this->http->getDataUrl(2);
-
         if( $data )
 
         $users =  $this->User_model->searchUser( $data->name,$offset );
+        $user = $this->userRepository->validateUser( $data->user_email );
+
         $this->response( $users );
     }
 

@@ -35,6 +35,8 @@ class Photos extends Home_Controller
 
         $user = $this->User_model->getWhere( ['user_name'=>$data ],'row' );
 
+        $this->userRepository->validateUser( $user->user_email );
+
         $photos = $this->Photos_model->getPhotoUser(
             $user->user_id,$dataJwt, "photo_id","DESC", "9",$offset
         );

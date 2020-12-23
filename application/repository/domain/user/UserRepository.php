@@ -3,6 +3,8 @@ namespace Repository\Domain\User;
 use Repository\GeneralRepository;
 
 class UserRepository extends GeneralRepository{
+    private $jwt;
+
     function __construct(){
         parent::__construct();
         $this->load->model('user/User_model');
@@ -76,6 +78,22 @@ class UserRepository extends GeneralRepository{
 
     public function changePassowrd( $code, $pass ){
         $this->db->update('user', ['user_password'=>$pass,'user_blocked'=>null,'user_link_forgot_password'=>null],[ 'user_link_forgot_password'=>$code ] );
+    }
+
+    public function validateUser( $userEmail ){
+        $user = $this->db->select('*')
+            ->from('user u')
+            ->where('u.user_email',"$userEmail")
+            ->where('u.user_blocked','f')
+            ->or_where('u.user_code_verification',null)
+            ->or_where('u.user_code_verification','')
+            ->or_where('u.user_code_verification',null)
+            ->get()
+            ->result_array();
+        if( !$user ){
+            self::Success('Usuário não verificado!','error');
+        }
+
     }
 
 }
