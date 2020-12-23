@@ -67,7 +67,6 @@ if(strstr($_SERVER['HTTP_HOST'],"localhost")){
  * Different environments will require different levels of error reporting.
  * By default development will show errors but testing and live will hide them.
  */
-exit('essa merda funcionou');
 switch (ENVIRONMENT)
 {
 	case 'development':
