@@ -4,7 +4,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 $active_group   = 'default';
 $query_builder  = TRUE;
 if(ENVIRONMENT === 'production'){
-    $hostname = 'ec2-18-191-62-185.us-east-2.compute.amazonaws.com';
+    $hostname = 'ec2-3-140-36-139.us-east-2.compute.amazonaws.com';
 }else{
     $hostname = '192.168.100.49';
 }
