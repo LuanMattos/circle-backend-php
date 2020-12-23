@@ -67,6 +67,7 @@ if(strstr($_SERVER['HTTP_HOST'],"localhost")){
  * Different environments will require different levels of error reporting.
  * By default development will show errors but testing and live will hide them.
  */
+exit('essa merda funcionou');
 switch (ENVIRONMENT)
 {
 	case 'development':
@@ -77,16 +78,15 @@ switch (ENVIRONMENT)
 	case 'testing':
 	case 'production':
     error_reporting(-1);
-    ini_set('display_errors', 1);
-//		ini_set('display_errors', 0);
-//		if (version_compare(PHP_VERSION, '5.3', '>='))
-//		{
-//			error_reporting(E_ALL & ~E_NOTICE & ~E_DEPRECATED & ~E_STRICT & ~E_USER_NOTICE & ~E_USER_DEPRECATED);
-//		}
-//		else
-//		{
-//			error_reporting(E_ALL & ~E_NOTICE & ~E_STRICT & ~E_USER_NOTICE);
-//		}
+		ini_set('display_errors', 0);
+		if (version_compare(PHP_VERSION, '5.3', '>='))
+		{
+			error_reporting(E_ALL & ~E_NOTICE & ~E_DEPRECATED & ~E_STRICT & ~E_USER_NOTICE & ~E_USER_DEPRECATED);
+		}
+		else
+		{
+			error_reporting(E_ALL & ~E_NOTICE & ~E_STRICT & ~E_USER_NOTICE);
+		}
 
 	break;
 
