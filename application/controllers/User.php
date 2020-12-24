@@ -89,7 +89,6 @@ class User extends Home_Controller
         if( $data )
 
         $users =  $this->User_model->searchUser( $data->name,$offset );
-        $user = $this->userRepository->validateUser( $data->user_email );
 
         $this->response( $users );
     }
