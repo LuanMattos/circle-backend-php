@@ -41,6 +41,8 @@ class PhotoRepository extends GeneralRepository{
         else:
             self::Success('Error on upload type','error');
         endif;
+        self::Success($url);
+
     }
 
     public function getPhotoToExplorer( $offset, $user ){
@@ -57,5 +59,9 @@ class PhotoRepository extends GeneralRepository{
             return $photos;
         }
         return [];
+    }
+
+    public function getPhotoByIdAndUserId( $id, $userId ){
+        return $this->Photos_model->getWhere(['photo_id' => $id,'user_id'=>$userId ], "row");
     }
 }

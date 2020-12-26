@@ -3,7 +3,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 
 use Repository\Modules\Auth;
 use Repository\Core;
-use Services\Domain\Auth\AuthService;
+use Services\Domain\Auth\PhotoService;
 use Modules\Account\RestoreAccount;
 use Repository\Domain\User;
 
@@ -19,7 +19,7 @@ class CAuth extends Home_Controller
 
         $this->jwt = new Auth\Jwt();
         $this->http = new Core\Http();
-        $this->authService = new AuthService();
+        $this->authService = new PhotoService();
         $this->userRepository = new User\UserRepository();
     }
 

@@ -6,6 +6,8 @@ use Repository\Modules\Auth;
 use Repository\Core;
 use Services\Domain\User\UserService;
 use Repository\Domain\User as UserRepository;
+use Services\Domain\Storage\StorageService;
+
 
 class User extends Home_Controller
 {
@@ -13,6 +15,7 @@ class User extends Home_Controller
     private $http;
     private $userService;
     private $userRepository;
+    private $s3;
 
     public function __construct(){
         parent::__construct();
@@ -25,6 +28,7 @@ class User extends Home_Controller
         $this->http = new Core\Http();
         $this->userService = new UserService\UserService();
         $this->userRepository = new UserRepository\UserRepository();
+        $this->s3 = new StorageService\StorageService();
 
     }
 
@@ -73,6 +77,7 @@ class User extends Home_Controller
         $userName =  $data = $this->http->getDataUrl(2);
         $this->userService::userExistsUserName( $userName );
     }
+
     public function userExistsEmail(){
         $data =  $this->http::getDataHeader();
         $user = $this->userService::userExistsUserEmail( $data->userEmail );
@@ -134,37 +139,38 @@ class User extends Home_Controller
 
     public function uploadImgProfile(){
         $jwtData = $this->jwt->decode();
-
         $user = $this->User_model->getWhere( ["user_id"=>$jwtData->user_id],"row" );
 
+        $this->s3->saveImage( $user, $_FILES['imageFile'], NULL, 'avatar' );
+
         $newData = [
-            "id"       => $user->user_id,
-            "name"     => $user->user_name,
+            "id" => $user->user_id,
+            "name" => $user->user_name,
             "fullName" => $user->user_full_name,
-            "email"    => $user->user_email,
+            "email" => $user->user_email,
         ];
 
         $this->jwt->encode( $newData );
-
-        new Upload\CreateFolderUserRepository( $_FILES, $user,NULL,'avatar' );
 
     }
 
     public function uploadImgCover(){
-        $jwtData = $this->jwt->decode();
 
+        $jwtData = $this->jwt->decode();
         $user = $this->User_model->getWhere( ["user_id"=>$jwtData->user_id],"row" );
 
+        $this->s3->saveImage( $user, $_FILES['imageFile'], NULL, 'cover' );
+
         $newData = [
-            "id"       => $user->user_id,
-            "name"     => $user->user_name,
+            "id" => $user->user_id,
+            "name" => $user->user_name,
             "fullName" => $user->user_full_name,
-            "email"    => $user->user_email,
+            "email" => $user->user_email,
         ];
 
         $this->jwt->encode( $newData );
 
-        new Upload\CreateFolderUserRepository( $_FILES, $user,NULL,'cover' );
+        $this->jwt->decode();
 
     }
 

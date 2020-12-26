@@ -3,6 +3,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 
 use Modules\Storage\CreateFolderUserRepository as Upload;
 use Repository\Domain\Photo as Photo;
+use Services\Domain\Photo as PhotoService;
 use Repository\Domain\User;
 use Repository\Modules\Auth;
 use Repository\Core;
@@ -14,6 +15,7 @@ class Photos extends Home_Controller
     private $http;
     private $photoRepository;
     private $userRepository;
+    private $photoService;
 
     public function __construct(){
         parent::__construct();
@@ -25,6 +27,7 @@ class Photos extends Home_Controller
         $this->photoRepository = new Photo\PhotoRepository();
         $this->userRepository = new User\UserRepository();
         $this->s3 = new StorageService\StorageService();
+        $this->photoService = new PhotoService\PhotoService();
     }
 
     public function index(){
@@ -104,10 +107,8 @@ class Photos extends Home_Controller
     public function delete(){
         $photoId = $this->http->getDataUrl(2);
         $jwt = $this->jwt->decode();
-
         $user = $this->userRepository->getUserByUserName( $jwt->user_name );
-        $this->photoRepository->deletePhotoByUser( $photoId, $user->user_id );
-        $this->response();
+        $this->photoService->deletePhotoByUser( $photoId, $user->user_id );
     }
 
     public function updatePhoto(){

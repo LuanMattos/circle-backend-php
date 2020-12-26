@@ -23,7 +23,7 @@ class StorageService extends GeneralService{
         $this->photoRepository = new Photo\PhotoRepository();
     }
 
-    public function saveImage( $user, $file, $datapost ){
+    public function saveImage( $user, $file, $datapost, $type = 'photo' ){
         $bucketName = $this->s3Config;
         $name_folder_user = md5($user->user_name . $user->user_id);
         $fileName = md5($file['name'] . time());
@@ -36,8 +36,22 @@ class StorageService extends GeneralService{
                 'name_folder' => $name_folder_user
             ];
             $this->userRepository->updateUserByUserName( $dataPhotoRepository );
-            $this->photoRepository->saveImage( $datapost, $user, $url );
+            $this->photoRepository->saveImage( $datapost, $user, $url, $type );
 
+        }catch (\S3Exception $e ){
+
+            $result = $e->getMessage();
+        }
+        self::Success( $result );
+    }
+
+    public function removeImage( $uri ){
+        $bucketName = $this->s3Config;
+        try{
+            $lenUrlCrop = strlen('https://' . $this->endpoint . '/' . $bucketName . '/');
+            $urlLen = strlen( $uri );
+            $uriFormatted = substr( $uri, $lenUrlCrop, $urlLen );
+            $result = $this->s3->deleteObject( $bucketName, $uriFormatted );
         }catch (\S3Exception $e ){
             $result = $e->getMessage();
         }

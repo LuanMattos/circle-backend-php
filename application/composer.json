@@ -21,7 +21,8 @@
       "Repository\\Domain\\Photo\\": "repository/domain/photo",
       "Services\\Domain\\Storage\\StorageService\\": "services/domain/storage",
       "Services\\Domain\\Storage\\Amazon\\": "services/domain/storage/amazon",
-      "Services\\Domain\\Auth\\": "services/domain/auth"
+      "Services\\Domain\\Auth\\": "services/domain/auth",
+      "Services\\Domain\\Photo\\": "services/domain/photo"
     }
   }
 }
