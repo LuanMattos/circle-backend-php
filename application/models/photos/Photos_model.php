@@ -19,7 +19,7 @@ class Photos_model extends CI_Model{
             foreach ( $photos as $key=>$item ) {
                 $photos[$key]['likes'] = [];
                 $photos[$key]['liked'] = $this->Likes_model->likedMe($item['photo_id'],$dataUserLogged->user_id,"row")?true:false;
-                $photos[$key]['user'] = $this->User_model->dataUserPhoto( $dataUserLogged->user_id );
+                $photos[$key]['user'] = $this->User_model->dataUserPhoto( $userId );
             }
         }
         return $photos;
