@@ -168,7 +168,7 @@ class UserService extends GeneralService
         $html = $this->load->view("email/confirme",$data,true);
         $param['corpo']      = '';
         $param['corpo_html'] = $html;
-        return $mail->send( $param );
+        $mail->send( $param );
 
     }
     public static function userExistsUserName( $userName ){

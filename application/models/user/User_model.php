@@ -24,8 +24,8 @@ class User_model extends CI_Model{
         return $this->db
             ->select("count(user_id)")
             ->from("user as u")
-            ->limit( 1)
             ->where('u.user_email',"$email")
+            ->limit( 1)
             ->get()
             ->row()
             ->count;

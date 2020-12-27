@@ -554,10 +554,10 @@ $config['proxy_ips'] = '';
 |Provider E-mail (sensive)
 */
 
-$config['email_account'] = 'noreplay@mycircle.click';
-$config['host'] = 'email-smtp.us-east-1.amazonaws.com';
-$config['user_name'] = 'AKIA4CJF77WXLNQY4DGD';
-$config['password'] = 'BISHihrauHQA/kcnRBsbRwDfBTqMK9CCSIVfK0xwM7+o';
+$config['email_account'] = 'account@mycircle.click';
+$config['host'] = 'email-smtp.us-west-2.amazonaws.com';
+$config['user_name'] = 'AKIA4CJF77WXLTBFC7XR';
+$config['password'] = 'BLgU+PcHTYjSFHsFj6eIE3WDDo46vtntzh6RJVqXrtYS';
 
 $config['ip_ignore'] = ['45.167.104.17','187.71.137.242'];
 

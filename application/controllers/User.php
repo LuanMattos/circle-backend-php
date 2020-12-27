@@ -68,9 +68,8 @@ class User extends Home_Controller
         ];
 
 
-
-
         $this->userService->saveUserRegister( $user );
+        $this->response(true,'success');
     }
 
     public function userExists(){
