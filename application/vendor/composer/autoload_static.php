@@ -13,6 +13,7 @@ class ComposerStaticInit1cca8763c9fc2af40fe209ed4f2a2657
             'Services\\Domain\\Storage\\StorageService\\' => 39,
             'Services\\Domain\\Storage\\Amazon\\' => 31,
             'Services\\Domain\\Photo\\' => 22,
+            'Services\\Domain\\Follower\\' => 25,
             'Services\\Domain\\Auth\\' => 21,
             'Services\\' => 9,
         ),
@@ -22,6 +23,7 @@ class ComposerStaticInit1cca8763c9fc2af40fe209ed4f2a2657
             'Repository\\Modules\\Auth\\' => 24,
             'Repository\\Domain\\User\\' => 23,
             'Repository\\Domain\\Photo\\' => 24,
+            'Repository\\Domain\\Follower\\' => 27,
             'Repository\\Core\\' => 16,
             'Repository\\' => 11,
         ),
@@ -57,6 +59,10 @@ class ComposerStaticInit1cca8763c9fc2af40fe209ed4f2a2657
         array (
             0 => __DIR__ . '/../..' . '/services/domain/photo',
         ),
+        'Services\\Domain\\Follower\\' => 
+        array (
+            0 => __DIR__ . '/../..' . '/services/domain/follower',
+        ),
         'Services\\Domain\\Auth\\' => 
         array (
             0 => __DIR__ . '/../..' . '/services/domain/auth',
@@ -80,6 +86,10 @@ class ComposerStaticInit1cca8763c9fc2af40fe209ed4f2a2657
         'Repository\\Domain\\Photo\\' => 
         array (
             0 => __DIR__ . '/../..' . '/repository/domain/photo',
+        ),
+        'Repository\\Domain\\Follower\\' => 
+        array (
+            0 => __DIR__ . '/../..' . '/repository/domain/follower',
         ),
         'Repository\\Core\\' => 
         array (

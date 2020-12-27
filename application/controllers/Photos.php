@@ -27,7 +27,6 @@ class Photos extends Home_Controller
         $this->photoRepository = new Photo\PhotoRepository();
         $this->userRepository = new User\UserRepository();
         $this->s3 = new StorageService\StorageService();
-        $this->photoService = new PhotoService\PhotoService();
     }
 
     public function index(){

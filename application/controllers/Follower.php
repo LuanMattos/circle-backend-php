@@ -3,11 +3,13 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 
 use Repository\Modules\Auth;
 use Repository\Core;
+use Repository\Domain\Follower as Followers;
 
 class Follower extends Home_Controller
 {
     private $jwt;
     private $http;
+    private $followerRepository;
 
     public function __construct(){
         parent::__construct();
@@ -18,6 +20,7 @@ class Follower extends Home_Controller
 
         $this->jwt = new Auth\Jwt();
         $this->http = new Core\Http();
+        $this->followerRepository = new Followers\FollowerRepository();
 
     }
 
@@ -60,4 +63,11 @@ class Follower extends Home_Controller
 
         $this->response( $follow );
     }
+
+    public function getFollowersUser(){
+        $dataJwt   = $this->jwt->decode();
+        $followers = $this->followerRepository->getFollowerByUserName( $dataJwt->user_id );
+        $this->response( $followers );
+    }
+
 }

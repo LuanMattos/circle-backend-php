@@ -22,7 +22,9 @@
       "Services\\Domain\\Storage\\StorageService\\": "services/domain/storage",
       "Services\\Domain\\Storage\\Amazon\\": "services/domain/storage/amazon",
       "Services\\Domain\\Auth\\": "services/domain/auth",
-      "Services\\Domain\\Photo\\": "services/domain/photo"
+      "Services\\Domain\\Photo\\": "services/domain/photo",
+      "Repository\\Domain\\Follower\\": "repository/domain/follower",
+      "Services\\Domain\\Follower\\": "services/domain/follower"
     }
   }
 }
