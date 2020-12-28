@@ -25,6 +25,7 @@ class Photos extends Home_Controller
         $this->jwt = new Auth\Jwt();
         $this->http = new Core\Http();
         $this->photoRepository = new Photo\PhotoRepository();
+        $this->photoService = new PhotoService\PhotoService();
         $this->userRepository = new User\UserRepository();
         $this->s3 = new StorageService\StorageService();
     }
