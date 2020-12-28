@@ -38,6 +38,7 @@ $route['add_like']['PUT'] = 'likes/like';
 
 $route['follow/(:any)']['PUT'] = 'Follower/follow/$id';
 $route['get_followers/(:any)']['POST'] = 'Follower/getFollowersUser/$id';
+$route['get_followings/(:any)']['POST'] = 'Follower/getFollowingsUser/$id';
 
 
 
