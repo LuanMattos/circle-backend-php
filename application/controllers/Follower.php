@@ -67,7 +67,7 @@ class Follower extends Home_Controller
     public function getFollowersUser(){
         $dataJwt = $this->jwt->decode();
         $offset  = $this->http->getDataUrl(2);
-        $followers = $this->followerRepository->getFollowerByUserName( $dataJwt->user_id, "10", $offset );
+        $followers = $this->followerRepository->getFollowerByUserName( $dataJwt->user_id, "20", $offset );
         $this->response( $followers );
     }
 
