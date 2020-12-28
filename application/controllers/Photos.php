@@ -129,4 +129,12 @@ class Photos extends Home_Controller
         $this->response( $photo );
     }
 
+    public function photosTimeline(){
+        $offset = $this->input->get('page',true);
+        $dataJwt = $this->jwt->decode();
+        $user = $this->userRepository->getUserByUserNameValidateCodeVerification( $dataJwt->user_name );
+        $photo = $this->photoRepository->getPhotoTimeline( $offset, $user );
+        $this->response( $photo );
+    }
+
 }

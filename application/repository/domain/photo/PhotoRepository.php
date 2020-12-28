@@ -6,6 +6,7 @@ class PhotoRepository extends GeneralRepository{
     function __construct(){
         parent::__construct();
         $this->load->model('photos/Photos_model');
+        $this->load->model('follower/Follower_model');
         $this->load->model('user/User_model');
     }
 
@@ -47,6 +48,77 @@ class PhotoRepository extends GeneralRepository{
 
     public function getPhotoToExplorer( $offset, $user ){
 
+        $fields = [
+            'p.photo_id',
+            'p.photo_post_date',
+            'p.photo_url',
+            'p.photo_description',
+            'p.photo_allow_comments',
+            'p.photo_likes',
+            'p.photo_comments',
+            'p.photo_public',
+            'u.user_name',
+            'u.user_full_name',
+            'u.user_avatar_url',
+            'u.user_cover_url'
+        ];
+
+        $photos = $this->db
+                       ->select( $fields )
+                       ->from("photo p")
+                       ->join("user u", "u.user_id = p.user_id","join")
+                       ->order_by("p.photo_post_date","DESC")
+                       ->limit(10)
+                       ->offset( $offset )
+                       ->get()
+                       ->result_array();
+
+        if( $user ){
+            foreach ( $photos as $key=>$item ) {
+//                Será feito separado, ao clicar no número de likes
+                $photos[$key]['likes'] = [];
+                $photos[$key]['liked'] = $this->Likes_model->likedMe($item['photo_id'],$user->user_id,"row")?true:false;
+            }
+            return $photos;
+        }
+        return [];
+    }
+
+    public function getPhotoTimeline( $offset, $user ){
+
+        $fields = [
+            'p.photo_id',
+            'p.photo_post_date',
+            'p.photo_url',
+            'p.photo_description',
+            'p.photo_allow_comments',
+            'p.photo_likes',
+            'p.photo_comments',
+            'p.photo_public',
+            'u.user_name',
+            'u.user_full_name',
+            'u.user_avatar_url',
+            'u.user_cover_url'
+        ];
+
+        $circle = [];
+        $following = $this->Follower_model->getWhere(['user_id_from' => $user->user_id], "array", 'follower_date', 'DESC', "10", $offset);
+
+        foreach( $following as $row ){
+            array_push($circle, $row['user_id_to']);
+        }
+
+        $photos = $this->db->select( $fields )
+                           ->from('photo p' )
+                           ->join('user u','u.user_id = p.user_id', 'left')
+                           ->where_in('p.user_id', $circle )
+                           ->get()
+                           ->result_array();
+        return $photos;
+
+
+
+
 
         $photos = $this->Photos_model->getWhere([],"array", 'photo_post_date', 'DESC', 10, $offset );
 
@@ -59,6 +131,7 @@ class PhotoRepository extends GeneralRepository{
             return $photos;
         }
         return [];
+
     }
 
     public function getPhotoByIdAndUserId( $id, $userId ){

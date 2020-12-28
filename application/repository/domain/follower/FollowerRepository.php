@@ -15,7 +15,10 @@ class FollowerRepository extends GeneralRepository{
             'u.user_name',
             'u.user_avatar_url',
             'u.user_cover_url',
-            'u.user_full_name'
+            'u.user_full_name',
+            'u.description',
+            'u.user_followers',
+            'u.user_following'
         ];
 
         $followers = $this->Follower_model->getWhere( ['user_id_to' => $userId], "array", "follower_date", "ASC", $limit, $offset );
