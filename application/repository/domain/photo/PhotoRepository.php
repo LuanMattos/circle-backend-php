@@ -108,14 +108,16 @@ class PhotoRepository extends GeneralRepository{
             array_push($circle, $row['user_id_to']);
         }
 
-        $photos = $this->db->select( $fields )
-                           ->from('photo p' )
-                           ->join('user u','u.user_id = p.user_id', 'left')
-                           ->where_in('p.user_id', $circle )
-                           ->get()
-                           ->result_array();
-        return $photos;
-
+        if( $circle ) {
+            $photos = $this->db->select($fields)
+                ->from('photo p')
+                ->join('user u', 'u.user_id = p.user_id', 'left')
+                ->where_in('p.user_id', $circle)
+                ->get()
+                ->result_array();
+            return $photos;
+        }
+        return [];
 
 
 
