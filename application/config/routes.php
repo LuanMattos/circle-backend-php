@@ -16,9 +16,11 @@ $route['upload_img_profile']['POST'] = 'user/uploadImgProfile';
 $route['upload_img_cover']['POST'] = 'user/uploadImgCover';
 $route['data_user_basic/(:any)']['POST'] = 'user/dataUserBasic';
 $route['verify']['POST'] = 'user/verificationCode';
+$route['account_is_verify']['POST'] = 'User/verificationAcountConfirm';
 $route['forgot']['POST'] = 'user/forgotPassword';
 $route['valid']['POST'] = 'user/refreshToken';
 $route['change_pass']['POST'] = 'user/ChangePass';
+
 
 $route['photos/(:any)/?(:any)?']['GET'] = 'photos/index/$id';
 $route['photos/(:any)']['DELETE'] = 'photos/delete/$id';
@@ -44,6 +46,9 @@ $route['get_followings/(:any)']['POST'] = 'Follower/getFollowingsUser/$id';
 
 
 $route['log_home']['GET'] = 'Home/logHome';
+
+
+
 
 
 

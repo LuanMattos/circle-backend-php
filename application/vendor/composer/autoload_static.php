@@ -24,6 +24,7 @@ class ComposerStaticInit1cca8763c9fc2af40fe209ed4f2a2657
             'Repository\\Domain\\User\\' => 23,
             'Repository\\Domain\\Photo\\' => 24,
             'Repository\\Domain\\Follower\\' => 27,
+            'Repository\\Domain\\Auth\\' => 23,
             'Repository\\Core\\' => 16,
             'Repository\\' => 11,
         ),
@@ -90,6 +91,10 @@ class ComposerStaticInit1cca8763c9fc2af40fe209ed4f2a2657
         'Repository\\Domain\\Follower\\' => 
         array (
             0 => __DIR__ . '/../..' . '/repository/domain/follower',
+        ),
+        'Repository\\Domain\\Auth\\' => 
+        array (
+            0 => __DIR__ . '/../..' . '/repository/domain/auth',
         ),
         'Repository\\Core\\' => 
         array (

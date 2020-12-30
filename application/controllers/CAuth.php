@@ -3,15 +3,17 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 
 use Repository\Modules\Auth;
 use Repository\Core;
-use Services\Domain\Auth\PhotoService;
 use Modules\Account\RestoreAccount;
 use Repository\Domain\User;
+use Services\Domain\Auth as AuthService;
+use Repository\Domain\Auth as AuthRepository;
 
 class CAuth extends Home_Controller
 {
     private $jwt;
     private $http;
     private $authService;
+    private $authRepository;
     private $userRepository;
 
     public function __construct(){
@@ -19,7 +21,8 @@ class CAuth extends Home_Controller
 
         $this->jwt = new Auth\Jwt();
         $this->http = new Core\Http();
-        $this->authService = new PhotoService();
+        $this->authService = new AuthService\AuthService();
+        $this->authRepository = new AuthRepository\AuthRepository();
         $this->userRepository = new User\UserRepository();
     }
 
@@ -81,5 +84,4 @@ class CAuth extends Home_Controller
         $this->jwt->encode( $data );
         $this->response();
     }
-
 }

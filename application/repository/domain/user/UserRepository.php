@@ -96,4 +96,12 @@ class UserRepository extends GeneralRepository{
 
     }
 
+    public function AccountIsVerified( $userId ){
+        $user = $this->User_model->getWhere( ['user_id' => $userId], 'row');
+        if( $user && (!$user->user_code_verification || empty( $user->user_code_verification )) ){
+            return true;
+        }
+        return false;
+    }
+
 }

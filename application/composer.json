@@ -24,7 +24,8 @@
       "Services\\Domain\\Auth\\": "services/domain/auth",
       "Services\\Domain\\Photo\\": "services/domain/photo",
       "Repository\\Domain\\Follower\\": "repository/domain/follower",
-      "Services\\Domain\\Follower\\": "services/domain/follower"
+      "Services\\Domain\\Follower\\": "services/domain/follower",
+      "Repository\\Domain\\Auth\\": "repository/domain/auth"
     }
   }
 }

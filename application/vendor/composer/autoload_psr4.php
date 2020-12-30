@@ -18,6 +18,7 @@ return array(
     'Repository\\Domain\\User\\' => array($baseDir . '/repository/domain/user'),
     'Repository\\Domain\\Photo\\' => array($baseDir . '/repository/domain/photo'),
     'Repository\\Domain\\Follower\\' => array($baseDir . '/repository/domain/follower'),
+    'Repository\\Domain\\Auth\\' => array($baseDir . '/repository/domain/auth'),
     'Repository\\Core\\' => array($baseDir . '/repository/core'),
     'Repository\\' => array($baseDir . '/repository'),
     'PHPMailer\\PHPMailer\\' => array($baseDir . '/libraries/email/vendor/phpmailer/phpmailer/src'),
