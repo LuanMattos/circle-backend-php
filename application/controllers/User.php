@@ -46,7 +46,8 @@ class User extends Home_Controller
                 "description"            => $user->description,
                 "address"                => $user->address,
                 "user_code_verification" => $user->user_code_verification ? true : false,
-                "user_device_id"         => $user->system_data_information_device_id
+                "user_device_id"         => $user->system_data_information_device_id,
+                'verified'               => $user->user_code_verification?true:false
             ];
 
             $this->jwt->encode( $newData );
@@ -191,7 +192,8 @@ class User extends Home_Controller
             'description'       => $user->description,
             'following'         => $this->followingOwner( $dataJwt, $user->user_id ),
             'user_followers'    => $user->user_followers,
-            'user_following'    => $user->user_following
+            'user_following'    => $user->user_following,
+            'verified'        => $user->user_code_verification?true:false
         ];
         $this->jwt->encode( $data );
 
@@ -255,7 +257,8 @@ class User extends Home_Controller
             'address'         => $user->address,
             'description'     => $user->description,
             'user_followers'  => $user->user_followers,
-            'user_following'  => $user->user_following
+            'user_following'  => $user->user_following,
+            'verified'        => $user->user_code_verification?true:false
         ];
 
         $this->jwt->encode( $data );
@@ -264,6 +267,7 @@ class User extends Home_Controller
     public function verificationAcountConfirm(){
         $user = $this->jwt->decode();
         $result = $this->userRepository->AccountIsVerified( $user->user_id );
+
         $this->response( $result );
     }
 
