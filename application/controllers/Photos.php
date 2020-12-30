@@ -52,7 +52,7 @@ class Photos extends Home_Controller
             "description" => $user->description,
             "address" => $user->address,
             "user_avatar_url" => $user->user_avatar_url,
-            "user_code_verification" => $user->user_code_verification ? true : false
+            "verified" => empty($user->user_code_verification) || !$user->user_code_verification?true:false
         ];
 
         $this->jwt->encode($newData );
@@ -68,6 +68,9 @@ class Photos extends Home_Controller
 
         $user = $this->User_model->getWhere( ["user_id"=>$jwtData->user_id],"row" );
 
+        if($user->user_code_verification || !empty($user->user_code_verification)){
+            $this->response('Ops, parece que você ainda não confirmou sua conta!');
+        }
 
         $this->s3->saveImage( $user, $_FILES['imageFile'], $datapost );
 
@@ -76,6 +79,7 @@ class Photos extends Home_Controller
             "name" => $user->user_name,
             "fullName" => $user->user_full_name,
             "email" => $user->user_email,
+            "verified" => empty($user->user_code_verification) || !$user->user_code_verification?true:false
         ];
 
         $this->jwt->encode( $newData );
