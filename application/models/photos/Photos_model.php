@@ -22,6 +22,7 @@ class Photos_model extends CI_Model{
             'p.photo_likes',
             'p.photo_comments',
             'p.photo_public',
+            'u.user_id',
             'u.user_name',
             'u.user_full_name',
             'u.user_avatar_url',
