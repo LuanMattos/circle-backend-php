@@ -115,21 +115,12 @@ class PhotoRepository extends GeneralRepository{
                 ->where_in('p.user_id', $circle)
                 ->get()
                 ->result_array();
-            return $photos;
-        }
-        return [];
 
-
-
-
-        $photos = $this->Photos_model->getWhere([],"array", 'photo_post_date', 'DESC', 10, $offset );
-
-        if( $user ){
             foreach ( $photos as $key=>$item ) {
                 $photos[$key]['likes'] = [];
                 $photos[$key]['liked'] = $this->Likes_model->likedMe($item['photo_id'],$user->user_id,"row")?true:false;
-                $photos[$key]['user'] = $this->User_model->getWhere( ['user_id'=>$item['user_id']], 'row', NULL, NULL, 1, NULL );
             }
+
             return $photos;
         }
         return [];
