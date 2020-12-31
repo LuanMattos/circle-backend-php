@@ -101,39 +101,41 @@ class User extends Home_Controller
         $data = $this->http::getDataHeader();
         $userHeader = $this->jwt->decode();
 
-        if( !$data->userEmail || !$data->userPassword ){
-            $this->response('Os campos acima devem ser preenchidos!','error');
-        }
-
         $user = $this->User_model->getWhere(['user_name'=>$userHeader->user_name],'row');
-
-        if( !$user ):
-            $this->response('Usuário não encontrado!','error');
-        endif;
 
         $pass = $user->user_password;
 
-        if( $data->userPasswordChange ):
-            $pass = password_hash( $data->userPasswordChange,PASSWORD_ARGON2I );
-        endif;
+        if( ($data->userPassword && $data->userPasswordChange) && (!empty($data->userPassword) && !empty($data->userPasswordChange)) ) {
+            if ($data->userPasswordChange):
+                $newPass = password_hash($data->userPasswordChange, PASSWORD_ARGON2I);
+            endif;
+            $verify = password_verify( $data->userPassword,$user->user_password );
 
-        $verify = password_verify( $data->userPassword,$user->user_password );
+            if( !$verify ):
+                $this->response(false,'error');
+            else:
+                $newData = [
+                    'user_id'       => $user->user_id,
+                    'user_password' => substr($newPass,0,250),
+                    'user_email'    => substr($data->userEmail,0,250),
+                    'address'       => substr($data->userAddress,0,400),
+                    'description'   => addslashes( substr($data->userDescription,0,99) ),
+                ];
 
-        if( !$verify ):
-            $this->response('Senha Incorreta','error');
-        endif;
+                $this->User_model->save( $newData );
+                $this->response('auth');
+            endif;
+        }else{
+            $newData = [
+                'user_id'       => $user->user_id,
+                'user_email'    => substr($data->userEmail,0,250),
+                'address'       => substr($data->userAddress,0,400),
+                'description'   => addslashes( substr($data->userDescription,0,99) ),
+            ];
 
-
-        $newData = [
-            'user_id'       => $user->user_id,
-            'user_password' => substr($pass,0,250),
-            'user_email'    => substr($data->userEmail,0,250),
-            'address'       => substr($data->userAddress,0,400),
-            'description'   => addslashes( substr($data->userDescription,0,99) ),
-        ];
-
-        $this->User_model->save( $newData );
-        $this->response('Salvo com sucesso');
+            $this->User_model->save( $newData );
+            $this->response('common');
+        }
     }
 
     public function uploadImgProfile(){
