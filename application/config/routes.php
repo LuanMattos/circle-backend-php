@@ -15,6 +15,7 @@ $route['save_setting']['POST'] = 'user/saveSetting';
 $route['upload_img_profile']['POST'] = 'user/uploadImgProfile';
 $route['upload_img_cover']['POST'] = 'user/uploadImgCover';
 $route['data_user_basic/(:any)']['POST'] = 'user/dataUserBasic';
+$route['data_user_basic_not_auth/(:any)']['POST'] = 'user/dataUserBasicNotAuth';
 $route['verify']['POST'] = 'user/verificationCode';
 $route['account_is_verify']['POST'] = 'User/verificationAcountConfirm';
 $route['forgot']['POST'] = 'user/forgotPassword';

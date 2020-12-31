@@ -201,6 +201,24 @@ class User extends Home_Controller
 
     }
 
+    public function dataUserBasicNotAuth(){
+        $userName = $this->http->getDataUrl(2);
+
+        $user = $this->User_model->getWhere( ["user_name"=>$userName],"row" );
+
+        $data = [
+            'user_id'           => $user->user_id,
+            'user_avatar_url'   => $user->user_avatar_url,
+            'user_cover_url'    => $user->user_cover_url,
+            'user_full_name'    => $user->user_full_name,
+            'user_name'         => $user->user_name,
+            'description'       => $user->description,
+
+        ];
+
+        $this->response( $data );
+    }
+
     private function followingOwner( $dataJwt, $userIdUrl ){
         if( $dataJwt ):
             $data = [ 'user_id_from'=>$dataJwt->user_id, 'user_id_to'=>$userIdUrl ];

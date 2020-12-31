@@ -32,7 +32,7 @@ class Photos extends Home_Controller
 
     public function index(){
         $data = $this->http->getDataUrl(2);
-        $dataJwt = $this->jwt->decode();
+//        $dataJwt = $this->jwt->decode();
 
         $offset = $this->input->get('page',true);
 
@@ -41,7 +41,7 @@ class Photos extends Home_Controller
         $this->userRepository->validateUser( $user->user_email );
 
         $photos = $this->Photos_model->getPhotoUser(
-            $user->user_id,$dataJwt, "photo_id","DESC", "9",$offset
+            $user->user_id,$user, "photo_id","DESC", "9",$offset
         );
 
         $newData = [
@@ -55,7 +55,7 @@ class Photos extends Home_Controller
             "verified" => empty($user->user_code_verification) || !$user->user_code_verification?true:false
         ];
 
-        $this->jwt->encode($newData );
+//        $this->jwt->encode($newData );
 
         $this->response( $photos );
 

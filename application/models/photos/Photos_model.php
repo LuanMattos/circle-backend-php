@@ -11,7 +11,7 @@ class Photos_model extends CI_Model{
         $this->load->model('likes/Likes_model');
     }
 
-    public function getPhotoUser( $userId,$dataUserLogged, $orderby ,$direction, $limit = 9, $offset ){
+    public function getPhotoUser( $userId, $dataUserLogged, $orderby ,$direction, $limit = 9, $offset ){
 
         $fields = [
             'p.photo_id',
