@@ -16,6 +16,7 @@ class Photos extends Home_Controller
     private $photoRepository;
     private $userRepository;
     private $photoService;
+    private $jwtIfExistsAuth;
 
     public function __construct(){
         parent::__construct();
@@ -24,6 +25,7 @@ class Photos extends Home_Controller
 
         $this->jwt = new Auth\Jwt();
         $this->http = new Core\Http();
+        $this->jwtIfExistsAuth = new Auth\Jwt(true);
         $this->photoRepository = new Photo\PhotoRepository();
         $this->photoService = new PhotoService\PhotoService();
         $this->userRepository = new User\UserRepository();
@@ -32,16 +34,21 @@ class Photos extends Home_Controller
 
     public function index(){
         $data = $this->http->getDataUrl(2);
-//        $dataJwt = $this->jwt->decode();
+        $dataJwt = $this->jwtIfExistsAuth->decodeIfExists();
 
         $offset = $this->input->get('page',true);
 
         $user = $this->User_model->getWhere( ['user_name'=>$data ],'row' );
+        $userLocal = $dataJwt;
+
+        if( !$dataJwt ){
+            $userLocal = $user;
+        }
 
         $this->userRepository->validateUser( $user->user_email );
 
         $photos = $this->Photos_model->getPhotoUser(
-            $user->user_id,$user, "photo_id","DESC", "9",$offset
+            $user->user_id,$userLocal, "photo_id","DESC", "9",$offset
         );
 
         $newData = [

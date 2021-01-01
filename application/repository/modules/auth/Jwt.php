@@ -13,13 +13,16 @@ class Jwt extends Repository\GeneralRepository {
     private $public_key_jwt;
     private $expireToken;
 
-    public  function __construct(){
+    public  function __construct( $ifExistsAuth = false ){
         parent::__construct();
-        $this->jwtInstance = new LibJwt\JWT();
-        $this->public_key_jwt = $this->config->item('public_key_jwt');
-        $this->private_key_jwt = $this->config->item('private_key_jwt');
-        $this->jwtInstance::$leeway = $this->config->item('leeway_token');
-        $this->expireToken = $this->config->item('expire_token');
+
+        if( !$ifExistsAuth ) {
+            $this->jwtInstance = new LibJwt\JWT();
+            $this->public_key_jwt = $this->config->item('public_key_jwt');
+            $this->private_key_jwt = $this->config->item('private_key_jwt');
+            $this->jwtInstance::$leeway = $this->config->item('leeway_token');
+            $this->expireToken = $this->config->item('expire_token');
+        }
     }
 
     public function decode(){
@@ -27,10 +30,31 @@ class Jwt extends Repository\GeneralRepository {
         $token = $data['x-access-token'];
         // usar chave publica do certificado digital SSL - AMAZON
         try{
+
             return $this->jwtInstance::decode( $token, $this->public_key_jwt, ['HS256'] );
         }catch ( Exception $e ){
             self::Success($e->getMessage(),'error');
         }
+    }
+    public function decodeIfExists(){
+        $data = apache_request_headers();
+        $token = $data['x-access-token'];
+
+        if( $token ) {
+            try {
+
+                $this->jwtInstance = new LibJwt\JWT();
+                $this->public_key_jwt = $this->config->item('public_key_jwt');
+                $this->private_key_jwt = $this->config->item('private_key_jwt');
+                $this->jwtInstance::$leeway = $this->config->item('leeway_token');
+                $this->expireToken = $this->config->item('expire_token');
+
+                return $this->jwtInstance::decode($token, $this->public_key_jwt, ['HS256']);
+            } catch (Exception $e) {
+                self::Success($e->getMessage(), 'error');
+            }
+        }
+        return false;
     }
 
     public function encode( $jwt ){
