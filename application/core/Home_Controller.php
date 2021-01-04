@@ -48,7 +48,7 @@ class Home_Controller extends SI_Controller {
     private function setConfigs(){
         $this->config->load('config');
         $this->prod = $this->config->item('origin_prod');
-        $this->elb_ip = $this->config->item('elastic_ip_1');
+        $this->elb_ip = $this->config->item('elb_ip');
         $this->devBack = $this->config->item('origin_dev_back');
         $this->devFront = $this->config->item('origin_dev_front');
         $this->headers = $this->config->item('headers');
