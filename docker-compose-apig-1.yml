@@ -1,0 +1,20 @@
+version: "2.2"
+services:
+  postgres:
+    container_name: postgres
+    image:  luanmattos/atos:postgresql
+    environment:
+      POSTGRES_USER: kong1
+      POSTGRES_PASSWORD: SDFK3D32G78Jh76NoL1A0Gnn5FaL5H7MN3D2099F
+      PGDATA: /data/postgres
+      POSTGRES_DB: kong
+    volumes:
+      - "./data/postgres:/var/lib/postgresql/data"
+    ports:
+      - "5432:5432"
+    networks:
+      - postgres
+
+networks:
+  postgres:
+    driver: bridge
