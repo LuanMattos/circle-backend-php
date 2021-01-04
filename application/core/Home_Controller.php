@@ -6,7 +6,7 @@ class Home_Controller extends SI_Controller {
     private $devBack;
     private $devFront;
     private $headers;
-    private $elasticIp1;
+    private $elb_ip;
     private $ipIgnore;
 
     public function __construct(){
@@ -17,8 +17,16 @@ class Home_Controller extends SI_Controller {
 
     private function authRequest(){
         if( ENVIRONMENT === 'production' ){
+            $noValidOrigin = false;
 
-            if( hostOrigin($this->prod) || hostOrigin($this->elasticIp1)) {
+            foreach($this->elb_ip as $key=>$row ){
+                $validOrigin = !hostOrigin($this->elb_ip[$key]);
+                if( !$validOrigin ){
+                    $noValidOrigin = true;
+                }
+            }
+
+            if( hostOrigin($this->prod) || !$noValidOrigin) {
                 $this->_headers();
             }else{
                 http_response_code(404);
@@ -40,7 +48,7 @@ class Home_Controller extends SI_Controller {
     private function setConfigs(){
         $this->config->load('config');
         $this->prod = $this->config->item('origin_prod');
-        $this->elasticIp1 = $this->config->item('elastic_ip_1');
+        $this->elb_ip = $this->config->item('elastic_ip_1');
         $this->devBack = $this->config->item('origin_dev_back');
         $this->devFront = $this->config->item('origin_dev_front');
         $this->headers = $this->config->item('headers');
