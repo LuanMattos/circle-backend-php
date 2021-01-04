@@ -474,7 +474,7 @@ $config['origin_prod1'] = 'circle-5d1a1.firebaseapp.com';
 $config['origin_prod2'] = 'circle-5d1a1.web.app';
 $config['origin_dev_back'] = 'localhost';
 $config['origin_dev_front'] = 'localhost:4200';
-$config['elastic_ip_1'] = '172.31.19.185';
+$config['elastic_ip_1'] = '172.31.23.95';
 $config['headers'] = [
     'Access-Control-Allow-Methods: POST, GET, OPTIONS, DELETE, PUT',
     'Access-Control-Allow-Origin: *',
