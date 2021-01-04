@@ -16,31 +16,32 @@ class Home_Controller extends SI_Controller {
     }
 
     private function authRequest(){
-        if( ENVIRONMENT === 'production' ){
-            $noValidOrigin = false;
-
-            foreach($this->elb_ip as $key=>$row ){
-                $validOrigin = !hostOrigin($this->elb_ip[$key]);
-                if( !$validOrigin ){
-                    $noValidOrigin = true;
-                }
-            }
-
-            if( hostOrigin($this->prod) || !$noValidOrigin) {
+//        if( ENVIRONMENT === 'production' ){
+//            $noValidOrigin = false;
+//
+//            foreach($this->elb_ip as $key=>$row ){
+//                $validOrigin = !hostOrigin($this->elb_ip[$key]);
+//                if( !$validOrigin ){
+//                    $noValidOrigin = true;
+//                }
+//            }
+//
+//            if( hostOrigin($this->prod) || !$noValidOrigin) {
                 $this->_headers();
-            }else{
-                http_response_code(404);
-                exit();
-            }
-        }else if(ENVIRONMENT === 'development'
-            &&  (hostOrigin($this->devFront) || hostOrigin($this->devBack))){
-            $this->_headers();
-        }
+//            }else{
+//                http_response_code(404);
+//                exit();
+//            }
+//        }else if(ENVIRONMENT === 'development'
+//            &&  (hostOrigin($this->devFront) || hostOrigin($this->devBack))){
+//            $this->_headers();
+//        }
     }
 
     private function _headers(){
         header('Access-Control-Allow-Methods: POST, GET, OPTIONS, DELETE, PUT');
-        header('Access-Control-Allow-Origin: *');
+        header('Access-Control-Allow-Origin: mycircle.click');
+        header('Access-Control-Allow-Origin: https://mycircle.click');
         header('Access-Control-Allow-Headers: Origin, Authorization, Client-Security-Token, Accept-Encoding, X-Auth-Token, X-Requested-With, Content-Type, Accept, x-Access-Token');
         header('Content-type: application/json');
     }
