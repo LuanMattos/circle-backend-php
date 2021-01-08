@@ -98,3 +98,5 @@ fabric.properties
 
 /storage/img/*
 /data/
+/docker-compose.yml
+application/config/database.php
