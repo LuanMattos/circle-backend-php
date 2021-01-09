@@ -18,15 +18,7 @@ class Home_Controller extends SI_Controller {
     private function authRequest(){
         if( ENVIRONMENT === 'production' ){
 
-            foreach($this->elb_ip as $key=>$row ){
-                $validOrigin = !hostOrigin($this->elb_ip[$key]);
-                if( !$validOrigin ){
-                    http_response_code(404);
-                    exit();
-                }
-            }
-
-            if( hostOrigin($this->prod) ) {
+            if( hostOrigin($this->prod) && (hostOrigin($this->elb_ip[0]) || hostOrigin($this->elb_ip[1])) ) {
                 $this->_headers();
             }
         }else if(ENVIRONMENT === 'development'
