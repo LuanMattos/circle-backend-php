@@ -472,8 +472,8 @@ $config['csrf_exclude_uris'] = array();
 
 #Cors
 $config['origin_prod'] = 'mycircle.click';
-$config['origin_prod1'] = 'circle-5d1a1.firebaseapp.com';
-$config['origin_prod2'] = 'circle-5d1a1.web.app';
+$config['origin_prod1'] = 'circle-73cde.web.app';
+$config['origin_prod2'] = 'circle-73cde.firebaseapp.com';
 $config['origin_dev_back'] = 'localhost';
 $config['origin_dev_front'] = 'localhost:4200';
 $config['elb_ip'] = ['172.31.39.144','172.31.23.95'];

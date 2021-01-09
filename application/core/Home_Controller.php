@@ -18,12 +18,12 @@ class Home_Controller extends SI_Controller {
     private function authRequest(){
         if( ENVIRONMENT === 'production' ){
 
-            if(
-                 hostOrigin( $this->elb_ip[0] ) || hostOrigin( $this->elb_ip[1] )
-            ) {
-                echo "dev :" . $this->origin_prod;
+//            if(
+//                 hostOrigin( $this->elb_ip[0] ) || hostOrigin( $this->elb_ip[1] )
+//            ) {
+//                echo "dev :" . $this->origin_prod;
                 $this->_headers();
-            }
+//            }
         }
 //        else if(ENVIRONMENT === 'development'
 //            &&  (hostOrigin($this->devFront) || hostOrigin($this->devBack))){
@@ -34,7 +34,7 @@ class Home_Controller extends SI_Controller {
 
     private function _headers(){
         header('Access-Control-Allow-Methods: POST, GET, OPTIONS, DELETE, PUT');
-        header('Access-Control-Allow-Origin: *');
+        header('Access-Control-Allow-Origin: https://mycircle.click, https://circle-73cde.firebaseapp.com, https://www.mycircle.click');
         header('Access-Control-Allow-Headers: Origin, Authorization, Client-Security-Token, Accept-Encoding, X-Auth-Token, X-Requested-With, Content-Type, Accept, x-Access-Token');
         header('Content-type: application/json');
     }
