@@ -17,20 +17,25 @@ class Home_Controller extends SI_Controller {
 
     private function authRequest(){
         if( ENVIRONMENT === 'production' ){
+
+            foreach($this->elb_ip as $key=>$row ){
+                $validOrigin = !hostOrigin($this->elb_ip[$key]);
+                if( !$validOrigin ){
+                    http_response_code(404);
+                    exit();
+                }
+            }
+
+            if( hostOrigin($this->prod) ) {
                 $this->_headers();
+            }
         }else if(ENVIRONMENT === 'development'
             &&  (hostOrigin($this->devFront) || hostOrigin($this->devBack))){
-            $this->_headers_local();
+            $this->_headers();
         }
     }
 
     private function _headers(){
-        header('Access-Control-Allow-Methods: POST, GET, OPTIONS, DELETE, PUT');
-        header('Access-Control-Allow-Origin: www.mycircle.click, mycircle.click, https://mycircle.click, https://www.mycircle.click');
-        header('Access-Control-Allow-Headers: Origin, Authorization, Client-Security-Token, Accept-Encoding, X-Auth-Token, X-Requested-With, Content-Type, Accept, x-Access-Token');
-        header('Content-type: application/json');
-    }
-    private function _headers_local(){
         header('Access-Control-Allow-Methods: POST, GET, OPTIONS, DELETE, PUT');
         header('Access-Control-Allow-Origin: *');
         header('Access-Control-Allow-Headers: Origin, Authorization, Client-Security-Token, Accept-Encoding, X-Auth-Token, X-Requested-With, Content-Type, Accept, x-Access-Token');
