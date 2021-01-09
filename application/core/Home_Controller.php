@@ -20,7 +20,7 @@ class Home_Controller extends SI_Controller {
 
             if(
                 hostOrigin( $this->origin_prod )
-                && (
+                || (
                     hostOrigin( $this->elb_ip[0] ) || hostOrigin( $this->elb_ip[1] )
                    )
             ) {
