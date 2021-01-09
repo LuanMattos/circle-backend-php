@@ -19,10 +19,7 @@ class Home_Controller extends SI_Controller {
         if( ENVIRONMENT === 'production' ){
 
             if(
-                hostOrigin( $this->origin_prod )
-                || (
-                    hostOrigin( $this->elb_ip[0] ) || hostOrigin( $this->elb_ip[1] )
-                   )
+                hostOrigin( $this->origin_prod ) || hostOrigin( $this->elb_ip[0] ) || hostOrigin( $this->elb_ip[1] )
             ) {
                 echo "dev :" . $this->origin_prod;
                 $this->_headers();
