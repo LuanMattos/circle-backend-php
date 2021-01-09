@@ -37,7 +37,7 @@ class Home_Controller extends SI_Controller {
 
     private function _headers(){
         header('Access-Control-Allow-Methods: POST, GET, OPTIONS, DELETE, PUT');
-        header('Access-Control-Allow-Origin: *');
+        header('Access-Control-Allow-Origin: https://mycircle.click');
         header('Access-Control-Allow-Headers: Origin, Authorization, Client-Security-Token, Accept-Encoding, X-Auth-Token, X-Requested-With, Content-Type, Accept, x-Access-Token');
         header('Content-type: application/json');
     }
