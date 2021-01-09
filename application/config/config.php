@@ -469,6 +469,8 @@ $config['csrf_cookie_name'] = 'csrf_cookie_name';
 $config['csrf_expire'] = 7200;
 $config['csrf_regenerate'] = TRUE;
 $config['csrf_exclude_uris'] = array();
+
+#Cors
 $config['origin_prod'] = 'mycircle.click';
 $config['origin_prod1'] = 'circle-5d1a1.firebaseapp.com';
 $config['origin_prod2'] = 'circle-5d1a1.web.app';

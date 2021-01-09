@@ -2,7 +2,7 @@
 defined('BASEPATH') OR exit('No direct script access allowed');
 
 class Home_Controller extends SI_Controller {
-    private $prod;
+    private $origin_prod;
     private $devBack;
     private $devFront;
     private $headers;
@@ -18,11 +18,18 @@ class Home_Controller extends SI_Controller {
     private function authRequest(){
         if( ENVIRONMENT === 'production' ){
 
-            if( hostOrigin($this->prod) && (hostOrigin($this->elb_ip[0]) || hostOrigin($this->elb_ip[1]) || hostOrigin($this->prod) ) ) {
+            if(
+                hostOrigin( $this->origin_prod )
+                && (
+                    hostOrigin( $this->elb_ip[0] ) || hostOrigin( $this->elb_ip[1] )
+                   )
+            ) {
+                echo "dev :" . $this->origin_prod;
                 $this->_headers();
             }
         }else if(ENVIRONMENT === 'development'
             &&  (hostOrigin($this->devFront) || hostOrigin($this->devBack))){
+            echo "dev :" . $this->devFront;
             $this->_headers();
         }
     }
@@ -36,7 +43,7 @@ class Home_Controller extends SI_Controller {
 
     private function setConfigs(){
         $this->config->load('config');
-        $this->prod = $this->config->item('origin_prod');
+        $this->origin_prod = $this->config->item('origin_prod');
         $this->elb_ip = $this->config->item('elb_ip');
         $this->devBack = $this->config->item('origin_dev_back');
         $this->devFront = $this->config->item('origin_dev_front');
