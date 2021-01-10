@@ -33,14 +33,14 @@ class AuthService extends GeneralService
 
         switch ( $user ){
             case !$user:
-                $error = "Usuário inválido!";
+                $error = "Invalid user";
                 static::$systemDataInformationRepository->saveAccessErrorUser( $sdi );
                 break;
             case ($user && ($user->user_blocked == 't')):
-                $error = "Usuário bloqueado, redefina sua senha!";
+                $error = "Blocked user, reset your password!";
                 break;
             case !password_verify( $data->password, $user->user_password ):
-                $error = "Senha incorreta!";
+                $error = "Incorrect password!";
                 static::$systemDataInformationRepository->saveAccessErrorPass( $user );
                 break;
         }
@@ -67,20 +67,20 @@ class AuthService extends GeneralService
 
         switch ( $data ):
             case !$data->email || !filter_var( $data->email, FILTER_VALIDATE_EMAIL ):
-                $error .= "E-mail inválido";
+                $error .= "Invalid email";
             case !$data->userName || strlen( $data->userName ) < 3:
-                $error .= "Nome de usuário inválido";
+                $error .= "Invalid user name";
             case !$data->fullName:
-                $error .= "Nome de usuário inválido";
+                $error .= "Invalid user name";
             case !$data->password || strlen( $data->password ) < 8:
-                $error .= "Senha inválida";
+                $error .= "Invalid password";
         endswitch;
 
         $user = static::$userRepository->userExistsUserName( $data->user_name );
         $userEmail = static::$userRepository->userExistsEmail( $data->user_email );
 
         if( $user || $userEmail ){
-            $error = "Usuário já cadastrado ";
+            $error = "User already registered ";
         }
 
         if( $error ):
@@ -100,7 +100,7 @@ class AuthService extends GeneralService
         $user = static::$userRepository->distinctEmailOrUserName( $dataHeader );
 
         if( !$user ){
-            $error = 'Usuário não encotrado!';
+            $error = 'User not found!';
         }
 
         if( $error ):
@@ -119,7 +119,7 @@ class AuthService extends GeneralService
         self::$userRepository->updateLinkForgotPass( $codeLink, $user->user_id );
         $user->user_link_forgot_password = $linkUri;
         $this->sendEmailForgotPassword( $user );
-        self::Success('Enviamos um E-mail de confirmação para a conta informada, clique no link e redefina sua senha.');
+            self::Success('We sent a confirmation E-mail to the informed account, click on the link and reset your password.');
 
     }
 
@@ -129,7 +129,7 @@ class AuthService extends GeneralService
         static::$userRepository->deleteLogUser( $user->user_id );
     }
 
-    private function sendEmailForgotPassword( $user, $title = 'Relembrar Senha!' ){
+    private function sendEmailForgotPassword( $user, $title = 'Remember Password!' ){
         $emailFrom = $this->config->item('email_account');
 
         $mail  = new \Mail();

@@ -83,7 +83,7 @@ class JWT
 
         if (count($tks) != 3) {
 //            'Número errado de segmentos'
-            throw new Exception('Usuário não autenticado');
+            throw new Exception('Unauthenticated user');
         }
         list($headb64, $bodyb64, $cryptob64) = $tks;
         if (null === ($header = static::jsonDecode(static::urlsafeB64Decode($headb64)))) {

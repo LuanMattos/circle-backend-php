@@ -171,9 +171,9 @@
 <form id="msform">
     <?php if(isset($alteracao_email)): ?>
         <fieldset>
-            <h2 class="fs-title">Atenção! Recebemos um pedido de alteração E-mail diretamente de sua conta!</h2>
-            <h2 class="fs-title">Não divulgue este código com ningúem, guarde-o, ele pode ser solicitado!</h2>
-            <h3 class="fs-subtitle">Seu código é <?= set_val( $codigo_confirmacao )  ?></h3>
+            <h2 class="fs-title">Attention! We have received an email change order directly from your account!</h2>
+            <h2 class="fs-title">Don't share this code with anyone, save it, it can be requested!</h2>
+            <h3 class="fs-subtitle">Your code is<?= set_val( $codigo_confirmacao )  ?></h3>
             <!--		<input type="text" name="fname" placeholder="First Name" />-->
             <!--		<input type="text" name="lname" placeholder="Last Name" />-->
             <!--		<input type="text" name="phone" placeholder="Phone" />-->
@@ -182,43 +182,43 @@
         </fieldset>
     <?php elseif(isset($accessAccount)): ?>
         <fieldset>
-            <h2 class="fs-title">Olá <?= set_val( $nome )  ?> Houve uma tentativa de acesso à sua conta!</h2>
-            <h2 class="fs-title">Dados de acesso:</h2>
+            <h2 class="fs-title">Olá <?= set_val( $nome )  ?> An attempt was made to access your account !</h2>
+            <h2 class="fs-title">Access data :</h2>
             <h3 class="fs-subtitle"><?= set_val( $dataAccess )  ?></h3>
         </fieldset>
     <?php elseif(isset($newDevice)): ?>
         <fieldset>
-            <h2 class="fs-title">Olá <?= set_val( $nome )  ?> Um novo dispositivo acessou sua conta!</h2>
-            <h2 class="fs-title">Dados do novo dispositivo:</h2>
+            <h2 class="fs-title">Olá <?= set_val( $nome )  ?> A new device has accessed your account !</h2>
+            <h2 class="fs-title">New device data :</h2>
             <h3 class="fs-subtitle"><?= set_val( $dataAccess )  ?></h3>
         </fieldset>
     <?php elseif(isset($relembrar_senha)): ?>
         <fieldset>
-            <h2 class="fs-title">Olá <?= set_val( $nome )  ?> Recebemos um pedido de alteração de senha. Para redefinir sua senha</h2>
+            <h2 class="fs-title">Olá <?= set_val( $nome )  ?> We received a password change request. To reset your password</h2>
             <a href="<?= set_val( $link )  ?>" target="_blank" title="Clique para refefinir a senha"> clique aqui</a>
             <br>
-            <p>Nós não enviamos senhas ou dados pessoas por E-mail, suspeite de qualquer ato!</p>
+            <p>We do not send passwords or personal data by E-mail, suspect any act !</p>
             <br>
-            <p>Confie apenas em domínios mycircle.click!</p>
+            <p>Trust only mycircle.click domains !</p>
         </fieldset>
     <?php else: ?>
         <ul id="progressbar" style="<?= isset( $cadastro ) ?'':'display:none' ?>">
-            <li class="active">Cadastro</li>
-            <li class="active">Verificação</li>
-            <li>Configuração</li>
+            <li class="active">Register</li>
+            <li class="active">Verification</li>
+            <li>Configuration</li>
         </ul>
 
         <fieldset>
-            <h2 class="fs-title">Parabéns <?= set_val( $nome )  ?> estamos quase lá</h2>
-            <h3 class="fs-subtitle">Código de confirmação</h3>
+            <h2 class="fs-title">Congratulations <?= set_val( $nome )  ?> we are almost there</h2>
+            <h3 class="fs-subtitle">Confirmation code</h3>
             <h3 class="codigo-confirmacao"><?= set_val( $codigo_confirmacao )  ?></h3>
         </fieldset>
         <br>
         <?php if(isset($alteracao_senha)): ?>
             <fieldset>
-                <h1 class="fs-title">Atenção! Recebemos um pedido de alteração de senha!</h1>
-                <h2 class="fs-title">Seu código de verificação é <?= set_val( $codigo_confirmacao )  ?></h2>
-                <h3 class="fs-subtitle">Clique aqui <a href="<?= isset($link)?$link:'' ?>" target="_blank">para redefinir</a></b></h3>
+                <h1 class="fs-title">Attention! We received a password change request !</h1>
+                <h2 class="fs-title">Your verification code is<?= set_val( $codigo_confirmacao )  ?></h2>
+                <h3 class="fs-subtitle"Click here<a href="<?= isset($link)?$link:'' ?>" target="_blank">to reset</a></b></h3>
                 <!--                <a href="--><?//= isset($link_nao_fui_eu)?$link_nao_fui_eu:'' ?><!--" name="previous" class="previous action-button" value="Não fui eu!"/>-->
             </fieldset>
         <?php endif; ?>

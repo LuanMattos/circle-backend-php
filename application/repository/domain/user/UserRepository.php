@@ -18,14 +18,14 @@ class UserRepository extends GeneralRepository{
     public function getUserByUserName( $userName, $return = "row"){
         $user = $this->User_model->getWhere( ['user_name' => $userName ], $return );
         if(!$user){
-            self::Success('Usuário não existe!','error');
+            self::Success('User does not exist!','error');
         }
         return $user;
     }
     public function getUserByUserNameValidateCodeVerification( $userName, $return = "row"){
         $user = $this->User_model->getWhere( ['user_name' => $userName,'user_code_verification' => null ], $return );
         if(!$user){
-            self::Success('Usuário não existe!','error');
+            self::Success('User does not exist!','error');
         }
         return $user;
     }
@@ -33,7 +33,7 @@ class UserRepository extends GeneralRepository{
     public function getUserByCodeLink( $code, $return = "row"){
         $user = $this->User_model->getWhere( ['user_link_forgot_password' => $code ], $return );
         if(!$user){
-            self::Success('Usuário não existe!','error');
+            self::Success('User does not exist!','error');
         }
         return $user;
     }
@@ -91,7 +91,7 @@ class UserRepository extends GeneralRepository{
             ->get()
             ->result_array();
         if( !$user ){
-            self::Success('Usuário não verificado!','error');
+            self::Success('Unverified user!','error');
         }
 
     }

@@ -33,14 +33,14 @@ class UserService extends GeneralService
 
         switch ( $user ){
             case !$user:
-                $error = "Usuário inválido!";
+                $error = "Invalid user";
                 static::$systemDataInformationRepository->saveAccessErrorUser( $sdi );
                 break;
             case ($user && ($user->user_blocked == 't')):
-                $error = "Usuário bloqueado, redefina sua senha!";
+                $error = "Blocked user, reset your password!";
                 break;
             case !password_verify( $data->password, $user->user_password ):
-                $error = "Senha incorreta!";
+                $error = "Incorrect password!";
                 static::$systemDataInformationRepository->saveAccessErrorPass( $user );
                 break;
         }
@@ -66,20 +66,20 @@ class UserService extends GeneralService
         $error = "";
         switch ( $data ):
             case !$data->email || !filter_var( $data->email, FILTER_VALIDATE_EMAIL ):
-                $error .= "E-mail inválido";
+                $error .= "Invalid email";
             case !$data->userName || strlen( $data->userName ) < 3:
-                $error .= "Nome de usuário inválido";
+                $error .= "Invalid user name";
             case !$data->fullName:
-                $error .= "Nome de usuário inválido";
+                $error .= "Invalid user name";
             case !$data->password || strlen( $data->password ) < 8:
-                $error .= "Senha inválida";
+                $error .= "Invalid password";
         endswitch;
 
         $user = static::$userRepository->userExistsUserName( $data->user_name );
         $userEmail = static::$userRepository->userExistsEmail( $data->email );
 
         if( $user || $userEmail ){
-            $error = "Usuário já cadastrado ";
+            $error = "User already registered ";
         }
 
         if( $error ):
@@ -99,7 +99,7 @@ class UserService extends GeneralService
         $user = static::$userRepository->distinctEmailOrUserName( $dataHeader );
 
         if( !$user ){
-            $error = 'Usuário não encotrado!';
+            $error = 'User not found!';
         }
 
         if( $error ):

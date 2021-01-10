@@ -12,7 +12,7 @@ services:
       container_name: postgres
       image: luanmattos/atos:postgresql
       environment:
-        POSTGRES_USER: postgres
+        POSTGRES_USER: square_db1
         POSTGRES_PASSWORD: eFdarksadfw4r54af4fd4a54h2fasfdg
         PGDATA: /data/postgres
         POSTGRES_DB: atos

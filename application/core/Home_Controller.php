@@ -16,13 +16,16 @@ class Home_Controller extends SI_Controller {
     }
 
     private function authRequest(){
+        $this->_headers();
+        $data = apache_request_headers();
+
         if( ENVIRONMENT === 'production' ){
 
 //            if(
 //                 hostOrigin( $this->elb_ip[0] ) || hostOrigin( $this->elb_ip[1] )
 //            ) {
 //                echo "dev :" . $this->origin_prod;
-                $this->_headers();
+
 //            }
         }
 //        else if(ENVIRONMENT === 'development'

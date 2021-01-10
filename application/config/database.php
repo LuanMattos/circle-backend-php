@@ -12,7 +12,7 @@ if(ENVIRONMENT === 'production'){
 }
 $db['default']  = [
 	'dsn'	        => '',
-	'hostname'      => 'ec2-3-140-36-139.us-east-2.compute.amazonaws.com',
+	'hostname'      => $hostname,
 	'username'      => 'square_db1',
 	'port'          => '5432',
 	'password'      => $pass,

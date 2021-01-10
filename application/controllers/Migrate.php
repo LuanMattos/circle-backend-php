@@ -166,7 +166,7 @@ class Migrate extends CI_Controller
                       ALTER TABLE Square.location ADD COLUMN IF NOT EXISTS location_organization VARCHAR(150) DEFAULT NULL;
                       ALTER TABLE Square.location ADD COLUMN IF NOT EXISTS location_time_zone VARCHAR(150) DEFAULT NULL;
                       ALTER TABLE Square.system_data_information ADD COLUMN IF NOT EXISTS system_data_information_http_x_forwarded_for VARCHAR(150) DEFAULT NULL;
-                      ALTER TABLE square.error_type ADD COLUMN error_type_code bigint unique;                      
+                      ALTER TABLE square.error_type ADD COLUMN IF NOT EXISTS error_type_code bigint unique;                      
                       ");
         $this->db->query("
         insert into square.error_type  (error_type_id,error_type_code,error_type_title) values (default,'500','Falha ao criar pasta do usuário');
@@ -175,7 +175,7 @@ insert into square.error_type  (error_type_id,error_type_code,error_type_title) 
 insert into square.error_type  (error_type_id,error_type_code,error_type_title) values (default,'503','Tentativa de acesso restrito ao storage');
 insert into square.error_type  (error_type_id,error_type_code,error_type_title) values (default,'504','Falha ao criar pasta no storage');
 insert into square.error_type  (error_type_id,error_type_code,error_type_title) values (default,'505','Usuário incorreto');
-insert into square.error_type  (error_type_id,error_type_code,error_type_title) values (default,'506','Senha incorreta');
+insert into square.error_type  (error_type_id,error_type_code,error_type_title) values (default,'506','Incorrect password');
 insert into square.error_type  (error_type_id,error_type_code,error_type_title) values (default,'507','Falha ao salvar os dados na configuração da conta');
 insert into square.error_type  (error_type_id,error_type_code,error_type_title) values (default,'508','Falha ao postar imagem');
 insert into square.error_type  (error_type_id,error_type_code,error_type_title) values (default,'509','Falha na barra de pesquisa');

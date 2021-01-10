@@ -285,6 +285,7 @@ class User extends Home_Controller
         $this->jwt->encode( $data );
         $this->response();
     }
+
     public function verificationAcountConfirm(){
         $user = $this->jwt->decode();
         $result = $this->userRepository->AccountIsVerified( $user->user_id );
