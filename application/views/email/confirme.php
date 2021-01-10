@@ -182,20 +182,20 @@
         </fieldset>
     <?php elseif(isset($accessAccount)): ?>
         <fieldset>
-            <h2 class="fs-title">Olá <?= set_val( $nome )  ?> An attempt was made to access your account !</h2>
+            <h2 class="fs-title">Hi <?= set_val( $nome )  ?> An attempt was made to access your account !</h2>
             <h2 class="fs-title">Access data :</h2>
             <h3 class="fs-subtitle"><?= set_val( $dataAccess )  ?></h3>
         </fieldset>
     <?php elseif(isset($newDevice)): ?>
         <fieldset>
-            <h2 class="fs-title">Olá <?= set_val( $nome )  ?> A new device has accessed your account !</h2>
+            <h2 class="fs-title">Hi <?= set_val( $nome )  ?> A new device has accessed your account !</h2>
             <h2 class="fs-title">New device data :</h2>
             <h3 class="fs-subtitle"><?= set_val( $dataAccess )  ?></h3>
         </fieldset>
     <?php elseif(isset($relembrar_senha)): ?>
         <fieldset>
-            <h2 class="fs-title">Olá <?= set_val( $nome )  ?> We received a password change request. To reset your password</h2>
-            <a href="<?= set_val( $link )  ?>" target="_blank" title="Clique para refefinir a senha"> clique aqui</a>
+            <h2 class="fs-title">Hi <?= set_val( $nome )  ?> We received a password change request. To reset your password</h2>
+            <a href="<?= set_val( $link )  ?>" target="_blank" title="Click to reset password"> here</a>
             <br>
             <p>We do not send passwords or personal data by E-mail, suspect any act !</p>
             <br>
