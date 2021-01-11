@@ -23,6 +23,22 @@ class MailMarketing extends Home_Controller
     }
     public function sendMail( $email ){
 //        $this->Email_marketing_model->save(['email_marketing_id'=>$email->email_marketing_id,'email_marketing_sent'=>'t']);
-        $this->emailService->sendEmail( $email );
+        $this->sendEmail( $email );
+    }
+    public function sendEmail( $emailTo ){
+        $emailFromMarketing = $this->config->item('email_account_marketing');
+        $this->load->library('email/mail');
+
+        $mail  = new \Mail();
+        $param = [];
+        $param['from']              = $emailFromMarketing;
+        $param['to']                = $emailTo;
+        $param['name']              = "Circle";
+
+        $html = $this->load->view("email/marketing", NULL,true);
+        $param['corpo']      = '';
+        $param['corpo_html'] = $html;
+        $mail->send( $param );
+
     }
 }
