@@ -1,5 +1,5 @@
 <?php
-use Services\Domain\User\EmailService;
+//use Services\Domain\User\EmailService;
 class MailMarketing extends Home_Controller
 {
     private $emailService;
@@ -7,7 +7,7 @@ class MailMarketing extends Home_Controller
     public function __construct(){
         parent::__construct();
         $this->load->model('mail/Email_marketing_model');
-        $this->emailService = new EmailService\EmailService();
+//        $this->emailService = new EmailService\EmailService();
     }
 
     public function index(){
