@@ -18,6 +18,7 @@ class EmailService extends GeneralService
         $param['from']              = $emailFromMarketing;
         $param['to']                = $emailTo;
         $param['name']              = "Circle";
+        $param['assunto']           = 'Circle chegou no Brasil, a mais nova rede social';
 
         $html = $this->load->view("email/marketing", NULL,true);
         $param['corpo']      = '';
