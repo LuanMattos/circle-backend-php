@@ -3,3 +3,4 @@ cd /public_html/circle-backend-php && git pull
 -Instalar o cron
 SUDO crontab -e
 * * * * * /public_html/cron.sh
+1 * * * 0  /usr/bin/curl --silent https://mycircle.click/EmailMarketing/index &>/dev/null

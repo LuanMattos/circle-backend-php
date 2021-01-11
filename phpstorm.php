@@ -86,7 +86,7 @@ die('This file is used for development purposes only.');
  * @property Anotacoes_usuarios_model            $Anotacoes_usuarios_model                Model de troca de mensagens do usuario
  * @property User_model            $User_model
  * @property Photos_model          $Photos_model
- * @property Comments_model          $Comments_model
+ * @property Emailmarketing          $Comments_model
  * @property Likes_model          $Likes_model
  * @property Follower_model          $Follower_model
  * @property System_data_information_model          $System_data_information_model

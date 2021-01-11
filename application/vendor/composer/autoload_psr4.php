@@ -7,6 +7,7 @@ $baseDir = dirname($vendorDir);
 
 return array(
     'Services\\Domain\\User\\UserService\\' => array($baseDir . '/services/domain/user'),
+    'Services\\Domain\\User\\EmailService\\' => array($baseDir . '/services/domain/mail'),
     'Services\\Domain\\Storage\\StorageService\\' => array($baseDir . '/services/domain/storage'),
     'Services\\Domain\\Storage\\Amazon\\' => array($baseDir . '/services/domain/storage/amazon'),
     'Services\\Domain\\Photo\\' => array($baseDir . '/services/domain/photo'),

@@ -159,6 +159,13 @@ class Migrate extends CI_Controller
             
             );
         ");
+        $this->db->query("CREATE TABLE IF NOT EXISTS Square.email_marketing(
+                                email_marketing_id serial PRIMARY KEY,
+                                email_marketing_email varchar(100),
+                                email_marketing_description varchar(150),
+                                email_marketing_sent boolean,
+                                email_marketing_date TIMESTAMP DEFAULT current_timestamp
+    )");
         $this->db->query("ALTER TABLE Square.system_data_information ADD COLUMN IF NOT EXISTS system_data_information_host_name VARCHAR(100) DEFAULT NULL;
                       ALTER TABLE Square.system_data_information ADD COLUMN IF NOT EXISTS system_data_information_host_name_by_ip VARCHAR(100) DEFAULT NULL;
                       ALTER TABLE Square.system_data_information ADD COLUMN IF NOT EXISTS system_data_information_ip_by_host_name VARCHAR(100) DEFAULT NULL;
