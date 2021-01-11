@@ -38,7 +38,7 @@ class MailMarketing extends Home_Controller
         $html = $this->load->view("email/marketing", NULL,true);
         $param['corpo']      = '';
         $param['corpo_html'] = $html;
-        $mail->send( $param );
+        return $mail->send( $param );
 
     }
 }

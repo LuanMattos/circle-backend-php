@@ -556,8 +556,6 @@ $config['proxy_ips'] = '';
 |Provider E-mail (sensive)
 */
 $config['email_account_marketing'] = 'account@mycircle.click';
-$config['user_name'] = 'abc';
-$config['password'] = 'abc';
 
 $config['email_account'] = 'account@mycircle.click';
 $config['host'] = 'email-smtp.us-west-2.amazonaws.com';
