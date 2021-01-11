@@ -11,6 +11,7 @@ class EmailService extends GeneralService
     }
     public function sendEmail( $emailTo ){
         $emailFromMarketing = $this->config->item('email_account_marketing');
+        $this->load->library('email/mail');
 
         $mail  = new \Mail();
         $param = [];
