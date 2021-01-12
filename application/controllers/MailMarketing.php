@@ -15,13 +15,13 @@ class MailMarketing extends Home_Controller
 
         if(count($email)){
             foreach($email as $row){
-                if (isset($row->email_marketing_email)) {
+                if (isset($row['email_marketing_email'])) {
 
-                    $this->emailService->sendEmail($row->email_marketing_email);
+                    $this->emailService->sendEmail($row['email_marketing_email']);
                     $this->Email_marketing_model->save(
-                        ['email_marketing_id'=>$row->email_marketing_id,'email_marketing_sent'=>'t']
+                        ['email_marketing_id'=>$row['email_marketing_id'],'email_marketing_sent'=>'t']
                     );
-                    $this->response($row->email_marketing_mail);
+                    $this->response($row['email_marketing_mail']);
                 }
             }
         }
