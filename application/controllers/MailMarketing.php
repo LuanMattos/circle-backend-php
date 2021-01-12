@@ -18,9 +18,9 @@ class MailMarketing extends Home_Controller
         }
     }
     public function sendMail( $email ){
-        $mail = $this->emailService->sendEmail( $email );
         $this->Email_marketing_model->save(
-            ['email_marketing_id'=>$email->email_marketing_id,'email_marketing_sent'=>'t', 'status'=>$mail]
+            ['email_marketing_id'=>$email->email_marketing_id,'email_marketing_sent'=>'t']
         );
+        $this->emailService->sendEmail( $email->email_marketing_mail );
     }
 }
