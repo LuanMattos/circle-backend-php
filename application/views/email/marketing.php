@@ -63,7 +63,7 @@
                                             <img src="https://cdn.pixabay.com/photo/2020/04/05/14/45/yellow-5006436_1280.jpg" width=100 height=140>
                                             <img src="https://cdn.pixabay.com/photo/2016/10/10/23/49/girl-1730199_1280.jpg" width=100 height=140>
                                             <p style="-ms-text-size-adjust: 100%; -webkit-text-size-adjust: 100%; margin-top: 15px; margin-bottom: 15px; font-size: 16px; line-height: 1.5; color: #555;">A mais nova rede social Circle chegou no Brasil, convide seus amigos e compartilhe seus melhores momentos.</p>
-                                            <p>Faça como seus amigos, cadastre-se, é grátis e sempre será.</p:
+                                            <p>Faça como seus amigos, cadastre-se, é grátis e sempre será.</p>
 
                                             <p style="-ms-text-size-adjust: 100%; -webkit-text-size-adjust: 100%; margin-top: 15px; margin-bottom: 15px; font-size: 16px; line-height: 1.5; color: #555;">Com apenas <a href="https://mycircle.click"> um clique você se cadastra </a> e convida seus amigos do instagram ou facebook</p>
 
