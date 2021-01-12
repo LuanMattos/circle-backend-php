@@ -17,7 +17,7 @@ class EmailService extends GeneralService
         $mail  = new \Mail();
         $param = [];
         $param['from']              = $emailFromMarketing;
-        $param['to']                = $email->email_marketing_mail;
+        $param['to']                = $email;
         $param['name']              = "Circle";
         $param['assunto']           = 'Circle chegou no Brasil, a mais nova rede social';
 
