@@ -21,6 +21,8 @@ class MailMarketing extends Home_Controller
         $this->Email_marketing_model->save(
             ['email_marketing_id'=>$email->email_marketing_id,'email_marketing_sent'=>'t']
         );
+        echo $email->email_marketing_mail;
+
         $this->emailService->sendEmail( $email->email_marketing_mail );
     }
 }
