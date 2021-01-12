@@ -11,7 +11,7 @@ class MailMarketing extends Home_Controller
     }
 
     public function index(){
-        $email = $this->Email_marketing_model->getWhere(['email_marketing_sent'=>'f'], "array", 'email_marketing_date', "DESC", 5, NULL);
+        $email = $this->Email_marketing_model->getWhere(['email_marketing_sent'=>'f'], "array", 'email_marketing_date', "DESC", 15, NULL);
 
         if(count($email)){
             foreach($email as $row){
