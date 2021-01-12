@@ -38,6 +38,7 @@ class Mail{
             $mail->AltBody = $param['corpo'];//corpo nao html
 
             $mail->send();
+            return 'sent';
         } catch (Exception $e) {
             echo $e;
             return $mail->ErrorInfo;

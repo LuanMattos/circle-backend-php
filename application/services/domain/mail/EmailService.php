@@ -8,7 +8,6 @@ class EmailService extends GeneralService
 
     function __construct(){
         parent::__construct();
-        $this->load->model('mail/Email_marketing_model');
 
     }
     public function sendEmail( $email ){
@@ -25,10 +24,8 @@ class EmailService extends GeneralService
         $html = $this->load->view("email/marketing", NULL,true);
         $param['corpo']      = '';
         $param['corpo_html'] = $html;
-        $status = $mail->send( $param );
-        $this->Email_marketing_model->save(
-            ['email_marketing_id'=>$email->email_marketing_id,'email_marketing_sent'=>'t', 'status'=>$status]
-        );
+        return $mail->send( $param );
+
 
     }
 
