@@ -12,13 +12,11 @@ class MailMarketing extends Home_Controller
 
     public function index(){
         $email = $this->Email_marketing_model->getWhere(['email_marketing_sent'=>'f'], "row", 'email_marketing_date', "DESC", 1, NULL);
-       $this->sendMail( $email );
-    }
-    public function sendMail( $email ){
-        if (!empty($email)) {
-        $this->Email_marketing_model->save(
-            ['email_marketing_id'=>$email->email_marketing_id,'email_marketing_sent'=>'t']
-        );
+
+        if (!empty($email) && isset($email->email_marketing_email)) {
+            $this->Email_marketing_model->save(
+                ['email_marketing_id'=>$email->email_marketing_id,'email_marketing_sent'=>'t']
+            );
             $this->emailService->sendEmail($email->email_marketing_email);
             $this->response($email->email_marketing_mail);
         }
