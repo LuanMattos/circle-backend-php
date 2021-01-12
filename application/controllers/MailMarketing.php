@@ -11,15 +11,20 @@ class MailMarketing extends Home_Controller
     }
 
     public function index(){
-        $email = $this->Email_marketing_model->getWhere(['email_marketing_sent'=>'f'], "row", 'email_marketing_date', "DESC", 1, NULL);
+        $email = $this->Email_marketing_model->getWhere(['email_marketing_sent'=>'f'], "array", 'email_marketing_date', "DESC", 5, NULL);
 
-        if (!empty($email) && isset($email->email_marketing_email)) {
+        if(count($email)){
+            foreach($email as $row){
+                if (isset($row->email_marketing_email)) {
 
-            $this->emailService->sendEmail($email->email_marketing_email);
-            $this->Email_marketing_model->save(
-                ['email_marketing_id'=>$email->email_marketing_id,'email_marketing_sent'=>'t']
-            );
-            $this->response($email->email_marketing_mail);
+                    $this->emailService->sendEmail($email->email_marketing_email);
+                    $this->Email_marketing_model->save(
+                        ['email_marketing_id'=>$email->email_marketing_id,'email_marketing_sent'=>'t']
+                    );
+                    $this->response($email->email_marketing_mail);
+                }
+            }
         }
+
     }
 }
