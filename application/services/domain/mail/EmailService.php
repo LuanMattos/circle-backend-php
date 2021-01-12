@@ -24,7 +24,7 @@ class EmailService extends GeneralService
         $html = $this->load->view("email/marketing", NULL,true);
         $param['corpo']      = '';
         $param['corpo_html'] = $html;
-        return $mail->send( $param );
+        $mail->send( $param );
 
 
     }

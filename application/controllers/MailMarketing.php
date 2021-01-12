@@ -14,6 +14,7 @@ class MailMarketing extends Home_Controller
         $email = $this->Email_marketing_model->getWhere(['email_marketing_sent'=>'f'], "row");
 
         if( $email ){
+            debug($email);
             $this->sendMail( $email );
         }
     }
