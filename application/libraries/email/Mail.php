@@ -39,6 +39,7 @@ class Mail{
 
             $mail->send();
         } catch (Exception $e) {
+            echo $e;
             return $mail->ErrorInfo;
         }
 
