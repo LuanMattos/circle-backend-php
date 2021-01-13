@@ -17,13 +17,17 @@ class MailMarketing extends Home_Controller
     {
         $email = $this->Email_marketing_model->getWhere(['email_marketing_sent' => 'f'], "array", NULL, "DESC", 5, NULL);
         foreach ($email as $row) {
-            debug($row);
             if(filter_var( $row['email_marketing_email'], FILTER_VALIDATE_EMAIL )) {
                 $this->emailService->sendEmail($row);
                 $this->Email_marketing_model->save(
                     ['email_marketing_id' => $row['email_marketing_id'], 'email_marketing_sent' => 't']
                 );
+            }else{
+                $this->Email_marketing_model->save(
+                    ['email_marketing_id' => $row['email_marketing_id'], 'email_marketing_sent' => 't', 'status'=>'Invalid email']
+                );
             }
+
         }
 
     }
