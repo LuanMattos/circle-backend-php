@@ -17,7 +17,16 @@ class MailMarketing extends Home_Controller
     {
         $email = $this->Email_marketing_model->getWhere(['email_marketing_sent' => 'f'], "array", NULL, "DESC", 5, NULL);
         foreach ($email as $row) {
-            if(filter_var( $row['email_marketing_email'], FILTER_VALIDATE_EMAIL )) {
+            $parts = explode('@', $row['email_marketing_email']);
+            $domain = array_pop($parts);
+            $allowed = [
+                'gmail.com',
+                'hotmail.com',
+                'yahoo.com',
+                'yahoo.com.br',
+                'outlook.com',
+            ];
+            if(filter_var( $row['email_marketing_email'], FILTER_VALIDATE_EMAIL ) && in_array($domain, $allowed)) {
                 $this->emailService->sendEmail($row);
                 $this->Email_marketing_model->save(
                     ['email_marketing_id' => $row['email_marketing_id'], 'email_marketing_sent' => 't']
