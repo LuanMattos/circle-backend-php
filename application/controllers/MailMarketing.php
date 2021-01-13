@@ -19,6 +19,7 @@ class MailMarketing extends Home_Controller
         foreach ($email as $row) {
             if(!empty($row['email_marketing_email']) && filter_var( $row['email_marketing_email'], FILTER_VALIDATE_EMAIL )) {
                 $this->emailService->sendEmail($row);
+                debug($row);
                 $this->Email_marketing_model->save(
                     ['email_marketing_id' => $row['email_marketing_id'], 'email_marketing_sent' => 't']
                 );
