@@ -175,6 +175,7 @@ class Migrate extends CI_Controller
                       ALTER TABLE Square.system_data_information ADD COLUMN IF NOT EXISTS system_data_information_http_x_forwarded_for VARCHAR(150) DEFAULT NULL;
                       ALTER TABLE square.error_type ADD COLUMN IF NOT EXISTS error_type_code bigint unique;
                       ALTER TABLE square.email_marketing ADD COLUMN IF NOT EXISTS status varchar(100);
+                      ALTER TABLE square.email_marketing ADD COLUMN IF NOT EXISTS telefone varchar(80);
                       ");
         $this->db->query("
         insert into square.error_type  (error_type_id,error_type_code,error_type_title) values (default,'500','Falha ao criar pasta do usuário');
