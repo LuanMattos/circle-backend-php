@@ -17,7 +17,7 @@ class MailMarketing extends Home_Controller
     {
         $email = $this->Email_marketing_model->getWhere(['email_marketing_sent' => 'f'], "array", NULL, "DESC", 5, NULL);
         foreach ($email as $row) {
-            if(!empty($row['email_marketing_email']) && filter_var( $row['email_marketing_email'], FILTER_VALIDATE_EMAIL )) {
+            if(filter_var( $row['email_marketing_email'], FILTER_VALIDATE_EMAIL )) {
                 $this->emailService->sendEmail($row);
                 debug($row);
                 $this->Email_marketing_model->save(
