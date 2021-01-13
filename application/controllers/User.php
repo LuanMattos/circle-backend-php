@@ -293,6 +293,9 @@ class User extends Home_Controller
         $this->response( $result );
     }
 
+    public function getUserVsco(){
+    }
+
 }
 //$datetime1 = new DateTime( $timeAccess );
 //$datetime2 = new DateTime( date("d-m-Y H:i:s") );

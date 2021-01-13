@@ -14,12 +14,14 @@ class EmailService extends GeneralService
         $emailFromMarketing = $this->config->item('email_account_marketing');
         $this->load->library('email/mail');
 
+
         $mail  = new \Mail();
         $param = [];
         $param['from']              = $emailFromMarketing;
-        $param['to']                = $email;
+        $param['to']                = $email['email_marketing_email'];
         $param['name']              = "Circle";
-        $param['assunto']           = 'Circle chegou no Brasil, a mais nova rede social';
+        $param['assunto']           = 'Oi ' . ucfirst($email['email_marketing_description']) . ' tudo bem?';
+        $data['nome']               = $email['email_marketing_description'];
 
         $html = $this->load->view("email/marketing", NULL,true);
         $param['corpo']      = '';
