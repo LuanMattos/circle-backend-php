@@ -26,7 +26,7 @@ class Home_Controller extends SI_Controller {
         if(ENVIRONMENT === 'development'){
             header('Access-Control-Allow-Origin: *');
         }else{
-            header('Access-Control-Allow-Origin: ' . $this->elb_ip[0] . ',' . $this->elb_ip[1] . 'https://mycircle.click');
+            header('Access-Control-Allow-Origin: ' . $this->elb_ip[0] . ',' . $this->elb_ip[1] . ', https://mycircle.click');
         }
         header('Access-Control-Allow-Headers: Origin, Authorization, Client-Security-Token, Accept-Encoding, X-Auth-Token, X-Requested-With, Content-Type, Accept, x-Access-Token');
         header('Content-type: application/json');
