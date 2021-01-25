@@ -18,26 +18,16 @@ class Home_Controller extends SI_Controller {
     private function authRequest(){
         $this->_headers();
         $data = apache_request_headers();
-
-        if( ENVIRONMENT === 'production' ){
-
-//            if(
-//                 hostOrigin( $this->elb_ip[0] ) || hostOrigin( $this->elb_ip[1] )
-//            ) {
-//                echo "dev :" . $this->origin_prod;
-
-//            }
-        }
-//        else if(ENVIRONMENT === 'development'
-//            &&  (hostOrigin($this->devFront) || hostOrigin($this->devBack))){
-//            echo "dev :" . $this->devFront;
-//            $this->_headers();
-//        }
+        var_dump($data);
     }
 
     private function _headers(){
         header('Access-Control-Allow-Methods: POST, GET, OPTIONS, DELETE, PUT');
-        header('Access-Control-Allow-Origin: *');
+        if(ENVIRONMENT === 'development'){
+            header('Access-Control-Allow-Origin: *');
+        }else{
+            header('Access-Control-Allow-Origin: ' . $this->elb_ip[0] . ',' . $this->elb_ip[1]);
+        }
         header('Access-Control-Allow-Headers: Origin, Authorization, Client-Security-Token, Accept-Encoding, X-Auth-Token, X-Requested-With, Content-Type, Accept, x-Access-Token');
         header('Content-type: application/json');
     }

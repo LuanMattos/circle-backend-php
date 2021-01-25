@@ -25,6 +25,7 @@ class MailMarketing extends Home_Controller
 //                'yahoo.com',
 //                'yahoo.com.br',
 //                'outlook.com',
+//                'live.com',
 //            ];
 //            if(filter_var( $row['email_marketing_email'], FILTER_VALIDATE_EMAIL ) && in_array($domain, $allowed)) {
 //                $this->emailService->sendEmail($row);

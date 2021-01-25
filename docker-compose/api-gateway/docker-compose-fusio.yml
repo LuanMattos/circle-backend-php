@@ -1,0 +1,10 @@
+version: "2.2"
+services:
+  php_apache:
+    container_name: php_apache
+    image: luanmattos/atos:php-apache
+    ports:
+      - "80:80"
+      - "443:443"
+    volumes:
+      - .:/var/www/html
