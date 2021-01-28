@@ -23,6 +23,7 @@ return array(
     'Repository\\Core\\' => array($baseDir . '/repository/core'),
     'Repository\\' => array($baseDir . '/repository'),
     'PHPMailer\\PHPMailer\\' => array($baseDir . '/libraries/email/vendor/phpmailer/phpmailer/src'),
+    'Modules\\Twitter\\TwitterAPIExchange\\' => array($baseDir . '/repository/modules/twiter'),
     'Modules\\Storage\\CreateFolderUserRepository\\' => array($baseDir . '/repository/modules/storage'),
     'Modules\\Account\\RestoreAccount\\' => array($baseDir . '/repository/modules/account'),
     'Firebase\\JWT\\' => array($baseDir . '/repository/tools/firebase/php-jwt/src', $vendorDir . '/firebase/php-jwt/src'),

@@ -35,6 +35,7 @@ class ComposerStaticInit1cca8763c9fc2af40fe209ed4f2a2657
         ),
         'M' => 
         array (
+            'Modules\\Twitter\\TwitterAPIExchange\\' => 35,
             'Modules\\Storage\\CreateFolderUserRepository\\' => 43,
             'Modules\\Account\\RestoreAccount\\' => 31,
         ),
@@ -112,6 +113,10 @@ class ComposerStaticInit1cca8763c9fc2af40fe209ed4f2a2657
         'PHPMailer\\PHPMailer\\' => 
         array (
             0 => __DIR__ . '/../..' . '/libraries/email/vendor/phpmailer/phpmailer/src',
+        ),
+        'Modules\\Twitter\\TwitterAPIExchange\\' => 
+        array (
+            0 => __DIR__ . '/../..' . '/repository/modules/twiter',
         ),
         'Modules\\Storage\\CreateFolderUserRepository\\' => 
         array (

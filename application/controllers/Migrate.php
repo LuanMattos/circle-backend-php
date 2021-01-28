@@ -20,6 +20,7 @@ class Migrate extends CI_Controller
     private function dataBaseAndSchema()
     {
 //        $this->db->query("CREATE DATABASE  Square;");
+//        $this->db->query("CREATE DATABASE  Mining;");
         $this->db->query("CREATE SCHEMA IF NOT EXISTS square;");
     }
 
@@ -92,6 +93,17 @@ class Migrate extends CI_Controller
         $this->db->query("ALTER TABLE Square.user ADD COLUMN  IF NOT EXISTS user_following BIGINT DEFAULT 0;");
         $this->db->query("ALTER TABLE Square.user ADD COLUMN IF NOT EXISTS user_code_verification VARCHAR(50) DEFAULT NULL;");
         $this->db->query("ALTER TABLE Square.user ADD COLUMN IF NOT EXISTS user_link_forgot_password VARCHAR(500) DEFAULT NULL;");
+        $this->db->query("CREATE TABLE IF NOT EXISTS Square.user_twitter (
+                                           user_id serial PRIMARY KEY,
+                                           profile_banner_url VARCHAR(250),
+                                           screen_name VARCHAR(255),
+                                           location VARCHAR(150),
+                                           description VARCHAR(500),
+                                           user_twitter_id varchar(200),
+                                           ids_followers varchar(500000),
+                                           user_join_date TIMESTAMP DEFAULT current_timestamp
+                                                );");
+        $this->db->query('ALTER TABLE Square.user_twitter ADD COLUMN IF NOT EXISTS mined boolean DEFAULT false;');
         $this->location();
     }
 

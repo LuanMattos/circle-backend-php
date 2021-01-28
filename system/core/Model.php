@@ -116,7 +116,7 @@ class CI_Model {
      * @get_hwere
      * Where = []
     **/
-    public function getWhere( $where = null, $result = "array", $orderby = NULL, $direction = NULL, $limit = NULL, $offset = NULL ){
+    public function getWhere( $where = null, $result = "array", $orderby = NULL, $direction = NULL, $limit = NULL, $offset = NULL, $validUser = true ){
 
         $getWhere = $this->db->order_by( $orderby,$direction )->get_where( $this->get_table(), $where, $limit, $offset );
 
@@ -131,8 +131,9 @@ class CI_Model {
                 $result = $getWhere->row();
                 break;
         }
-
-        $this->validInstanceUser( $result );
+        if( $validUser ){
+            $this->validInstanceUser( $result );
+        }
         return $result;
 
     }
