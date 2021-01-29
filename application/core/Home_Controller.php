@@ -22,7 +22,7 @@ class Home_Controller extends SI_Controller {
 
     private function _headers(){
         header('Access-Control-Allow-Methods: POST, GET, OPTIONS, DELETE, PUT');
-        debug("DDEV");
+        echo "dev";
         if(ENVIRONMENT === 'development'){
             header('Access-Control-Allow-Origin: *');
         }else{
