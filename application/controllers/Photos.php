@@ -45,7 +45,7 @@ class Photos extends Home_Controller
             $userLocal = $user;
         }
 
-        $this->userRepository->validateUser( $user->user_email );
+//        $this->userRepository->validateUser( $user->user_email );
 
         $photos = $this->Photos_model->getPhotoUser(
             $user->user_id,$userLocal, "photo_id","DESC", "9",$offset
