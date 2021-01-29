@@ -27,15 +27,15 @@ class Home_Controller extends SI_Controller {
 //        }else{
             $http_origin = $_SERVER['HTTP_ORIGIN'];
 
-            if ($http_origin == $this->elb_ip[0] || $http_origin == $this->elb_ip[1] || $http_origin == "https://mycircle.click")
-            {
-                header("Access-Control-Allow-Origin: $http_origin");
-            }else{
-                $this->response('Access Denied','error');
-                set_status_header(404);
-                exit();
-//            }
-        }
+//            if ($http_origin == $this->elb_ip[0] || $http_origin == $this->elb_ip[1] || $http_origin == "https://mycircle.click")
+//            {
+                header("Access-Control-Allow-Origin: *");
+//            }else{
+//                $this->response('Access Denied','error');
+//                set_status_header(404);
+//                exit();
+////            }
+//        }
         header('Access-Control-Allow-Headers: Origin, Authorization, Client-Security-Token, Accept-Encoding, X-Auth-Token, X-Requested-With, Content-Type, Accept, x-Access-Token');
         header('Content-type: application/json');
     }
