@@ -10,6 +10,7 @@ if(ENVIRONMENT === 'production'){
     $hostname = '192.168.100.49';
     $pass = 'eFdarksadfw4r54af4fd4a54h2fasfdg';
 }
+echo ENVIRONMENT;
 $db['default']  = [
 	'dsn'	        => '',
 	'hostname'      => $hostname,
