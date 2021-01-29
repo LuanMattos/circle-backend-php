@@ -38,9 +38,10 @@ class Home_Controller extends SI_Controller {
 //                exit();
 //            }
 //        }
+        header('Access-Control-Allow-Headers: Access-Control-Allow-Origin, Content-Type');
         header("Access-Control-Allow-Origin: *");
         header('Access-Control-Allow-Headers: Origin, Authorization, Client-Security-Token, Accept-Encoding, X-Auth-Token, X-Requested-With, Content-Type, Accept, x-Access-Token');
-        header('Content-type: application/json');
+        header('Content-Type: application/json, charset=utf-8');
     }
 
     private function setConfigs(){
