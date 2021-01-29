@@ -33,6 +33,7 @@ class Home_Controller extends SI_Controller {
             {
                 header("Access-Control-Allow-Origin: $http_origin");
             }else{
+                echo "nine";
                 $this->response('Access Denied','error');
                 set_status_header(404);
                 exit();
