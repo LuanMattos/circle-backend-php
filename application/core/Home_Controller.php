@@ -22,15 +22,13 @@ class Home_Controller extends SI_Controller {
 
     private function _headers(){
         header('Access-Control-Allow-Methods: POST, GET, OPTIONS, DELETE, PUT');
-        echo "dev";
         if(ENVIRONMENT === 'development'){
             header('Access-Control-Allow-Origin: *');
         }else{
             $http_origin = $_SERVER['HTTP_ORIGIN'];
-            echo $http_origin;
+
             if ($http_origin == $this->elb_ip[0] || $http_origin == $this->elb_ip[1] || $http_origin == "https://mycircle.click")
             {
-
                 header("Access-Control-Allow-Origin: $http_origin");
             }else{
                 $this->response('Access Denied','error');
