@@ -3,13 +3,13 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 
 $active_group   = 'default';
 $query_builder  = TRUE;
-if(ENVIRONMENT === 'production'){
-    $hostname = '172.31.17.131';
-    $pass = 'J3K6051ER4u824VQP2A3I81QLO6uCCCg51zZ29H3V2KKlAWiJ3';
-}else{
+//if(ENVIRONMENT === 'production'){
+//    $hostname = '172.31.17.131';
+//    $pass = 'J3K6051ER4u824VQP2A3I81QLO6uCCCg51zZ29H3V2KKlAWiJ3';
+//}else{
     $hostname = '192.168.100.49';
     $pass = 'eFdarksadfw4r54af4fd4a54h2fasfdg';
-}
+//}
 $db['default']  = [
 	'dsn'	        => '',
 	'hostname'      => $hostname,
