@@ -22,6 +22,13 @@ class UserRepository extends GeneralRepository{
         }
         return $user;
     }
+    public function getUserByUserEmail( $email, $return = "row"){
+        $user = $this->User_model->getWhere( ['user_email' => $email ], $return );
+        if(!$user){
+            self::Success('User does not exist!','error');
+        }
+        return $user;
+    }
     public function getUserByUserNameValidateCodeVerification( $userName, $return = "row"){
         $user = $this->User_model->getWhere( ['user_name' => $userName,'user_code_verification' => null ], $return );
         if(!$user){

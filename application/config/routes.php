@@ -8,6 +8,7 @@ $route['404_override'] = 'Home/error_404';
 
 $route['signup']['POST'] = 'user/register';
 $route['userLogin']['POST'] = 'user/login';
+$route['auth_google']['POST'] = 'user/signUpOrSignInWithGoogle';
 $route['valid_user/(:any)']['GET'] = 'user/userExists';
 $route['valid_email']['POST'] = 'user/userExistsEmail';
 $route['search/?(:any)?']['PUT'] = 'user/search/$page';

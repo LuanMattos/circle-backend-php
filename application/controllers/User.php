@@ -53,6 +53,67 @@ class User extends Home_Controller
             $this->response( $newData );
     }
 
+    public function signUpOrSignInWithGoogle(){
+        $data = $this->http::getDataHeader();
+        $userExists = $this->userService::userExistsUserEmail( $data->data->email );
+
+        if( $data->isNewUser && !$userExists ){
+            $userData = $this->userService::validaDataRegisterAuthGoogle( $data->data );
+
+            $user = [
+                'user_name'     => $userData->user_name,
+                'user_email'    => $userData->email,
+                'user_full_name'=> $userData->name,
+                'user_password' => password_hash( md5($userData->name.$userData->email.date('Y-m-d H:i:s').uniqid(rand(0,10000))), PASSWORD_ARGON2I ),
+                'user_avatar_url' => $userData->picture
+            ];
+
+
+            $this->userService->saveUserRegister( $user );
+
+            $user = $this->userRepository->getUserByUserName($userData->user_name);
+
+            $data = [
+                'user_id'           => $user->user_id,
+                'user_avatar_url'   => $user->user_avatar_url,
+                'user_cover_url'    => $user->user_cover_url,
+                'user_full_name'    => $user->user_full_name,
+                'user_email'        => $user->user_email,
+                'user_name'         => $user->user_name,
+                'address'           => $user->address,
+                'description'       => $user->description,
+                'user_followers'    => $user->user_followers,
+                'user_following'    => $user->user_following,
+                'verified'          => empty($user->user_code_verification) || !$user->user_code_verification?true:false
+
+            ];
+            $this->jwt->encode( $data );
+            $this->response(true,'success');
+        }else{
+//            Rever segurança
+            $this->loginWithGoogle( $data->data );
+        }
+    }
+
+    public function loginWithGoogle( $data ){
+        if( $data )
+            $user = $this->userService::validaDataLoginWithGoogle( $data );
+
+            $newData = [
+                "user_id"                => $user->user_id,
+                "user_name"              => $user->user_name,
+                "user_full_name"         => $user->user_full_name,
+                "user_email"             => $user->user_email,
+                "description"            => $user->description,
+                "address"                => $user->address,
+                "user_device_id"         => $user->system_data_information_device_id,
+                "verified"               => empty($user->user_code_verification) || !$user->user_code_verification?true:false
+            ];
+
+            $this->jwt->encode( $newData );
+            $this->response( $newData );
+    }
+
     public function register(){
         $data = $this->userService::validaDataRegister( $this->http::getDataHeader() );
 
@@ -292,10 +353,6 @@ class User extends Home_Controller
 
         $this->response( $result );
     }
-
-    public function getUserVsco(){
-    }
-
 }
 //$datetime1 = new DateTime( $timeAccess );
 //$datetime2 = new DateTime( date("d-m-Y H:i:s") );
