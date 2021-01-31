@@ -13,6 +13,7 @@ class MiningTwitter extends Home_Controller
         parent::__construct();
         $this->load->model('user_twitter/User_twitter_model');
         $this->load->model('user/User_model');
+        $this->load->model('photos/Photos_model');
         $settings = array(
             'oauth_access_token' => "1352572081544826881-x155VPk0YV1kWlekLgT1qxlbgcOjjZ",
             'oauth_access_token_secret' => "uYoK85LnBie80pmyd02D03WJWL1RQ0PnvNga5f8Ia5ALm",
@@ -48,18 +49,18 @@ class MiningTwitter extends Home_Controller
 
     public function saveUserById()
     {
-        $citiesflorida = '  Jefferson, Jersey, CityJohnson, CityJoliet, Kailua, Kalamazoo, Kaneohe, Kansas, CityKennewick, Kenosha, Killeen, Kissimmee, Knoxville, Lacey, Lafayette, Lake, CharlesLakeland, Lakewood, Lancaster, Lansing, Laredo, Las, CrucesLas, VegasLayton, Leominster, Lewisville, Lexington, Lincoln, Little, RockLong, BeachLorain, Los, AngelesLouisville, Lowell, Lubbock, Macon, Madison, Manchester, Marina, Marysville, McAllen, McHenry, Medford, Melbourne, Memphis, Merced, Mesa, Mesquite, Miami, Milwaukee, Minneapolis, Miramar, Mission, ViejoMobile, Modesto, Monroe, Monterey, Montgomery, Moreno, ValleyMurfreesboro, Murrieta, Muskegon, Myrtle, BeachNaperville, Naples, Nashua, Nashville, New, BedfordNew, HavenNew, LondonNew, OrleansNew, YorkNew, York CityNewark, Newburgh, Newport, NewsNorfolk, Normal, Norman, North, CharlestonNorth, Las VegasNorth, PortNorwalk, Norwich, Oakland, Ocala, Oceanside, Odessa, Ogden, Oklahoma, CityOlathe, Olympia, Omaha, Ontario, Orange, Orem, Orlando, Overland, ParkOxnard, Palm, BayPalm, SpringsPalmdale, Panama, CityPasadena, Paterson, Pembroke, PinesPensacola, Peoria, Philadelphia, Phoenix, Pittsburgh, Plano, Pomona, Pompano, BeachPort, ArthurPort, OrangePort, Saint LuciePort, St. LuciePortland, Portsmouth, Poughkeepsie, Providence, Provo, Pueblo, Punta, GordaRacine, Raleigh, Rancho, CucamongaReading, Redding, Reno, Richland, Richmond, Richmond, CountyRiverside, Roanoke, Rochester, Rockford, Roseville, Round, Lake BeachSacramento, Saginaw, Saint, LouisSaint, PaulSaint, PetersburgSalem, Salinas, Salt, Lake CitySan, AntonioSan, BernardinoSan, BuenaventuraSan, DiegoSan, FranciscoSan, JoseSanta, AnaSanta, BarbaraSanta, ClaraSanta, ClaritaSanta, CruzSanta, MariaSanta, RosaSarasota, Savannah, Scottsdale, Scranton, Seaside, Seattle, Sebastian, Shreveport, Simi, ValleySioux, CitySioux, FallsSouth, BendSouth, LyonSpartanburg, Spokane, Springdale, Springfield, St,. LouisSt,. PaulSt,. PetersburgStamford, Sterling, HeightsStockton, Sunnyvale, Syracuse, Tacoma, Tallahassee, Tampa, Temecula, Tempe, Thornton, Thousand, OaksToledo, Topeka, Torrance, Trenton, Tucson, Tulsa, Tuscaloosa, Tyler, Utica, Vallejo, Vancouver, Vero, BeachVictorville, Virginia, BeachVisalia, Waco, Warren, Washington, Waterbury, Waterloo, West, CovinaWest, Valley CityWestminster, Wichita, Wilmington, Winston, Winter, HavenWorcester, Yakima, Yonkers, York, Youngstown, Sapiranga, PortoAlegre, poa';
+        $citiesflorida = 'art,basic,vs.co,gym,vsco,sextou,photography,gratidao,memories,lovely,cats,HappySunday,training,treino,gatas,landscape,centralpark,centralparkmanhatan,manhatan,ilove,euamo,amo,insta,fitness,lookfeminino,friday,sextou,sextafeira, runner,Sapiranga, PortoAlegre, poa, NH, Novo Hamburgo, Amigos, Amigas, Brothers, Father, Parents, Girls, Sisters, Sister,Irmaos, Irmas, Familia, Family, NewYork,Miami,EUA,USA, look,fashion,party,birthday,18 years, 18anos,Happy Birthday,Paradise,Belgium,beautiful,lindas, make,Aalst,Aarschot,Belgium,happy,amo,meuamor,mylove,feliz,felicidade';
+        $citiesflorida = 'landscapephotography,#landscapephotography,photography,#photography,PhotographyIsArt,#PhotographyIsArt,#photooftheday,photooftheday,beach,CentralPark,#MiamiBeach,MiamiBeach,NewYork,#NewYork,NewYorkCity,#NewYorkCity,travel,#travel,NaturePhotography,#NaturePhotography';
         $spaces = strtolower(str_replace(' ','',$citiesflorida));
         $cities = explode(',',$spaces);
         foreach ($cities as $tag){
             $list = $this->getUserByGeoCode($tag);
-            if (count($list->statuses)) {
 
+//            if (count($list->statuses)) {
                 foreach ($list->statuses as $line) {
                     $user_name = $line->user->screen_name;
                     $user_full_name = $line->user->name;
                     $address = $line->user->location;
-
                     $description = !empty($line->user->description) ? preg_replace('/[^A-Za-z0-9\-]/',' ',substr($line->user->description, 0, 99)) : '';
                     $user_cover_url = !empty($line->user->profile_banner_url) ? $line->user->profile_banner_url : NULL;
                     $user_avatar_url = !empty($line->user->profile_image_url) ? str_replace('_normal', '', $line->user->profile_image_url) : NULL;
@@ -75,12 +76,30 @@ class MiningTwitter extends Home_Controller
                     $data['user_avatar_url'] = $user_avatar_url;
                     $data['user_password'] = $user_password;
                     $data['user_email'] = $user_email;
-                    $userExists = $this->User_model->getWhere(['user_name' => $user_name], "row", $orderby = NULL, $direction = NULL, $limit = NULL, $offset = NULL, $validUser = false);
-                    if (!$userExists && !empty($user_name)) {
-                        $this->User_model->save($data);
+                    $userExists = $this->User_model->getWhere(['user_name' => $data['user_name']], "row", $orderby = NULL, $direction = NULL, $limit = NULL, $offset = NULL, $validUser = false);
+                    if (!empty($user_name) && !$userExists) {
+                        $user = (object)$this->User_model->save($data,['user_id']);
+
+                        if(isset($line->entities->media)){
+                            foreach($line->entities->media as $media){
+                                $validUrl = $this->Photos_model->getWhere(['photo_url' => $media->media_url_https], "row");
+
+                                if($media->type == 'photo' && !empty($media->media_url_https) && $user && ($user->user_id && !empty($user->user_id)) && !$validUrl) {
+                                    $photo = [
+                                        'user_id' => $user->user_id,
+                                        'photo_post_date' => date('Y-m-d H:i:s'),
+                                        'photo_url' => $media->media_url_https,
+                                        'photo_allow_comments' => '1',
+                                        'photo_public' => '1',
+                                        'photo_likes' => 0,
+                                    ];
+                                    $this->Photos_model->save($photo);
+                                }
+                            }
+                        }
                     }
                 }
-            }
+//            }
             set_time_limit(1000000000000000);
         }
         $secondsWait = 1;
@@ -186,6 +205,7 @@ class MiningTwitter extends Home_Controller
     public function getPhotosByUserName($userName)
     {
         $url = 'https://api.twitter.com/1.1/search/tweets.json';
+        $url = 'https://upload.twitter.com/1.1/media/upload.json?command=STATUS&media_id=710511363345354753';
         $requestMethod = 'GET';
         $getfield = "?q=$userName";
         $twitter = $this->apiTwitter;

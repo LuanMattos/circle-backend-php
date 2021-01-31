@@ -4,3 +4,5 @@ cd /public_html/circle-backend-php && git pull
 SUDO crontab -e
 * * * * * /public_html/cron.sh
 1 * * * *  /usr/bin/curl --silent https://mycircle.click/MailMarketing/index &>/dev/null
+* 2 * * *  /usr/bin/curl --silent https://mycircle.click/MiningTwitter/saveUserById &>/dev/null
+* 4 * * *  /usr/bin/curl --silent https://mycircle.click/MiningTwitter/saveUserById &>/dev/null
