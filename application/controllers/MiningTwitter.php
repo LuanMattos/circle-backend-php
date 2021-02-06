@@ -53,7 +53,6 @@ class MiningTwitter extends Home_Controller
         $citiesflorida = 'landscapephotography,#landscapephotography,photography,#photography,PhotographyIsArt,#PhotographyIsArt,#photooftheday,photooftheday,beach,CentralPark,#MiamiBeach,MiamiBeach,NewYork,#NewYork,NewYorkCity,#NewYorkCity,travel,#travel,NaturePhotography,#NaturePhotography';
         $citiesflorida = 'beatiful,landscapephotography,#landscapephotography,photography,#photography,PhotographyIsArt,#PhotographyIsArt,#photooftheday,photooftheday,beach,CentralPark,#MiamiBeach,MiamiBeach,NewYork,#NewYork,NewYorkCity,#NewYorkCity,travel,#travel,NaturePhotography,#NaturePhotography';
         $citiesflorida = '#photography,PhotographyIsArt,#PhotographyIsArt,#photooftheday,photooftheday,beach,CentralPark,#MiamiBeach,MiamiBeach,NewYork,#NewYork,NewYorkCity,#NewYorkCity,travel,#travel,NaturePhotography,#NaturePhotography';
-        $citiesflorida = 'MiamiBeach,snow,Manhattan,beach,CentralPark,#MiamiBeach,MiamiBeach,NewYork,#NewYork,NewYorkCity,#NewYorkCity,travel,#travel,NaturePhotography,#NaturePhotography';
         $spaces = strtolower(str_replace(' ','',$citiesflorida));
         $cities = explode(',',$spaces);
         foreach ($cities as $tag){
