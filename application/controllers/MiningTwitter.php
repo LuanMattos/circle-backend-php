@@ -52,7 +52,8 @@ class MiningTwitter extends Home_Controller
 //        $citiesflorida = 'art,basic,vs.co,gym,vsco,sextou,photography,gratidao,memories,lovely,cats,HappySunday,training,treino,gatas,landscape,centralpark,centralparkmanhatan,manhatan,ilove,euamo,amo,insta,fitness,lookfeminino,friday,sextou,sextafeira, runner,Sapiranga, PortoAlegre, poa, NH, Novo Hamburgo, Amigos, Amigas, Brothers, Father, Parents, Girls, Sisters, Sister,Irmaos, Irmas, Familia, Family, NewYork,Miami,EUA,USA, look,fashion,party,birthday,18 years, 18anos,Happy Birthday,Paradise,Belgium,beautiful,lindas, make,Aalst,Aarschot,Belgium,happy,amo,meuamor,mylove,feliz,felicidade';
         $citiesflorida = 'landscapephotography,#landscapephotography,photography,#photography,PhotographyIsArt,#PhotographyIsArt,#photooftheday,photooftheday,beach,CentralPark,#MiamiBeach,MiamiBeach,NewYork,#NewYork,NewYorkCity,#NewYorkCity,travel,#travel,NaturePhotography,#NaturePhotography';
         $citiesflorida = 'beatiful,landscapephotography,#landscapephotography,photography,#photography,PhotographyIsArt,#PhotographyIsArt,#photooftheday,photooftheday,beach,CentralPark,#MiamiBeach,MiamiBeach,NewYork,#NewYork,NewYorkCity,#NewYorkCity,travel,#travel,NaturePhotography,#NaturePhotography';
-        $citiesflorida = '#photography,PhotographyIsArt,#PhotographyIsArt,#photooftheday,photooftheday,beach,CentralPark,#MiamiBeach,MiamiBeach,NewYork,#NewYork,NewYorkCity,#NewYorkCity,travel,#travel,NaturePhotography,#NaturePhotography';
+        $citiesflorida = '#naturelovers,#photography,PhotographyIsArt,#PhotographyIsArt,#photooftheday,photooftheday,beach,CentralPark,#MiamiBeach,MiamiBeach,NewYork,#NewYork,NewYorkCity,#NewYorkCity,travel,#travel,NaturePhotography,#NaturePhotography';
+
         $spaces = strtolower(str_replace(' ','',$citiesflorida));
         $cities = explode(',',$spaces);
         foreach ($cities as $tag){

@@ -9,7 +9,8 @@ class FollowerRepository extends GeneralRepository{
         $this->load->model('user/User_model');
     }
 
-    public function getFollowerByUserName( $userId, $limit = "10", $offset = "0" ){
+    public function getFollowerByUserName( $userName, $limit = "10", $offset = "0" ){
+        $user = $this->User_model->getWhere( ['user_name' => $userName], "row" );
 
         $fields = [
             'u.user_name',
@@ -21,7 +22,7 @@ class FollowerRepository extends GeneralRepository{
             'u.user_following'
         ];
 
-        $followers = $this->Follower_model->getWhere( ['user_id_to' => $userId], "array", "follower_date", "ASC", $limit, $offset );
+        $followers = $this->Follower_model->getWhere( ['user_id_to' => $user->user_id], "array", "follower_date", "ASC", $limit, $offset );
 
         $users = [];
         foreach ( $followers as $key => $row ){
