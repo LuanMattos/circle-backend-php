@@ -20,7 +20,6 @@ class PhotoRepository extends GeneralRepository{
 
     public function saveImage( $post, $user, $url, $type = 'photo'){
         if( $type === 'photo' && $post ):
-
             $data = [
                 'user_id' => $user->user_id,
                 'photo_post_date' => date('Y-m-d H:i:s'),
@@ -28,6 +27,7 @@ class PhotoRepository extends GeneralRepository{
                 'photo_description' => $post->description,
                 'photo_allow_comments' => $post->allowComments === 'false'?'0':'1',
                 'photo_public' => $post->public === 'true'?'1':'0',
+                'photo_styles' => $post->style,
                 'photo_likes' => 0,
             ];
             $this->Photos_model->save( $data );

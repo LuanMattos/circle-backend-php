@@ -22,11 +22,12 @@ class Photos_model extends CI_Model{
             'p.photo_likes',
             'p.photo_comments',
             'p.photo_public',
+            'p.photo_styles',
             'u.user_id',
             'u.user_name',
             'u.user_full_name',
             'u.user_avatar_url',
-            'u.user_cover_url'
+            'u.user_cover_url',
         ];
 
         $photos = $this->db
