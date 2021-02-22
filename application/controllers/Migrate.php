@@ -10,11 +10,11 @@ class Migrate extends CI_Controller
 
     public function index()
     {
-            $this->_function();
-            $this->table();
-            $this->finallyVacuum();
-            $this->finallyCreateIndex();
-            echo "Fim da atualização";
+        $this->_function();
+        $this->table();
+        $this->finallyVacuum();
+        $this->finallyCreateIndex();
+        echo "Fim da atualização";
     }
 
     private function dataBaseAndSchema()
@@ -104,10 +104,32 @@ class Migrate extends CI_Controller
                                            user_join_date TIMESTAMP DEFAULT current_timestamp
                                                 );");
         $this->db->query('ALTER TABLE Square.user_twitter ADD COLUMN IF NOT EXISTS mined boolean DEFAULT false;');
+        $this->db->query("ALTER TABLE square.user ADD COLUMN IF NOT EXISTS user_vpi varchar(50);");
+        $this->db->query("ALTER TABLE square.user ADD COLUMN IF NOT EXISTS user_mpc varchar(50);");
+        $this->db->query("ALTER TABLE square.user ADD COLUMN IF NOT EXISTS user_guest_valid boolean default false;");
+        $this->db->query("CREATE TABLE IF NOT EXISTS square.user_monetization
+                (
+                    user_monetization_id     serial PRIMARY KEY,
+                    user_guest_id            INTEGER,
+                    user_id                  INTEGER,
+                    created_at               TIMESTAMP DEFAULT current_timestamp,
+                    updated_at               TIMESTAMP DEFAULT current_timestamp,
+                    user_monetization_closed boolean   default false,
+                    FOREIGN KEY (user_guest_id) REFERENCES Square.user (user_id),
+                    FOREIGN KEY (user_id) REFERENCES Square.user (user_id)
+                );");
+        $this->db->query("CREATE TABLE IF NOT EXISTS square.trading
+                    (
+                        trading_id serial PRIMARY KEY,
+                        trading_days varchar(20),
+                        trading_mpc varchar(50),
+                        trading_max_ivpi varchar(50)
+                    );");
         $this->location();
     }
 
-    private function location(){
+    private function location()
+    {
         $this->db->query("
                     CREATE TABLE IF NOT EXISTS Square.error_type (
                                                        error_type_id serial PRIMARY KEY,
@@ -212,7 +234,8 @@ insert into square.error_type  (error_type_id,error_type_code,error_type_title) 
         $this->db->query("ALTER TABLE square.photo ADD COLUMN IF NOT EXISTS photo_styles varchar(100);");
     }
 
-    public function createUserFake(){
+    public function createUserFake()
+    {
         $pass = '$argon2i$v=19$m=65536,t=4,p=1$LjVHbzhBTzVLY0QzTDA2UQ$mHygzGkjxdpvP6wWSjRz8/idQ9bZ7V11xvpy+uE/VAk';
         $this->db->query("DO $$
     DECLARE
@@ -8252,7 +8275,8 @@ $$;
 
     }
 
-    public function createFollowerFake(){
+    public function createFollowerFake()
+    {
         $this->db->query("DO $$
                                     DECLARE
                                         i INTEGER;
@@ -8300,7 +8324,8 @@ $$;
                               $$;");
     }
 
-    public function createPostFake(){
+    public function createPostFake()
+    {
         $this->db->query("DO $$
                                 DECLARE
                                     userId INTEGER;
@@ -8331,7 +8356,8 @@ $$;
                             $$;");
     }
 
-    private function finallyVacuum(){
+    private function finallyVacuum()
+    {
         $this->db->query("VACUUM (VERBOSE, ANALYZE) square.photo;");
         $this->db->query("VACUUM (VERBOSE, ANALYZE) square.user;");
         $this->db->query("VACUUM (VERBOSE, ANALYZE) square.comment;");
@@ -8339,7 +8365,8 @@ $$;
         $this->db->query("VACUUM (VERBOSE, ANALYZE) square.like;");
     }
 
-    private function finallyCreateIndex(){
+    private function finallyCreateIndex()
+    {
         $this->db->query("CREATE INDEX IF NOT EXISTS idx_follower_user_id_to ON square.follower (user_id_to);");
         $this->db->query("CREATE INDEX IF NOT EXISTS idx_follower_user_id_from ON square.follower (user_id_from);");
         $this->db->query("CREATE INDEX IF NOT EXISTS idx_photo ON square.user (user_id);");
@@ -8353,19 +8380,21 @@ $$;
         $this->db->query("CREATE INDEX IF NOT EXISTS idx_comment_date ON square.comment (comment_date DESC);");
     }
 
-    public function sizeDatabae(){
+    public function sizeDatabae()
+    {
         $this->db->query("SELECT pg_database.datname, pg_size_pretty(pg_database_size(pg_database.datname)) AS size FROM pg_database");
     }
 
-    public function getImageRandom(){
+    public function getImageRandom()
+    {
         $start = 7729;
-        for($i = $start; $i <= 10000; $i++){
+        for ($i = $start; $i <= 10000; $i++) {
             echo $i;
             $url = "https://source.unsplash.com/random";
             $img = "storage/img_tests/img/{$i}.jpg";
             $get = file_get_contents($url);
-            if($get && !empty($get)){
-                file_put_contents($img,$get);
+            if ($get && !empty($get)) {
+                file_put_contents($img, $get);
             }
             sleep(2);
 

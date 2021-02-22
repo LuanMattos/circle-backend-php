@@ -378,7 +378,6 @@ class S3{
             $rest->error = array('code' => $rest->code, 'message' => 'Unexpected HTTP status');
         if ($rest->error !== false)
         {
-            debug($rest->error);
             self::__triggerError(sprintf("S3::putBucket({$bucket}, {$acl}, {$location}): [%s] %s",
                 $rest->error['code'], $rest->error['message']), __FILE__, __LINE__);
             return false;
@@ -526,10 +525,9 @@ class S3{
             $rest->response->error = array('code' => $rest->response->code, 'message' => 'Unexpected HTTP status');
         if ($rest->response->error !== false)
         {
-            debug($rest->response->error);
-
             self::__triggerError(sprintf("S3::putObject(): [%s] %s",
                 $rest->response->error['code'], $rest->response->error['message']), __FILE__, __LINE__);
+            echo json_encode($rest->response->error);
             return false;
         }
 

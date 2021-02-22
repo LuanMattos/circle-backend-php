@@ -41,6 +41,7 @@ class StorageService extends GeneralService{
         }catch (\S3Exception $e ){
 
             $result = $e->getMessage();
+            debug($result);
         }
         self::Success( $result );
     }
