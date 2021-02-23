@@ -2,7 +2,9 @@ create file in /public_html/cron.sh
 cd /public_html/circle-backend-php && git pull
 -Instalar o cron
 SUDO crontab -e
-* * * * * /public_html/cron.sh
-1 * * * *  /usr/bin/curl --silent https://mycircle.click/MailMarketing/index &>/dev/null
-* 2 * * *  /usr/bin/curl --silent https://mycircle.click/MiningTwitter/saveUserById &>/dev/null
-* 4 * * *  /usr/bin/curl --silent https://mycircle.click/MiningTwitter/saveUserById &>/dev/null
+* * * * * /public_html/circle-backend-php/cron.sh
+#1 * * * *  /usr/bin/curl --silent https://mycircle.click/MailMarketing/index &>/dev/null
+#* 2 * * *  /usr/bin/curl --silent https://mycircle.click/MiningTwitter/saveUserById &>/dev/null
+#* 4 * * *  /usr/bin/curl --silent https://mycircle.click/MiningTwitter/saveUserById &>/dev/null
+#* 4 * * *  /usr/bin/curl --silent https://mycircle.click/MiningTwitter/saveUserById &>/dev/null
+1 * * * *  /usr/bin/curl --silent https://be.mycircle.click/Monetization/sendEmailInvite &>/dev/null

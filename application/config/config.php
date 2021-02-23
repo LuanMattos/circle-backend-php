@@ -570,6 +570,7 @@ $config['ip_ignore'] = ['45.167.104.17','187.71.137.242'];
 */
 
 $config['attempts_access'] = 8;
+$config['limit_send_email_monetization_cron'] = 5;
 
 /*
 |--------------------------------------------------------------------------

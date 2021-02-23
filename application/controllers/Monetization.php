@@ -15,6 +15,7 @@ class Monetization extends Home_Controller
     private $userRepository;
     private $emailService;
     private $s3;
+    private $monetizationService;
 
     public function __construct(){
         parent::__construct();
@@ -26,23 +27,23 @@ class Monetization extends Home_Controller
         $this->userRepository = new UserRepository\UserRepository();
         $this->emailService = new EmailService\EmailService();
         $this->s3 = new StorageService\StorageService();
-    }
-    public function index(){
-        $data['nome']               = ucfirst("jao");
-        $data['nome_usuario']       = ucfirst('cachorro fdp');
-        $data['user_name']       = ucfirst('userName');
-
-        $this->load->view("email/invite");
+        $this->monetizationService = new MonetizationService\MonetizationService();
     }
 
     public function sendEmailInvite(){
+            $this->emailService->sendEmailInviteLine();
+    }
+    public function saveEmailInvite(){
         $dataJwt   = $this->jwt->decode();
         $data = (object)$this->http::getDataHeader();
         if( isset($data->data->fullName) && isset($data->data->email) ) {
             $full_name = $data->data->fullName;
             $email = $data->data->email;
-            $this->emailService->sendEmailInvite($full_name, $email, $dataJwt->user_full_name, $dataJwt->user_name);
+            $this->monetizationService->saveEmailInvite($full_name, $email, $dataJwt);
         }
+    }
+    public function getDataDashBoard(){
+        $dataJwt   = (object)$this->jwt->decode();
     }
 
 }

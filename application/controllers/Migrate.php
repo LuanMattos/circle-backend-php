@@ -125,6 +125,17 @@ class Migrate extends CI_Controller
                         trading_mpc varchar(50),
                         trading_max_ivpi varchar(50)
                     );");
+        $this->db->query("CREATE TABLE IF NOT EXISTS square.email_monetization
+                (
+                    email_monetization_id serial PRIMARY KEY,
+                    user_name             varchar(200),
+                    user_full_name        varchar(200),
+                    user_id               INTEGER,
+                    full_name_guest       varchar(200),
+                    email_guest           varchar(200),
+                    created_at            TIMESTAMP DEFAULT current_timestamp,
+                    date_send             TIMESTAMP DEFAULT null
+                )");
         $this->location();
     }
 
