@@ -14,6 +14,7 @@ class ComposerStaticInit1cca8763c9fc2af40fe209ed4f2a2657
             'Services\\Domain\\Storage\\StorageService\\' => 39,
             'Services\\Domain\\Storage\\Amazon\\' => 31,
             'Services\\Domain\\Photo\\' => 22,
+            'Services\\Domain\\Monetization\\MonetizationService\\' => 49,
             'Services\\Domain\\Follower\\' => 25,
             'Services\\Domain\\Auth\\' => 21,
             'Services\\' => 9,
@@ -65,6 +66,10 @@ class ComposerStaticInit1cca8763c9fc2af40fe209ed4f2a2657
         'Services\\Domain\\Photo\\' => 
         array (
             0 => __DIR__ . '/../..' . '/services/domain/photo',
+        ),
+        'Services\\Domain\\Monetization\\MonetizationService\\' => 
+        array (
+            0 => __DIR__ . '/../..' . '/services/domain/monetization',
         ),
         'Services\\Domain\\Follower\\' => 
         array (
@@ -129,7 +134,6 @@ class ComposerStaticInit1cca8763c9fc2af40fe209ed4f2a2657
         'Firebase\\JWT\\' => 
         array (
             0 => __DIR__ . '/../..' . '/repository/tools/firebase/php-jwt/src',
-            1 => __DIR__ . '/..' . '/firebase/php-jwt/src',
         ),
     );
 

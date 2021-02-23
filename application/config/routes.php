@@ -50,6 +50,9 @@ $route['get_followings/(:any)']['POST'] = 'Follower/getFollowingsUser/$id';
 $route['log_home']['GET'] = 'Home/logHome';
 
 
+$route['send_invite']['POST'] = 'Monetization/sendEmailInvite';
+
+
 
 
 

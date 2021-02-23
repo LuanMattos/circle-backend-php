@@ -2,7 +2,6 @@
   "description": "",
   "name": "System/App",
   "require": {
-    "firebase/php-jwt":"dev-master",
     "php": ">=7.0"
   },
   "autoload": {
@@ -27,7 +26,8 @@
       "Services\\Domain\\Follower\\": "services/domain/follower",
       "Repository\\Domain\\Auth\\": "repository/domain/auth",
       "Services\\Domain\\User\\EmailService\\": "services/domain/mail",
-      "Modules\\Twitter\\TwitterAPIExchange\\": "repository/modules/twiter"
+      "Modules\\Twitter\\TwitterAPIExchange\\": "repository/modules/twiter",
+      "Services\\Domain\\Monetization\\MonetizationService\\": "services/domain/monetization"
     }
   }
 }

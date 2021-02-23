@@ -11,6 +11,7 @@ return array(
     'Services\\Domain\\Storage\\StorageService\\' => array($baseDir . '/services/domain/storage'),
     'Services\\Domain\\Storage\\Amazon\\' => array($baseDir . '/services/domain/storage/amazon'),
     'Services\\Domain\\Photo\\' => array($baseDir . '/services/domain/photo'),
+    'Services\\Domain\\Monetization\\MonetizationService\\' => array($baseDir . '/services/domain/monetization'),
     'Services\\Domain\\Follower\\' => array($baseDir . '/services/domain/follower'),
     'Services\\Domain\\Auth\\' => array($baseDir . '/services/domain/auth'),
     'Services\\' => array($baseDir . '/services'),
@@ -26,5 +27,5 @@ return array(
     'Modules\\Twitter\\TwitterAPIExchange\\' => array($baseDir . '/repository/modules/twiter'),
     'Modules\\Storage\\CreateFolderUserRepository\\' => array($baseDir . '/repository/modules/storage'),
     'Modules\\Account\\RestoreAccount\\' => array($baseDir . '/repository/modules/account'),
-    'Firebase\\JWT\\' => array($baseDir . '/repository/tools/firebase/php-jwt/src', $vendorDir . '/firebase/php-jwt/src'),
+    'Firebase\\JWT\\' => array($baseDir . '/repository/tools/firebase/php-jwt/src'),
 );
