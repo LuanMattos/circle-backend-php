@@ -13,7 +13,6 @@ class MonetizationService extends GeneralService
     {
         parent::__construct();
         static::$userRepository = new User\UserRepository();
-        $this->load->model('monetization/Monetization_model');
         $this->load->model('line/Email_monetization_model');
     }
     public function getAllRegisteredByUserCount( $jwt ){

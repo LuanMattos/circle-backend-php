@@ -106,7 +106,6 @@ class Migrate extends CI_Controller
         $this->db->query('ALTER TABLE Square.user_twitter ADD COLUMN IF NOT EXISTS mined boolean DEFAULT false;');
         $this->db->query("ALTER TABLE square.user ADD COLUMN IF NOT EXISTS user_vpi varchar(50);");
         $this->db->query("ALTER TABLE square.user ADD COLUMN IF NOT EXISTS user_mpc varchar(50);");
-        $this->db->query("ALTER TABLE square.user ADD COLUMN IF NOT EXISTS user_guest_valid boolean default false;");
         $this->db->query("CREATE TABLE IF NOT EXISTS square.user_monetization
                 (
                     user_monetization_id     serial PRIMARY KEY,
@@ -136,6 +135,7 @@ class Migrate extends CI_Controller
                     created_at            TIMESTAMP DEFAULT current_timestamp,
                     date_send             TIMESTAMP DEFAULT null
                 )");
+        $this->db->query("ALTER TABLE square.user ADD COLUMN IF NOT EXISTS monetization_sent boolean default false;");
         $this->location();
     }
 

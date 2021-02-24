@@ -52,6 +52,7 @@ $route['log_home']['GET'] = 'Home/logHome';
 
 $route['save_invite']['POST'] = 'Monetization/saveEmailInvite';
 $route['send_invite']['POST'] = 'Monetization/sendEmailInvite';
+$route['confirm_money']['POST'] = 'Monetization/saveCodeConfirmationMoney';
 
 
 

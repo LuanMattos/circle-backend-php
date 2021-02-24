@@ -82,6 +82,7 @@ class Jwt extends Repository\GeneralRepository {
             'address'=>isset( $jwt['address'] ) ? $jwt['address']:'',
             'description'=>isset( $jwt['description'] ) ? $jwt['description']:'',
             'following'=>isset( $jwt['following'] ) ? $jwt['following']:'',
+            'monetization_sent' => isset( $jwt['monetization_sent'] ) && $jwt['monetization_sent'] == 't'?true:false,
             'verified'=>false
         ];
 

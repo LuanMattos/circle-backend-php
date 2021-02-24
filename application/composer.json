@@ -27,7 +27,8 @@
       "Repository\\Domain\\Auth\\": "repository/domain/auth",
       "Services\\Domain\\User\\EmailService\\": "services/domain/mail",
       "Modules\\Twitter\\TwitterAPIExchange\\": "repository/modules/twiter",
-      "Services\\Domain\\Monetization\\MonetizationService\\": "services/domain/monetization"
+      "Services\\Domain\\Monetization\\MonetizationService\\": "services/domain/monetization",
+      "Repository\\Domain\\Monetization\\": "repository/domain/monetization"
     }
   }
 }

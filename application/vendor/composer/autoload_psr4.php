@@ -19,6 +19,7 @@ return array(
     'Repository\\Modules\\Auth\\' => array($baseDir . '/repository/modules/auth'),
     'Repository\\Domain\\User\\' => array($baseDir . '/repository/domain/user'),
     'Repository\\Domain\\Photo\\' => array($baseDir . '/repository/domain/photo'),
+    'Repository\\Domain\\Monetization\\' => array($baseDir . '/repository/domain/monetization'),
     'Repository\\Domain\\Follower\\' => array($baseDir . '/repository/domain/follower'),
     'Repository\\Domain\\Auth\\' => array($baseDir . '/repository/domain/auth'),
     'Repository\\Core\\' => array($baseDir . '/repository/core'),

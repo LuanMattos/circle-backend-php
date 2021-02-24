@@ -29,7 +29,9 @@ class EmailService extends GeneralService
         $mail->send( $param );
     }
 
-
+    /**
+    * @Cron
+    **/
     public function sendEmailInviteLine()
     {
         $emailFromMarketing = $this->config->item('email_account_marketing');

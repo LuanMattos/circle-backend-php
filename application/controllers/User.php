@@ -46,6 +46,7 @@ class User extends Home_Controller
                 "description"            => $user->description,
                 "address"                => $user->address,
                 "user_device_id"         => $user->system_data_information_device_id,
+                'monetization_sent'      => $user->monetization_sent == 't'?true:false,
                 "verified"               => empty($user->user_code_verification) || !$user->user_code_verification?true:false
             ];
 
@@ -84,6 +85,7 @@ class User extends Home_Controller
                 'description'       => $user->description,
                 'user_followers'    => $user->user_followers,
                 'user_following'    => $user->user_following,
+                'monetization_sent' => $user->monetization_sent == 't'?true:false,
                 'verified'          => empty($user->user_code_verification) || !$user->user_code_verification?true:false
 
             ];
@@ -107,6 +109,7 @@ class User extends Home_Controller
                 "description"            => $user->description,
                 "address"                => $user->address,
                 "user_device_id"         => $user->system_data_information_device_id,
+                'monetization_sent'      => $user->monetization_sent == 't'?true:false,
                 "verified"               => empty($user->user_code_verification) || !$user->user_code_verification?true:false
             ];
 
@@ -255,6 +258,7 @@ class User extends Home_Controller
             'following'         => $this->followingOwner( $dataJwt, $user->user_id ),
             'user_followers'    => $user->user_followers,
             'user_following'    => $user->user_following,
+            'monetization_sent' => $user->monetization_sent == 't'?true:false,
             'verified'          => empty($user->user_code_verification) || !$user->user_code_verification?true:false
 
         ];
@@ -339,6 +343,7 @@ class User extends Home_Controller
             'description'     => $user->description,
             'user_followers'  => $user->user_followers,
             'user_following'  => $user->user_following,
+            'monetization_sent' => $user->monetization_sent == 't'?true:false,
             "verified"        => empty($user->user_code_verification) || !$user->user_code_verification?true:false
 
         ];
