@@ -142,6 +142,7 @@ class Migrate extends CI_Controller
             ALTER TABLE square.user_monetization ADD COLUMN IF NOT EXISTS user_mpc NUMERIC(3,2);
         ");
         $this->db->query("ALTER TABLE square.user ADD COLUMN IF NOT EXISTS monetization_sent boolean default false;");
+        $this->db->query("ALTER TABLE square.user ADD COLUMN IF NOT EXISTS user_send_mail_marketing_1 boolean default false");
         $this->location();
     }
 

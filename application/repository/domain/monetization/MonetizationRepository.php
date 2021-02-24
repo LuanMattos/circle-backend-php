@@ -55,4 +55,5 @@ class MonetizationRepository extends GeneralRepository
             ->get()
             ->row()->count;
     }
+
 }

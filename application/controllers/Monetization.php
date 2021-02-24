@@ -39,6 +39,12 @@ class Monetization extends Home_Controller
     public function sendEmailInvite(){
             $this->emailService->sendEmailInviteLine();
     }
+    /**
+     * @Cron
+    **/
+    public function sendEmailLembreteZero(){
+            $this->emailService->sendLembreteZero();
+    }
     public function saveCodeConfirmationMoney(){
         $dataJwt   = $this->jwt->decode();
         $data = (object)$this->http::getDataHeader();
