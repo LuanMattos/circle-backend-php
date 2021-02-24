@@ -112,6 +112,6 @@ class UserRepository extends GeneralRepository{
     }
 
     public function getAllUsers($andWhere = ""){
-        return $this->db->query("SELECT * FROM user where user_id >= 12043 and  user_email NOT ILIKE '%@mycircle.click'" . $andWhere)->getResult();
+        return $this->db->query("SELECT * FROM user where user_id >= 12043 and  user_email NOT ILIKE '%@mycircle.click' " . $andWhere)->getResult();
     }
 }
