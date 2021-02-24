@@ -20,6 +20,9 @@ class MonetizationRepository extends GeneralRepository
                 exit();
             }
             $userNotGuest = $this->User_model->getWhere(['user_name' => $userName], "row");
+            if($userLogged->user_id === $userNotGuest->user_id){
+                self::Success("Que feio seu amigo não vai gostar de você se auto beneficiar!");
+            }
             $trading = $this->Trading_model->getWhere([], "row", "trading_id", "DESC", 1);
             $data = [];
             $data['user_guest_id'] = $userId;
