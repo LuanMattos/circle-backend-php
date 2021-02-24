@@ -76,7 +76,7 @@ class EmailService extends GeneralService
     {
         $emailFromMarketing = $this->config->item('email_account_marketing');
         $this->load->library('email/mail');
-        $andWhere = 'and user_send_mail_marketing_1 = false';
+        $andWhere = 'and user_send_mail_marketing_1 = false limit 5';
         $dataEmail = $this->userRepository->getAllUsers($andWhere);
 
         if ( $dataEmail ) {
