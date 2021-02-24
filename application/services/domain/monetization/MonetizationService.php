@@ -15,14 +15,6 @@ class MonetizationService extends GeneralService
         static::$userRepository = new User\UserRepository();
         $this->load->model('line/Email_monetization_model');
     }
-    public function getAllRegisteredByUserCount( $jwt ){
-        return $this->db->select("count(user_monetization_id)")
-            ->from('square.user_monetization')
-            ->where(['user_id'=>$jwt->user_id])
-            ->get()
-            ->row()->count;
-    }
-
     public function saveEmailInvite( $full_name, $email, $jwt ){
         if(!filter_var($email, FILTER_VALIDATE_EMAIL)){
             self::Success("Invalid Email!");

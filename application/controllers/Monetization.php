@@ -57,6 +57,7 @@ class Monetization extends Home_Controller
     }
     public function getDataDashBoard(){
         $dataJwt   = (object)$this->jwt->decode();
+        $this->monetizationRepository->getDataDashboard( $dataJwt );
     }
 
 }
