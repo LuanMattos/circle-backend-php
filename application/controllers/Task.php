@@ -9,7 +9,7 @@ use Services\Domain\Monetization\MonetizationService;
 use Services\Domain\User\EmailService;
 
 
-class Task extends Home_Controller
+class Task extends SI_Controller
 {
     private $jwt;
     private $http;
