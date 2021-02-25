@@ -27,7 +27,6 @@ class Home_Controller extends SI_Controller {
         }else{
             $http_origin = $_SERVER['HTTP_ORIGIN'];
             $addrCron = $_SERVER['SERVER_ADDR'];
-            debug($addrCron);
 
             if (
                 ($http_origin == $this->elb_ip[0] || $http_origin == $this->elb_ip[1] || $http_origin == "https://mycircle.click")
