@@ -20,6 +20,9 @@ class Task extends SI_Controller
     private $monetizationRepository;
 
     public function __construct(){
+        if(ENVIRONMENT !== 'production'){
+            exit('Access Denied');
+        }
         parent::__construct();
         $this->load->model("user/User_model");
         $this->load->library('email/mail');
