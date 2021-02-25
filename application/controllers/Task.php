@@ -31,7 +31,8 @@ class Task extends Home_Controller
         $this->s3 = new StorageService\StorageService();
         $this->monetizationService = new MonetizationService\MonetizationService();
         $this->monetizationRepository = new MoneyRepository\MonetizationRepository();
-
+    }
+    public function oneMinute(){
         /** 1 min **/
         $this->sendEmailInvite();
         $this->sendEmailLembreteZero();
