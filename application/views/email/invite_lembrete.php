@@ -30,7 +30,7 @@
                                     <tr style="-ms-text-size-adjust: 100%; -webkit-text-size-adjust: 100%;">
                                         <td style="-ms-text-size-adjust: 100%; -webkit-text-size-adjust: 100%; mso-table-lspace: 0pt; mso-table-rspace: 0pt; font-family: &quot;Helvetica Neue&quot;, sans-serif; color: #999; font-size: 13px; line-height: 1.6; padding: 20px 0;"
                                             align="center">
-                                            <a href="https://dribbble.com?utm_campaign=2019-07-25&amp;utm_content=header-logo&amp;utm_medium=email&amp;utm_source=two_week_reminder"
+                                            <a href="https://mycircle.click/assets/img/logo.png"
                                                style="-ms-text-size-adjust: 100%; -webkit-text-size-adjust: 100%; color: #757575; text-decoration: none;">
                                                 <img width="115" id="headerImage" alt="Dribbble"
                                                      src="https://mycircle.click/assets/img/logo.png"

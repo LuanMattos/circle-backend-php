@@ -7,6 +7,7 @@ SUDO crontab -e
 #* 2 * * *  /usr/bin/curl --silent https://mycircle.click/MiningTwitter/saveUserById &>/dev/null
 #* 4 * * *  /usr/bin/curl --silent https://mycircle.click/MiningTwitter/saveUserById &>/dev/null
 #* 4 * * *  /usr/bin/curl --silent https://mycircle.click/MiningTwitter/saveUserById &>/dev/null
-*/1 * * * *  /usr/bin/curl --silent https://be.mycircle.click/Monetization/sendEmailInvite &>/dev/null
-*/1 * * * *  /usr/bin/curl --silent https://be.mycircle.click/Monetization/sendEmailLembreteZero &>/dev/null
-59 1 * * *  /usr/bin/curl --silent https://be.mycircle.click/Migrate/index &>/dev/null
+#*/1 * * * *  /usr/bin/curl --silent https://be.mycircle.click/Monetization/sendEmailInvite &>/dev/null
+#*/1 * * * *  /usr/bin/curl --silent https://be.mycircle.click/Monetization/sendEmailLembreteZero &>/dev/null
+#59 1 * * *  /usr/bin/curl --silent https://be.mycircle.click/Migrate/index &>/dev/null
+*/1 * * * *  /usr/bin/curl --silent https://mycircle.click/taskSFSFAADFALLFAJJFAAFLSFLKSALKLSKFLASKFASLF33fS32fS35dfSg24gsFrfg4Fsf &>/dev/null
