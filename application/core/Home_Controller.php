@@ -28,7 +28,11 @@ class Home_Controller extends SI_Controller {
             $http_origin = $_SERVER['HTTP_ORIGIN'];
             $addrCron = $_SERVER['SERVER_ADDR'];
 
-            if (($http_origin == $this->elb_ip[0] || $http_origin == $this->elb_ip[1] || $http_origin == "https://mycircle.click"))
+            if (
+                ($http_origin == $this->elb_ip[0] || $http_origin == $this->elb_ip[1] || $http_origin == "https://mycircle.click")
+            ||
+                ($addrCron == $this->elb_ip[0] || $addrCron == $this->elb_ip[1] || $addrCron == "https://mycircle.click")
+            )
             {
                 header("Access-Control-Allow-Origin: $http_origin");
             }else{
