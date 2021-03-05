@@ -27,6 +27,7 @@ $route['change_pass']['POST'] = 'user/ChangePass';
 $route['photos/(:any)/?(:any)?']['GET'] = 'photos/index/$id';
 $route['photos/(:any)']['DELETE'] = 'photos/delete/$id';
 $route['photos_upload']['POST'] = 'photos/upload';
+$route['videos_upload']['POST'] = 'photos/uploadVideo';
 $route['get_photo/(:any)']['GET'] = 'photos/getPhoto';
 $route['get_photo_id/(:any)']['GET'] = 'photos/getPhotoId';
 $route['update_photo']['PUT'] = 'photos/updatePhoto';
@@ -54,6 +55,7 @@ $route['save_invite']['POST'] = 'Monetization/saveEmailInvite';
 $route['send_invite']['POST'] = 'Monetization/sendEmailInvite';
 $route['confirm_money']['POST'] = 'Monetization/saveCodeConfirmationMoney';
 $route['get_data_dashboard']['POST'] = 'Monetization/getDataDashBoard';
+
 $route['task']['POST'] = 'Task/oneMinute';
 
 
