@@ -23,6 +23,7 @@ class PhotoService extends GeneralService
         $photo = static::$photoRepository->getPhotoByIdAndUserId( $photoId, $userId );
         static::$photoRepository->deletePhotoByUser( $photoId, $userId );
         static::$s3->removeImage( $photo->photo_url );
+
     }
 
 }
