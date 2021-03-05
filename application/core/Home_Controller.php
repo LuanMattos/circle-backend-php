@@ -23,8 +23,10 @@ class Home_Controller extends SI_Controller {
     private function _headers(){
         header('Access-Control-Allow-Methods: POST, GET, OPTIONS, DELETE, PUT');
         if(ENVIRONMENT === 'development'){
+            debug(ENVIRONMENT);
             header('Access-Control-Allow-Origin: *');
         }else{
+//            debug($_SERVER['HTTP_ORIGIN']);
             $http_origin = $_SERVER['HTTP_ORIGIN'];
 
             if (
