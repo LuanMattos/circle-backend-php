@@ -6,6 +6,7 @@ $query_builder  = TRUE;
 if(ENVIRONMENT === 'production'){
     $hostname = '172.31.17.131';
     $pass = 'J3K6051ER4u824VQP2A3I81QLO6uCCCg51zZ29H3V2KKlAWiJ3';
+    $passRds = 'F4D3Ro8Ud3VVH61K74Vlp31HKyCmd3Tp1g5N';
 }else{
     $hostname = '192.168.100.49';
     $pass = 'eFdarksadfw4r54af4fd4a54h2fasfdg';
