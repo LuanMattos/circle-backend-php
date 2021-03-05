@@ -35,8 +35,8 @@ class StorageService extends GeneralService{
         $fileName = md5($file['name'] . time());
 
         try{
-            if($this->s3->putObjectFile( $file['tmp_name'], $bucketName, $name_folder_user . '/' . $fileName, Amazon\S3::ACL_PUBLIC_READ )) {
-                $url = 'https://'. $this->endpoint . '/' . $bucketName . '/' . $name_folder_user . '/' .  $fileName;
+            if($this->s3->putObjectFile( $file['tmp_name'], $bucketName, $name_folder_user . '/' . $fileName . ".jpg", Amazon\S3::ACL_PUBLIC_READ )) {
+                $url = 'https://'. $this->endpoint . '/' . $bucketName . '/' . $name_folder_user . '/' .  $fileName . ".jpg";
                 $dataPhotoRepository = [
                     'user_name' => $user->user_name,
                     'name_folder' => $name_folder_user
