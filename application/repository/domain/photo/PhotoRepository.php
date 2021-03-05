@@ -18,7 +18,7 @@ class PhotoRepository extends GeneralRepository{
        $this->db->update('photo',['photo_description'=>$photoDescription],['photo_id'=>$photoId,'user_id'=>$userId]);
     }
 
-    public function saveImage( $post, $user, $url, $type = 'photo'){
+    public function saveImageOrVideo( $post, $user, $url, $type = 'photo'){
         if( $type === 'photo' && $post ):
             $data = [
                 'user_id' => $user->user_id,
@@ -38,7 +38,18 @@ class PhotoRepository extends GeneralRepository{
                 'user_' . $type . '_url' => $url,
             ];
             $this->User_model->save( $data );
-
+        elseif ( $type === 'video' ):
+            $data = [
+                'user_id' => $user->user_id,
+                'photo_post_date' => date('Y-m-d H:i:s'),
+                'photo_url' => $url,
+                'photo_description' => $post->description,
+                'photo_allow_comments' => $post->allowComments === 'false'?'0':'1',
+                'photo_public' => $post->public === 'true'?'1':'0',
+                'photo_styles' => $post->style,
+                'photo_likes' => 0,
+            ];
+            $this->Photos_model->save( $data );
         else:
             self::Success('Error on upload type','error');
         endif;
