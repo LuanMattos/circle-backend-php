@@ -1,0 +1,3 @@
+upload_max_filesize  = 100
+post_max_size = 100
+memory_limit = 500
