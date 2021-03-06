@@ -38,7 +38,6 @@ class Home_Controller extends SI_Controller {
 //                exit();
 //            }
 //        }
-        header('Access-Control-Allow-Origin: *');
 
         header("Access-Control-Allow-Origin: *");
         header('Access-Control-Allow-Headers: Access-Control-Allow-Origin, Content-Type');

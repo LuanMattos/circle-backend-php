@@ -1,0 +1,4 @@
+docker run -it  -e PGPASSWORD=eFdarksadfw4r54af4fd4a54h2fasfdg postgres  pg_dump  -h 192.168.100.49 -U square_db1 postgres > backup.sql
+
+
+docker run -it  -e PGPASSWORD=abc123 postgres  pg_dump  -h www.host.com/or-ip -U square_db1 postgres > backup.sql
