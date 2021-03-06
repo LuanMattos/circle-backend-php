@@ -17,7 +17,7 @@ if(ENVIRONMENT === 'production'){
 $db['default']  = [
 	'dsn'	        => '',
 	'hostname'      => $hostname,
-	'username'      => 'postgres',
+	'username'      => 'square_db1',
 	'port'          => '5432',
 	'password'      => $pass,
 	'database'      => 'postgres',
