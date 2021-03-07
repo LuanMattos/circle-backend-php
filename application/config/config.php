@@ -577,7 +577,7 @@ $config['limit_send_email_monetization_cron'] = 5;
 |JWT(sensive)
 */
 $config['leeway_token'] = 6;
-$config['expire_token'] = 5;
+$config['expire_token'] = 60;
 $config['private_key_jwt'] = <<<EOD
 -----BEGIN RSA PRIVATE KEY-----
 MIICXAIBAAKBgQC8kGa1pSjbSYZVebtTRBLxBz5H4i2p/llLCrEeQhta5kaQu/Rn

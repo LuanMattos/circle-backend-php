@@ -4,20 +4,22 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 $active_group   = 'default';
 $query_builder  = TRUE;
 if(ENVIRONMENT === 'production'){
-    $hostname = '172.31.17.131';
-    $pass = 'J3K6051ER4u824VQP2A3I81QLO6uCCCg51zZ29H3V2KKlAWiJ3';
-//    $hostname = 'database-1.cowcxqaftukz.us-east-2.rds.amazonaws.com';
-//    $pass = 'F4D3Ro8Ud3VVH61K74Vlp31HKyCmd3Tp1g5N';
+//    $hostname = '172.31.17.131';
+//    $pass = 'J3K6051ER4u824VQP2A3I81QLO6uCCCg51zZ29H3V2KKlAWiJ3';
+    $hostname = 'database-1.cowcxqaftukz.us-east-2.rds.amazonaws.com';
+    $pass = 'F4D3Ro8Ud3VVH61K74Vlp31HKyCmd3Tp1g5N';
+    $username = 'postgres';
 }else{
     $hostname = '192.168.100.49';
     $pass = 'eFdarksadfw4r54af4fd4a54h2fasfdg';
+      $username = 'square_db1';
 }
 
 
 $db['default']  = [
 	'dsn'	        => '',
 	'hostname'      => $hostname,
-	'username'      => 'square_db1',
+	'username'      => $username,
 	'port'          => '5432',
 	'password'      => $pass,
 	'database'      => 'postgres',
