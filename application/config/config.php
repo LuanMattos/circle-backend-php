@@ -2,11 +2,11 @@
 defined('BASEPATH') OR exit('No direct script access allowed');
 
 
-$config['sess_cookie_name']		= 'ci_session';
+$config['sess_cookie_name']		= 'circle_session';
 $config['sess_expiration']		= 7200;
 $config['sess_encrypt_cookie']	= FALSE;
 $config['sess_use_database']	= TRUE;
-$config['sess_table_name']		= 'ci_sessions';
+$config['sess_table_name']		= 'circle_sessions';
 $config['sess_match_ip']		= FALSE;
 $config['sess_match_useragent']	= TRUE;
 $config['sess_time_to_update'] 	= 300;
@@ -576,8 +576,8 @@ $config['limit_send_email_monetization_cron'] = 5;
 |--------------------------------------------------------------------------
 |JWT(sensive)
 */
-$config['leeway_token'] = 10;
-$config['expire_token'] = 900;
+$config['leeway_token'] = 6;
+$config['expire_token'] = 5;
 $config['private_key_jwt'] = <<<EOD
 -----BEGIN RSA PRIVATE KEY-----
 MIICXAIBAAKBgQC8kGa1pSjbSYZVebtTRBLxBz5H4i2p/llLCrEeQhta5kaQu/Rn

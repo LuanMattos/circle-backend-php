@@ -6,6 +6,7 @@ $route['translate_uri_dashes'] = FALSE;
 $route['default_controller'] = 'Home';
 $route['404_override'] = 'Home/error_404';
 
+$route['close']['POST'] = 'user/logout';
 $route['signup']['POST'] = 'user/register';
 $route['userLogin']['POST'] = 'user/login';
 $route['auth_google']['POST'] = 'user/signUpOrSignInWithGoogle';

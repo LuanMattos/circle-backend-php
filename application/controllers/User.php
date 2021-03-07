@@ -66,7 +66,8 @@ class User extends Home_Controller
                 'user_email'    => $userData->email,
                 'user_full_name'=> $userData->name,
                 'user_password' => password_hash( md5($userData->name.$userData->email.date('Y-m-d H:i:s').uniqid(rand(0,10000))), PASSWORD_ARGON2I ),
-                'user_avatar_url' => $userData->picture
+                'user_avatar_url' => $userData->picture,
+                'user_token' => md5($userData->user_name.$userData->user_email)
             ];
 
 
@@ -93,6 +94,13 @@ class User extends Home_Controller
             $this->response(true,'success');
         }else{
 //            Rever segurança
+            $dataUser = $this->userRepository->getUserByUserEmail( $data->data->email );
+            $user = [
+                'user_id'  => $dataUser->user_id,
+                'user_token' => md5($dataUser->user_name.$dataUser->user_email)
+            ];
+
+            $this->userService->saveUserRegister( $user );
             $this->loginWithGoogle( $data->data );
         }
     }
@@ -357,6 +365,15 @@ class User extends Home_Controller
         $result = $this->userRepository->AccountIsVerified( $user->user_id );
 
         $this->response( $result );
+    }
+    public function logout(){
+        $user = $this->jwt->decode();
+        $dataUser = $this->userRepository->getUserByUserName( $user->user_name );
+        $this->userService->saveUserRegister( [
+            'user_id'=>$dataUser->user_id,
+            'user_token'=>''
+        ] );
+
     }
 }
 //$datetime1 = new DateTime( $timeAccess );

@@ -150,6 +150,79 @@ class JWT
         return $payload;
     }
 
+    public static function decodeNoValidateTime($jwt, $key, array $allowed_algs = array())
+    {
+        $timestamp = is_null(static::$timestamp) ? time() : static::$timestamp;
+
+        if (empty($key)) {
+            throw new Exception('Key is empty');
+        }
+        $tks = explode('.', $jwt);
+
+        if (count($tks) != 3) {
+//            'Número errado de segmentos'
+            throw new Exception('Unauthenticated user');
+        }
+        list($headb64, $bodyb64, $cryptob64) = $tks;
+        if (null === ($header = static::jsonDecode(static::urlsafeB64Decode($headb64)))) {
+            throw new Exception('Invalid header encoding');
+        }
+        if (null === $payload = static::jsonDecode(static::urlsafeB64Decode($bodyb64))) {
+            throw new Exception('Invalid claims encoding');
+        }
+        if (false === ($sig = static::urlsafeB64Decode($cryptob64))) {
+            throw new Exception('Invalid signature encoding');
+        }
+        if (empty($header->alg)) {
+            throw new Exception('Empty algorithm');
+        }
+        if (empty(static::$supported_algs[$header->alg])) {
+            throw new Exception('Algorithm not supported');
+        }
+        if (!in_array($header->alg, $allowed_algs)) {
+            throw new Exception('Algorithm not allowed');
+        }
+        if ($header->alg === 'ES256') {
+            // OpenSSL expects an ASN.1 DER sequence for ES256 signatures
+            $sig = self::signatureToDER($sig);
+        }
+
+        if (is_array($key) || $key instanceof \ArrayAccess) {
+            if (isset($header->kid)) {
+                if (!isset($key[$header->kid])) {
+                    throw new Exception('"kid" invalid, unable to lookup correct key');
+                }
+                $key = $key[$header->kid];
+            } else {
+                throw new Exception('"kid" empty, unable to lookup correct key');
+            }
+        }
+
+        // Check the signature
+        if (!static::verify("$headb64.$bodyb64", $sig, $key, $header->alg)) {
+            throw new Exception('Signature verification failed');
+        }
+
+        // Check the nbf if it is defined. This is the time that the
+        // token can actually be used. If it's not yet that time, abort.
+        if (isset($payload->nbf) && $payload->nbf > ($timestamp + static::$leeway)) {
+            throw new Exception(
+                'Cannot handle token prior to ' . date(DateTime::ISO8601, $payload->nbf)
+            );
+        }
+
+        // Check that this token has been created before 'now'. This prevents
+        // using tokens that have been created for later use (and haven't
+        // correctly used the nbf claim).
+        if (isset($payload->iat) && $payload->iat > ($timestamp + static::$leeway)) {
+            throw new Exception(
+                'Cannot handle token prior to ' . date(DateTime::ISO8601, $payload->iat)
+            );
+        }
+
+        return $payload;
+    }
+
     /**
      * Converts and signs a PHP object or array into a JWT string.
      *

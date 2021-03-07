@@ -6,16 +6,18 @@ use Firebase\JWT as LibJwt;
 use PHPMailer\PHPMailer\Exception;
 use Repository;
 use \DateTime;
+use Repository\Domain\User as UserRepository;
 
 class Jwt extends Repository\GeneralRepository {
     private $jwtInstance;
     private $private_key_jwt;
     private $public_key_jwt;
     private $expireToken;
+    private $userRepository;
 
     public  function __construct( $ifExistsAuth = false ){
         parent::__construct();
-
+        $this->userRepository = new UserRepository\UserRepository();
         if( !$ifExistsAuth ) {
             $this->jwtInstance = new LibJwt\JWT();
             $this->public_key_jwt = $this->config->item('public_key_jwt');
@@ -33,7 +35,7 @@ class Jwt extends Repository\GeneralRepository {
 
             return $this->jwtInstance::decode( $token, $this->public_key_jwt, ['HS256'] );
         }catch ( Exception $e ){
-            self::Success($e->getMessage(),'error');
+            $this->readTokenError($e,$token);
         }
     }
     public function decodeIfExists(){
@@ -51,10 +53,36 @@ class Jwt extends Repository\GeneralRepository {
 
                 return $this->jwtInstance::decode($token, $this->public_key_jwt, ['HS256']);
             } catch (Exception $e) {
-                self::Success($e->getMessage(), 'error');
+                $this->readTokenError($e,$token);
             }
         }
         return false;
+    }
+    private function readTokenError($e, $token){
+        if($e->getMessage() === 'Expired token'){
+            $user = $this->jwtInstance::decodeNoValidateTime( $token, $this->public_key_jwt, ['HS256'] );
+            $data = $this->userRepository->getUserByUserName( $user->user_name );
+            if( $data->user_token && strlen($data->user_token) > 5 ){
+                $dados = [
+                    'user_id'         => $data->user_id,
+                    'user_avatar_url' => $data->user_avatar_url,
+                    'user_cover_url'  => $data->user_cover_url,
+                    'user_full_name'  => $data->user_full_name,
+                    'user_email'      => $data->user_email,
+                    'user_name'       => $data->user_name,
+                    'address'         => $data->address,
+                    'description'     => $data->description,
+                    'user_followers'  => $data->user_followers,
+                    'user_following'  => $data->user_following,
+                    'monetization_sent' => $data->monetization_sent == 't'?true:false,
+                    "verified"        => empty($data->user_code_verification) || !$data->user_code_verification?true:false
+                ];
+                $this->encode( $dados );
+                //renovar token
+            }else{
+                self::Success($e->getMessage(), 'error');
+            }
+        }
     }
 
     public function encode( $jwt ){

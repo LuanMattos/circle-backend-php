@@ -58,7 +58,10 @@ class UserService extends GeneralService
 
         static::$userRepository->deleteLogUser($user->user_id);
         static::$userRepository->updateDeviceUser($sdiAuth->system_data_information_device_id, $user->user_id);
-
+        static::$userRepository->saveUserRegister( [
+            'user_id' => $user->user_id,
+            'user_token' => md5($user->user_name.$user->user_email)
+        ] );
 
         $user->system_data_information_device_id = $sdiAuth->system_data_information_device_id;
 
@@ -183,7 +186,6 @@ class UserService extends GeneralService
     public function saveUserRegister($user)
     {
         $userSave = static::$userRepository->saveUserRegister($user);
-
         if ($userSave)
             $this->sendEmail($userSave);
     }

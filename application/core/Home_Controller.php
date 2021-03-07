@@ -17,7 +17,6 @@ class Home_Controller extends SI_Controller {
 
     private function authRequest(){
         $this->_headers();
-        $data = apache_request_headers();
     }
 
     private function _headers(){

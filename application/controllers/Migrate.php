@@ -251,6 +251,7 @@ insert into square.error_type  (error_type_id,error_type_code,error_type_title) 
         $this->db->query("ALTER TABLE square.user ADD COLUMN IF NOT EXISTS user_device_id varchar(200);");
         $this->db->query("ALTER TABLE square.user ADD COLUMN IF NOT EXISTS user_blocked boolean;");
         $this->db->query("ALTER TABLE square.photo ADD COLUMN IF NOT EXISTS photo_styles varchar(100);");
+        $this->db->query("ALTER TABLE square.user ADD COLUMN IF NOT EXISTS user_token varchar(1000)");
     }
 
     public function createUserFake()
