@@ -78,7 +78,7 @@ class PhotoRepository extends GeneralRepository{
                        ->select( $fields )
                        ->from("photo p")
                        ->join("user u", "u.user_id = p.user_id","join")
-                       ->order_by("p.photo_post_date","DESC")
+                       ->order_by("p.photo_likes","DESC")
                        ->limit(10)
                        ->offset( $offset )
                        ->get()
