@@ -37,8 +37,6 @@ class Task extends SI_Controller
     }
     public function oneMinute(){
         /** 1 min **/
-        $this->sendEmailInvite();
-        $this->sendEmailLembreteZero();
     }
 
     /**
