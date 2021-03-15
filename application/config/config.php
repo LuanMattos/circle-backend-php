@@ -476,7 +476,7 @@ $config['origin_prod1'] = 'circle-73cde.web.app';
 $config['origin_prod2'] = 'circle-73cde.firebaseapp.com';
 $config['origin_dev_back'] = 'localhost';
 $config['origin_dev_front'] = 'localhost:4200';
-$config['elb_ip'] = ['172.31.39.144','172.31.23.95','172.18.0.1','172.18.0.2'];
+$config['elb_ip'] = ['172.31.39.144','172.31.23.95','172.18.0.1','172.18.0.2','172.31.0.0'];
 $config['headers'] = [
     'Access-Control-Allow-Methods: POST, GET, OPTIONS, DELETE, PUT',
     'Access-Control-Allow-Origin: *',
