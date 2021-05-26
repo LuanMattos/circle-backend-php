@@ -13,6 +13,7 @@ class Home_Controller extends SI_Controller {
         parent::__construct();
         $this->setConfigs();
         $this->authRequest();
+//        debug(password_hash( "admin123", PASSWORD_ARGON2I ));
     }
 
     private function authRequest(){

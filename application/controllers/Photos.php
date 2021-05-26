@@ -187,4 +187,12 @@ class Photos extends Home_Controller
         $this->response($photo);
     }
 
+    public function logErrorPhoto(){
+        $photoId = $this->http->getDataUrl(2);
+        $dataJwt = $this->jwt->decode();
+        $lastNumber = $this->photoRepository->getPhotoByIdAndUserId($photoId,$dataJwt->user_id);
+        $this->photoRepository->updatePhotoLogError($photoId, $lastNumber->log_error_count  + 1, $dataJwt->user_id);
+        $this->photoRepository->deletePhotoLogError($photoId, $lastNumber->log_error_count  + 1, $dataJwt->user_id);
+    }
+
 }

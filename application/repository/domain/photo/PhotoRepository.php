@@ -14,6 +14,14 @@ class PhotoRepository extends GeneralRepository{
         $this->Photos_model->deletewhere(['photo_id'=>$photoId,'user_id'=>$userId]);
     }
 
+    public function updatePhotoLogError( $photoId, $number, $userId ){
+        $this->db->update('photo',['log_error_count'=>$number],['photo_id'=>$photoId,'user_id'=>$userId]);
+    }
+    public function deletePhotoLogError($photoId, $number, $userId ){
+        if($number > 10){
+            $this->Photos_model->deletewhere(['photo_id'=>$photoId,'user_id'=>$userId]);
+        }
+    }
     public function updatePhoto( $photoId, $photoDescription, $userId ){
        $this->db->update('photo',['photo_description'=>$photoDescription],['photo_id'=>$photoId,'user_id'=>$userId]);
     }

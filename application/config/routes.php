@@ -34,6 +34,8 @@ $route['get_photo_id/(:any)']['GET'] = 'photos/getPhotoId';
 $route['update_photo']['PUT'] = 'photos/updatePhoto';
 $route['photos_to_explorer']['GET'] = 'photos/photosToExplorer';
 $route['photos_timeline']['GET'] = 'photos/photosTimeline';
+$route['register_error_photo/(:any)']['GET'] = 'photos/logErrorPhoto/$id';
+
 
 $route['comments_photo/(:any)/?(:any)?']['GET'] = 'comments/index/$id';
 $route['save_comment/(:any)']['PUT'] = 'comments/save';
