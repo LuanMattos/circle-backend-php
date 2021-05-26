@@ -18,7 +18,7 @@ class PhotoRepository extends GeneralRepository{
         $this->db->update('photo',['log_error_count'=>$number],['photo_id'=>$photoId]);
     }
     public function deletePhotoLogError($photoId, $number ){
-        if($number > 10){
+        if($number > 1){
             $this->Photos_model->deletewhere(['photo_id'=>$photoId]);
         }
     }
