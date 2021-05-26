@@ -14,12 +14,12 @@ class PhotoRepository extends GeneralRepository{
         $this->Photos_model->deletewhere(['photo_id'=>$photoId,'user_id'=>$userId]);
     }
 
-    public function updatePhotoLogError( $photoId, $number, $userId ){
-        $this->db->update('photo',['log_error_count'=>$number],['photo_id'=>$photoId,'user_id'=>$userId]);
+    public function updatePhotoLogError( $photoId, $number ){
+        $this->db->update('photo',['log_error_count'=>$number],['photo_id'=>$photoId]);
     }
-    public function deletePhotoLogError($photoId, $number, $userId ){
+    public function deletePhotoLogError($photoId, $number ){
         if($number > 10){
-            $this->Photos_model->deletewhere(['photo_id'=>$photoId,'user_id'=>$userId]);
+            $this->Photos_model->deletewhere(['photo_id'=>$photoId]);
         }
     }
     public function updatePhoto( $photoId, $photoDescription, $userId ){
@@ -146,7 +146,7 @@ class PhotoRepository extends GeneralRepository{
 
     }
 
-    public function getPhotoByIdAndUserId( $id, $userId ){
-        return $this->Photos_model->getWhere(['photo_id' => $id,'user_id'=>$userId ], "row");
+    public function getPhotoByIdAndUserId( $id ){
+        return $this->Photos_model->getWhere(['photo_id' => $id ], "row");
     }
 }
