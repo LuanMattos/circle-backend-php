@@ -15,18 +15,12 @@ class MiningTwitter extends Home_Controller
         $this->load->model('user/User_model');
         $this->load->model('photos/Photos_model');
         $settings = array(
-            'oauth_access_token' => "1352572081544826881-x155VPk0YV1kWlekLgT1qxlbgcOjjZ",
-            'oauth_access_token_secret' => "uYoK85LnBie80pmyd02D03WJWL1RQ0PnvNga5f8Ia5ALm",
-            'consumer_key' => "ZuADUppHXV1IJFSLnUNM88tgU",
-            'consumer_secret' => "DqtjQakni5ItT53Mw4BA5onXmxUwrDHTppSVALFOijRhdcKWOm"
+            'oauth_access_token' => "1352572081544826881-Su4jP8CJaQ4kIjFFjGOxmpAtuBh80v",
+            'oauth_access_token_secret' => "CPTE8AWb6bTMJGpUra9qEqT2EoVCnWIxKtBpDFVjyaVBa",
+            'consumer_key' => "3sgI4aeTMXkHYJW0Fb2sMkO3h",
+            'consumer_secret' => "CiNBtwVyfN3lyks1hCBwq9wlk3pPZoXekiZZ7KZMxjHcOfsI0R"
         );
         $this->apiTwitter = new TwitterAPIExchange\TwitterAPIExchange($settings);
-    }
-
-    public function index()
-    {
-
-
     }
 
     public function getListFollowersByUserId($userIdFrom = '4332035543')
@@ -49,15 +43,17 @@ class MiningTwitter extends Home_Controller
 
     public function saveUserById()
     {
-//        $citiesflorida = 'art,basic,vs.co,gym,vsco,sextou,photography,gratidao,memories,lovely,cats,HappySunday,training,treino,gatas,landscape,centralpark,centralparkmanhatan,manhatan,ilove,euamo,amo,insta,fitness,lookfeminino,friday,sextou,sextafeira, runner,Sapiranga, PortoAlegre, poa, NH, Novo Hamburgo, Amigos, Amigas, Brothers, Father, Parents, Girls, Sisters, Sister,Irmaos, Irmas, Familia, Family, NewYork,Miami,EUA,USA, look,fashion,party,birthday,18 years, 18anos,Happy Birthday,Paradise,Belgium,beautiful,lindas, make,Aalst,Aarschot,Belgium,happy,amo,meuamor,mylove,feliz,felicidade';
-        $citiesflorida = 'landscapephotography,#landscapephotography,photography,#photography,PhotographyIsArt,#PhotographyIsArt,#photooftheday,photooftheday,beach,CentralPark,#MiamiBeach,MiamiBeach,NewYork,#NewYork,NewYorkCity,#NewYorkCity,travel,#travel,NaturePhotography,#NaturePhotography';
-        $citiesflorida = 'beatiful,landscapephotography,#landscapephotography,photography,#photography,PhotographyIsArt,#PhotographyIsArt,#photooftheday,photooftheday,beach,CentralPark,#MiamiBeach,MiamiBeach,NewYork,#NewYork,NewYorkCity,#NewYorkCity,travel,#travel,NaturePhotography,#NaturePhotography';
-        $citiesflorida = '#naturelovers,#photography,PhotographyIsArt,#PhotographyIsArt,#photooftheday,photooftheday,beach,CentralPark,#MiamiBeach,MiamiBeach,NewYork,#NewYork,NewYorkCity,#NewYorkCity,travel,#travel,NaturePhotography,#NaturePhotography';
+        $hashtag = 'photography';
+        $url = 'https://api.twitter.com/1.1/search/tweets.json';
 
-        $spaces = strtolower(str_replace(' ','',$citiesflorida));
-        $cities = explode(',',$spaces);
-        foreach ($cities as $tag){
-            $list = $this->getUserByGeoCode($tag);
+
+        $spaces = strtolower(str_replace(' ','',$hashtag));
+        $tags = explode(',',$spaces);
+        foreach ($tags as $tag){
+            $getfield = "?q=#{$tag}";
+            $requestMethod = 'GET';
+            $response = $this->apiTwitter->setGetfield($getfield)->buildOauth($url, $requestMethod)->performRequest();
+            $list = json_decode($response);
 
 //            if (count($list->statuses)) {
                 foreach ($list->statuses as $line) {
