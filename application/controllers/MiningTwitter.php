@@ -29,7 +29,6 @@ class MiningTwitter extends Home_Controller
         $getfield = "?user_id=$userIdFrom";
         $listFollowers = $twitter->setGetfield($getfield)
             ->buildOauth($this->urlSeguidores, 'GET')->performRequest();
-        debug(json_decode($listFollowers));
     }
 
     public function getUserByScreenName($userName = '')
@@ -38,7 +37,6 @@ class MiningTwitter extends Home_Controller
         $getfield = "?screen_name=$userName";
         $listFollowers = $twitter->setGetfield($getfield)
             ->buildOauth($this->urlSeguidores, 'GET')->performRequest();
-        debug(json_decode($listFollowers));
     }
 
     public function saveUserById()
@@ -82,8 +80,7 @@ class MiningTwitter extends Home_Controller
                         if(isset($line->entities->media)){
                             foreach($line->entities->media as $media){
                                 $validUrl = $this->Photos_model->getWhere(['photo_url' => $media->media_url_https], "row");
-
-                                if($media->type == 'photo' && !empty($media->media_url_https) && $user && ($user->user_id && !empty($user->user_id)) && !$validUrl) {
+                                if(($media->type == 'photo' || $media->type == 'video') && !empty($media->media_url_https) && $user && ($user->user_id && !empty($user->user_id)) && !$validUrl) {
                                     $photo = [
                                         'user_id' => $user->user_id,
                                         'photo_post_date' => date('Y-m-d H:i:s'),
@@ -155,7 +152,6 @@ class MiningTwitter extends Home_Controller
 
             $getfield = "?user_id=$userIdFrom";
             $listFollowers = $twitter->setGetfield($getfield)->buildOauth($this->urlSeguidores, 'GET')->performRequest();
-            debug($listFollowers);
 
             $arrayUsers = json_decode($listFollowers);
             $string = implode(",", $arrayUsers->ids);
