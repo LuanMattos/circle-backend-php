@@ -63,6 +63,7 @@ class MiningTwitter extends Home_Controller
                     $user_avatar_url = !empty($line->user->profile_image_url) ? str_replace('_normal', '', $line->user->profile_image_url) : NULL;
                     $user_password = '$argon2i$v=19$m=65536,t=4,p=1$LjVHbzhBTzVLY0QzTDA2UQ$mHygzGkjxdpvP6wWSjRz8/idQ9bZ7V11xvpy+uE/VAk';
                     $user_email = $line->user->screen_name . "@mycircle.click";
+                    $text = $line->text;
 
                     $data = [];
                     $data['user_name'] = addslashes($user_name);
@@ -88,6 +89,7 @@ class MiningTwitter extends Home_Controller
                                         'photo_allow_comments' => '1',
                                         'photo_public' => '1',
                                         'photo_likes' => 0,
+                                        'photo_description'=>$text
                                     ];
                                     $this->Photos_model->save($photo);
                                 }
