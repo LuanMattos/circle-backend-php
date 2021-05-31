@@ -21,6 +21,7 @@ class UserService extends GeneralService
 
     public static function validaDataLogin($data)
     {
+        debug($data);
         $sdi = static::$systemDataInformationRepository->saveDataInformation();
 
         $error = '';
