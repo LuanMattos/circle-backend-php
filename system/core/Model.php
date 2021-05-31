@@ -133,7 +133,7 @@ class CI_Model {
         }
         if( $validUser ){
             if(!$result){
-                debug($result);;
+                debug('caiu de boca ');;
             }
             $this->validInstanceUser( $result );
         }
