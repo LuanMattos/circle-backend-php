@@ -119,7 +119,7 @@ class CI_Model {
     public function getWhere( $where = null, $result = "array", $orderby = NULL, $direction = NULL, $limit = NULL, $offset = NULL, $validUser = true ){
 
         $getWhere = $this->db->order_by( $orderby,$direction )->get_where( $this->get_table(), $where, $limit, $offset );
-
+        $data = false;
         switch ( $result ){
             case "object":
                 $data =  $getWhere->result_object();
@@ -139,8 +139,8 @@ class CI_Model {
     }
 
     private function validInstanceUser( $result ){
-        debug($this->get_table());
         if( $this->get_table() === 'user' && !$result ){
+            debug($result);
             //aqui salvar informações para auditoria
             header( 'Content-type: application/json' );
             echo json_encode('User not found esssseee aquiiiii broww!');
