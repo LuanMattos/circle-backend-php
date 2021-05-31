@@ -90,6 +90,7 @@ class SystemDataInformationRepository extends GeneralRepository{
 
         if(ENVIRONMENT === 'production') {
             if ($user->user_device_id !== $deviceIdToCompare->system_data_information_device_id) {
+                debug($user);
                 $this->sendEmailNewDevice($user, $dataAccess);
             }
         }
