@@ -122,26 +122,24 @@ class CI_Model {
 
         switch ( $result ){
             case "object":
-                $result =  $getWhere->result_object();
+                $data =  $getWhere->result_object();
                 break;
             case "array":
-                $result = $getWhere->result_array();
+                $data = $getWhere->result_array();
                 break;
             case "row":
-                $result = $getWhere->row();
+                $data = $getWhere->row();
                 break;
         }
         if( $validUser ){
-            if(!$result){
-                debug('caiu de boca ');;
-            }
-            $this->validInstanceUser( $result );
+            $this->validInstanceUser( $data );
         }
         return $result;
 
     }
 
     private function validInstanceUser( $result ){
+        debug($this->get_table());
         if( $this->get_table() === 'user' && !$result ){
             //aqui salvar informações para auditoria
             header( 'Content-type: application/json' );
