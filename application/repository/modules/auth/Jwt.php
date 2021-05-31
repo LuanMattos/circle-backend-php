@@ -79,7 +79,6 @@ class Jwt extends Repository\GeneralRepository {
                 $this->encode( $dados );
                 //renovar token
             }else{
-                debug("Error do readTokenError");
                 self::Success($e->getMessage(), 'error');
             }
         }

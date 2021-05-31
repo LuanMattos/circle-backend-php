@@ -22,22 +22,23 @@ class Home_Controller extends SI_Controller {
 
     private function _headers(){
         header('Access-Control-Allow-Methods: POST, GET, OPTIONS, DELETE, PUT');
-//        if(ENVIRONMENT === 'development'){
+        if(ENVIRONMENT === 'development'){
             header('Access-Control-Allow-Origin: *');
-//        }else{
-//            $http_origin = $_SERVER['HTTP_ORIGIN'];
-//
-//            if (
-//                ($http_origin == $this->elb_ip[0] || $http_origin == "https://mycircle.click")
-//            )
-//            {
-//                header("Access-Control-Allow-Origin: $http_origin");
-//            }else{
-//                $this->response('Access Denied ' . $_SERVER['HTTP_ORIGIN'],'error');
-//                set_status_header(404);
-//                exit();
-//            }
-//        }
+        }else{
+            $http_origin = $_SERVER['HTTP_ORIGIN'];
+            debug($http_origin);
+
+            if (
+                ($http_origin == $this->elb_ip[0] || $http_origin == "https://mycircle.click")
+            )
+            {
+                header("Access-Control-Allow-Origin: $http_origin");
+            }else{
+                $this->response('Access Denied ' . $_SERVER['HTTP_ORIGIN'],'error');
+                set_status_header(404);
+                exit();
+            }
+        }
 
         header('Access-Control-Allow-Headers: Access-Control-Allow-Origin, Content-Type');
         header('Access-Control-Allow-Headers: Origin, Authorization, Client-Security-Token, Accept-Encoding, X-Auth-Token, X-Requested-With, Content-Type, Accept, x-Access-Token');
