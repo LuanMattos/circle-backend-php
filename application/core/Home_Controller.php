@@ -26,7 +26,7 @@ class Home_Controller extends SI_Controller {
             header('Access-Control-Allow-Origin: *');
         }else{
             $http_origin = $_SERVER['HTTP_ORIGIN'];
-            debug($http_origin);
+
 
             if (
                 ($http_origin == $this->elb_ip[0] || $http_origin == "https://mycircle.click")
@@ -34,6 +34,8 @@ class Home_Controller extends SI_Controller {
             {
                 header("Access-Control-Allow-Origin: $http_origin");
             }else{
+                debug($http_origin);
+
                 $this->response('Access Denied ' . $_SERVER['HTTP_ORIGIN'],'error');
                 set_status_header(404);
                 exit();
