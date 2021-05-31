@@ -32,9 +32,9 @@ class Jwt extends Repository\GeneralRepository {
         $token = $data['x-access-token'];
         // usar chave publica do certificado digital SSL - AMAZON
         try{
-
             return $this->jwtInstance::decode( $token, $this->public_key_jwt, ['HS256'] );
         }catch ( Exception $e ){
+            debug('caiu na exception');
             $this->readTokenError($e,$token);
         }
     }
