@@ -140,7 +140,7 @@ class CI_Model {
 
     private function validInstanceUser( $result ){
         if( $this->get_table() === 'user' && !$result ){
-            debug($result);
+//            debug($result);
             //aqui salvar informações para auditoria
             header( 'Content-type: application/json' );
             echo json_encode('User not found esssseee aquiiiii broww!');
