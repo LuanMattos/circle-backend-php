@@ -61,6 +61,7 @@ class Jwt extends Repository\GeneralRepository {
         if($e->getMessage() === 'Expired token'){
             $user = $this->jwtInstance::decodeNoValidateTime( $token, $this->public_key_jwt, ['HS256'] );
             $data = $this->userRepository->getUserByUserName( $user->user_name );
+
             debug($data);
             if( $data->user_token && strlen($data->user_token) > 5 ){
                 $dados = [
