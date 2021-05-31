@@ -142,7 +142,7 @@ class CI_Model {
         if( $this->get_table() === 'user' && !$result ){
             //aqui salvar informações para auditoria
             header( 'Content-type: application/json' );
-            echo json_encode('User not found!');
+            echo json_encode('User not found esssseee aquiiiii broww!');
             set_status_header(404);
             exit();
         }
