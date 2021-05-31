@@ -132,7 +132,9 @@ class CI_Model {
                 break;
         }
         if( $validUser ){
-            debug($result);;
+            if(!$result){
+                debug($result);;
+            }
             $this->validInstanceUser( $result );
         }
         return $result;
