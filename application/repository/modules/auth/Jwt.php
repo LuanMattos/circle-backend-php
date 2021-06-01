@@ -80,7 +80,7 @@ class Jwt extends Repository\GeneralRepository {
                 $this->encode( $dados );
                 //renovar token
             }else{
-                debug('token do inferno expirado');
+                debug('token do inferno expirado 2');
 
                 self::Success($e->getMessage(), 'error');
             }
