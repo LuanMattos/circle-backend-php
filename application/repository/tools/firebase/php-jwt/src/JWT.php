@@ -587,4 +587,18 @@ class JWT
 
         return array($pos, $data);
     }
+
+    public static function refresh($token,$key) {
+        try{
+            $decoded = JWT::decode($token, $key, ['HS256']);
+            //TODO: do something if exception is not fired
+        }catch ( \Firebase\JWT\ExpiredException $e ) {
+            $decoded = (array) JWT::decode($token, $key, ['HS256']);
+            $decoded['iat'] = time();
+            $decoded['exp'] = time() + 100;
+            return $decoded;
+        }catch ( \Exception $e ){
+            debug('Error refresh token',$e);
+        }
+    }
 }

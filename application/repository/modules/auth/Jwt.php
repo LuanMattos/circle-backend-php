@@ -67,9 +67,10 @@ class Jwt extends Repository\GeneralRepository
     private function readTokenError($e, $token)
     {
         if ($e->getMessage() === 'Expired token') {
-            $user = $this->jwtInstance::decodeNoValidateTime($token, $this->public_key_jwt, ['HS256']);
-            debug($user);
+            $user = $this->jwtInstance::refresh($token, $this->public_key_jwt);
+            var_dump("user",$user);
             $data = $this->userRepository->getUserByUserName($user->user_name);
+            var_dump("user",$data);
             if ($data->user_token && strlen($data->user_token) > 5) {
                 $dados = [
                     'user_id' => $data->user_id,
@@ -87,7 +88,6 @@ class Jwt extends Repository\GeneralRepository
                 ];
                 $this->encode($dados);
             } else {
-                debug('else dessa bosta');
                 self::Success($e->getMessage(), 'error');
             }
         }
@@ -129,41 +129,4 @@ class Jwt extends Repository\GeneralRepository
         self::setHeaders($dados, 'x-access-token');
 
     }
-
-    public function encodeNoAuth($jwt)
-    {
-
-        $tokenId = base64_encode(md5(random_bytes(32) . time() . $jwt['user_id'])); //Não pode se repetir
-        $issuedAt = time();
-        $notBefore = $issuedAt + 2;
-        $expire = $notBefore + $this->expireToken;
-        $serverName = $_SERVER['SERVER_NAME'];
-
-        $data = [
-            'iat' => $issuedAt,
-            'jti' => $tokenId,
-            'iss' => $serverName,
-            'nbf' => $notBefore,
-            'exp' => $expire,
-            'time_expire' => $this->expireToken,
-            'user_id' => isset($jwt['user_id']) ? $jwt['user_id'] : '',
-            'user_name' => isset($jwt['user_name']) ? $jwt['user_name'] : '',
-            'user_full_name' => isset($jwt['user_full_name']) ? $jwt['user_full_name'] : '',
-            'user_cover_url' => isset($jwt['user_cover_url']) ? $jwt['user_cover_url'] : '',
-            'user_avatar_url' => isset($jwt['user_avatar_url']) ? $jwt['user_avatar_url'] : '',
-            'user_followers' => isset($jwt['user_followers']) ? $jwt['user_followers'] : '',
-            'user_following' => isset($jwt['user_following']) ? $jwt['user_following'] : '',
-            'address' => isset($jwt['address']) ? $jwt['address'] : '',
-            'description' => isset($jwt['description']) ? $jwt['description'] : '',
-            'following' => isset($jwt['following']) ? $jwt['following'] : '',
-            'verified' => false
-        ];
-
-
-        // usar chave privada do certificado digital SSL - AMAZON
-        $dados = $this->jwtInstance::encode($data, $this->public_key_jwt, 'HS256', null);
-        self::setHeaders($dados, 'x-access-token');
-
-    }
-
 }
