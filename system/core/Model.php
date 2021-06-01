@@ -131,9 +131,9 @@ class CI_Model {
                 $result = $getWhere->row();
                 break;
         }
-        if( $validUser ){
-            $this->validInstanceUser( $result );
-        }
+//        if( $validUser ){
+//            $this->validInstanceUser( $result );
+//        }
         return $result;
 
     }

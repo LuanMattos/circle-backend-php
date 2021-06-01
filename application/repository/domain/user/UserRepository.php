@@ -22,6 +22,7 @@ class UserRepository extends GeneralRepository{
         }
         return $user;
     }
+
     public function getUserByUserEmail( $email, $return = "row"){
         $user = $this->User_model->getWhere( ['user_email' => $email ], $return );
         if(!$user){
