@@ -131,23 +131,10 @@ class CI_Model {
                 $result = $getWhere->row();
                 break;
         }
-        if( $validUser ){
-            $this->validInstanceUser( $result );
-        }
         return $result;
 
     }
 
-    private function validInstanceUser( $result ){
-        if( $this->get_table() === 'user' && !$result ){
-            //aqui salvar informações para auditoria
-            header( 'Content-type: application/json' );
-            echo json_encode('User not found!');
-            set_status_header(404);
-            exit();
-        }
-        return false;
-    }
     /**
      * Função para retornar todos os registros de uma tabela
      * $param $select = se for vazio retornara todas as entidades
