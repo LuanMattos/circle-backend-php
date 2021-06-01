@@ -18,6 +18,7 @@ class UserRepository extends GeneralRepository{
     public function getUserByUserName( $userName, $return = "row"){
         $user = $this->User_model->getWhere( ['user_name' => $userName ], $return );
         if(!$user){
+            debug($userName);
             self::Success('User does not exist!','error');
         }
         return $user;
