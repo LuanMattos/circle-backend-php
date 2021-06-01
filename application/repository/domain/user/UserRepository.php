@@ -16,16 +16,12 @@ class UserRepository extends GeneralRepository{
     }
 
     public function getUserByUserName( $userName, $return = "row"){
-        var_dump('teste');
         $user = $this->User_model->getWhere( ['user_name' => $userName ], $return );
         return $user;
     }
 
     public function getUserByUserEmail( $email, $return = "row"){
         $user = $this->User_model->getWhere( ['user_email' => $email ], $return );
-        if(!$user){
-            self::Success('User does not exist!','error');
-        }
         return $user;
     }
     public function getUserByUserNameValidateCodeVerification( $userName, $return = "row"){
@@ -35,9 +31,6 @@ class UserRepository extends GeneralRepository{
 
     public function getUserByCodeLink( $code, $return = "row"){
         $user = $this->User_model->getWhere( ['user_link_forgot_password' => $code ], $return );
-        if(!$user){
-            self::Success('User does not exist!','error');
-        }
         return $user;
     }
 
