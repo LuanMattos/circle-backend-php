@@ -173,7 +173,8 @@ class Photos extends Home_Controller
     {
         $offset = $this->input->get('page', true);
         $dataJwt = $this->jwt->decode();
-        $user = $this->userRepository->getUserByUserNameValidateCodeVerification($dataJwt->user_name);
+//        $user = $this->userRepository->getUserByUserNameValidateCodeVerification($dataJwt->user_name);
+        $user = $this->userRepository->getUserByUserName($dataJwt->user_name);
         $photo = $this->photoRepository->getPhotoToExplorer($offset, $user);
         $this->response($photo);
     }

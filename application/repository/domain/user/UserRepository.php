@@ -29,9 +29,6 @@ class UserRepository extends GeneralRepository{
     }
     public function getUserByUserNameValidateCodeVerification( $userName, $return = "row"){
         $user = $this->User_model->getWhere( ['user_name' => $userName,'user_code_verification' => null ], $return );
-        if(!$user){
-            self::Success('User does not exist!','error');
-        }
         return $user;
     }
 
