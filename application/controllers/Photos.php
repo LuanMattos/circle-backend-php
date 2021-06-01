@@ -171,7 +171,6 @@ class Photos extends Home_Controller
 
     public function photosToExplorer()
     {
-        var_dump('teste');
         $offset = $this->input->get('page', true);
         $dataJwt = $this->jwt->decode();
 //        $user = $this->userRepository->getUserByUserNameValidateCodeVerification($dataJwt->user_name);
