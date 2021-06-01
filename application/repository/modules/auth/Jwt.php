@@ -67,12 +67,7 @@ class Jwt extends Repository\GeneralRepository
     private function readTokenError($e, $token)
     {
         if ($e->getMessage() === 'Expired token') {
-            try {
-                $user = $this->jwtInstance::decodeNoValidateTime($token, $this->public_key_jwt, ['HS256']);
-            } catch (Exception $e) {
-                debug($e);
-            }
-            debug($user);
+            $user = $this->jwtInstance::decodeNoValidateTime($token, $this->public_key_jwt, ['HS256']);
             $data = $this->userRepository->getUserByUserName($user->user_name);
             if ($data->user_token && strlen($data->user_token) > 5) {
                 $dados = [
@@ -91,6 +86,7 @@ class Jwt extends Repository\GeneralRepository
                 ];
                 $this->encode($dados);
             } else {
+                debug('else dessa bosta');
                 self::Success($e->getMessage(), 'error');
             }
         }
