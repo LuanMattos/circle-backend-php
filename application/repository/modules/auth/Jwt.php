@@ -58,6 +58,7 @@ class Jwt extends Repository\GeneralRepository
 
                 return $this->jwtInstance::decode($token, $this->public_key_jwt, ['HS256']);
             } catch (Exception $e) {
+                debug($token);
                 $this->readTokenError($e, $token);
             }
         }
