@@ -16,9 +16,7 @@ class UserRepository extends GeneralRepository{
     }
 
     public function getUserByUserName( $userName, $return = "row"){
-       var_dump($userName);
         $user = $this->User_model->getWhere( ['user_name' => $userName ], $return );
-        var_dump('essa bota é foda e me tira o sono ->', $user);
         return $user;
     }
 
