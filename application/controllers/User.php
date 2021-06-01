@@ -338,7 +338,7 @@ class User extends Home_Controller
 
     public function refreshToken(){
         $dataJwt   = $this->jwt->decode();
-        $user = $this->User_model->getWhere( ["user_name"=>$dataJwt->user_name, 'user_code_verification'=>null],"row" );
+        $user = $this->User_model->getWhere( ["user_name"=>$dataJwt->user_name],"row" );
 
         $data = [
             'user_id'         => $user->user_id,
