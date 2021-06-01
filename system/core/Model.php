@@ -131,15 +131,17 @@ class CI_Model {
                 $result = $getWhere->row();
                 break;
         }
-//        if( $validUser ){
-//            $this->validInstanceUser( $result );
-//        }
+        if( $validUser ){
+            $this->validInstanceUser( $result, $where );
+        }
         return $result;
 
     }
 
-    private function validInstanceUser( $result ){
+    private function validInstanceUser( $result,$where ){
         if( $this->get_table() === 'user' && !$result ){
+            debug($where);
+
             //aqui salvar informações para auditoria
             header( 'Content-type: application/json' );
             echo json_encode('User not found!');
