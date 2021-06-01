@@ -22,12 +22,11 @@ class Home_Controller extends SI_Controller {
 
     private function _headers(){
         header('Access-Control-Allow-Methods: POST, GET, OPTIONS, DELETE, PUT');
+        header("Access-Control-Allow-Origin:*");
         if(ENVIRONMENT === 'development'){
             header('Access-Control-Allow-Origin: *');
         }else{
             $http_origin = $_SERVER['HTTP_ORIGIN'];
-
-
             if (
                 ($http_origin == $this->elb_ip[0] || $http_origin == "https://mycircle.click")
             )
