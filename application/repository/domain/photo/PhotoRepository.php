@@ -65,7 +65,7 @@ class PhotoRepository extends GeneralRepository{
 
     }
 
-    public function getPhotoToExplorer( $offset, $user ){
+    public function getPhotoToExplorer( $offset ){
         $fields = [
             'p.photo_id',
             'p.photo_post_date',
@@ -91,14 +91,14 @@ class PhotoRepository extends GeneralRepository{
                        ->get()
                        ->result_array();
 
-        if( $user ){
+//        if( $user ){
             foreach ( $photos as $key=>$item ) {
 //                Será feito separado, ao clicar no número de likes
                 $photos[$key]['likes'] = [];
                 $photos[$key]['liked'] = $this->Likes_model->likedMe($item['photo_id'],$user->user_id,"row")?true:false;
             }
             return $photos;
-        }
+//        }
         return [];
     }
 
