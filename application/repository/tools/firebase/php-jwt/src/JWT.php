@@ -150,12 +150,12 @@ class JWT
         return $payload;
     }
 
-    public static function decodeNoValidateTime($jwt, $key, array $allowed_algs = array())
+    public static function decodeNotTime($jwt, $key, array $allowed_algs = array())
     {
         $timestamp = is_null(static::$timestamp) ? time() : static::$timestamp;
 
         if (empty($key)) {
-            throw new Exception('Key is empty');
+            throw new Exception('Chave não pode ser vazia');
         }
         $tks = explode('.', $jwt);
 
@@ -215,9 +215,13 @@ class JWT
         // using tokens that have been created for later use (and haven't
         // correctly used the nbf claim).
         if (isset($payload->iat) && $payload->iat > ($timestamp + static::$leeway)) {
-            throw new Exception(
-                'Cannot handle token prior to ' . date(DateTime::ISO8601, $payload->iat)
-            );
+            $payload->iat = time();
+        }
+
+        // Check if this token has expired.
+        //$timestamp = time de agora
+        if (isset($payload->exp) && ($timestamp - static::$leeway) >= $payload->exp) {
+            $payload->exp = time() + 250;
         }
 
         return $payload;
@@ -258,6 +262,7 @@ class JWT
 
         return implode('.', $segments);
     }
+
 
     /**
      * Sign a string with a given key and algorithm.
@@ -588,17 +593,7 @@ class JWT
         return array($pos, $data);
     }
 
-    public static function refresh($token,$key) {
-        try{
-            $decoded = JWT::decode($token, $key, ['HS256']);
-            //TODO: do something if exception is not fired
-        }catch ( \Firebase\JWT\ExpiredException $e ) {
-            $decoded = (array) JWT::decode($token, $key, ['HS256']);
-            $decoded['iat'] = time();
-            $decoded['exp'] = time() + 100;
-            return $decoded;
-        }catch ( \Exception $e ){
-            debug('Error refresh token',$e);
-        }
+    public static function refresh($token,$key,$hash) {
+      return self::decodeNotTime($token, $key, $hash);
     }
 }

@@ -336,34 +336,9 @@ class User extends Home_Controller
         $this->response('Tempo excedido para esta solicitação, tente novamente!');
     }
 
-    public function refreshToken(){
-        $dataJwt   = $this->jwt->decode();
-        $user = $this->User_model->getWhere( ["user_name"=>$dataJwt->user_name],"row" );
-
-        $data = [
-            'user_id'         => $user->user_id,
-            'user_avatar_url' => $user->user_avatar_url,
-            'user_cover_url'  => $user->user_cover_url,
-            'user_full_name'  => $user->user_full_name,
-            'user_email'      => $user->user_email,
-            'user_name'       => $user->user_name,
-            'address'         => $user->address,
-            'description'     => $user->description,
-            'user_followers'  => $user->user_followers,
-            'user_following'  => $user->user_following,
-            'monetization_sent' => $user->monetization_sent == 't'?true:false,
-            "verified"        => empty($user->user_code_verification) || !$user->user_code_verification?true:false
-
-        ];
-
-        $this->jwt->encode( $data );
-        $this->response();
-    }
-
     public function verificationAcountConfirm(){
         $user = $this->jwt->decode();
         $result = $this->userRepository->AccountIsVerified( $user->user_id );
-
         $this->response( $result );
     }
     public function logout(){

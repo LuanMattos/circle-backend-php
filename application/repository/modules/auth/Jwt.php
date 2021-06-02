@@ -38,8 +38,18 @@ class Jwt extends Repository\GeneralRepository
         try {
             return $this->jwtInstance::decode($token, $this->public_key_jwt, ['HS256']);
         } catch (Exception $e) {
-            $this->readTokenError($e, $token);
+            $jwt = $this->renewTokenExpired($e,$token,$this->public_key_jwt, ['HS256']);
+            $this->encode((array)$jwt);
+            return $jwt;
         }
+    }
+
+    public function renewTokenExpired($e, $token, $public_key_jwt, $hash)
+    {
+        if ($e->getMessage() === 'Expired token') {
+            return $this->jwtInstance::refresh($token, $public_key_jwt, $hash);
+        }
+        return $e->getMessage();
     }
 
     public function decodeIfExists()
@@ -49,7 +59,6 @@ class Jwt extends Repository\GeneralRepository
 
         if ($token) {
             try {
-
                 $this->jwtInstance = new LibJwt\JWT();
                 $this->public_key_jwt = $this->config->item('public_key_jwt');
                 $this->private_key_jwt = $this->config->item('private_key_jwt');
@@ -58,39 +67,10 @@ class Jwt extends Repository\GeneralRepository
 
                 return $this->jwtInstance::decode($token, $this->public_key_jwt, ['HS256']);
             } catch (Exception $e) {
-                $this->readTokenError($e, $token);
+                return $this->renewTokenExpired($e, $token,$this->public_key_jwt, ['HS256']);
             }
         }
         return false;
-    }
-
-    private function readTokenError($e, $token)
-    {
-        if ($e->getMessage() === 'Expired token') {
-            $user = $this->jwtInstance::refresh($token, $this->public_key_jwt);
-            var_dump("user",$user);
-            $data = $this->userRepository->getUserByUserName($user->user_name);
-            var_dump("user",$data);
-            if ($data->user_token && strlen($data->user_token) > 5) {
-                $dados = [
-                    'user_id' => $data->user_id,
-                    'user_avatar_url' => $data->user_avatar_url,
-                    'user_cover_url' => $data->user_cover_url,
-                    'user_full_name' => $data->user_full_name,
-                    'user_email' => $data->user_email,
-                    'user_name' => $data->user_name,
-                    'address' => $data->address,
-                    'description' => $data->description,
-                    'user_followers' => $data->user_followers,
-                    'user_following' => $data->user_following,
-                    'monetization_sent' => $data->monetization_sent == 't' ? true : false,
-                    "verified" => empty($data->user_code_verification) || !$data->user_code_verification ? true : false
-                ];
-                $this->encode($dados);
-            } else {
-                self::Success($e->getMessage(), 'error');
-            }
-        }
     }
 
     public function encode($jwt)
