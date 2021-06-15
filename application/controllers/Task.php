@@ -35,6 +35,9 @@ class Task extends SI_Controller
         $this->monetizationService = new MonetizationService\MonetizationService();
         $this->monetizationRepository = new MoneyRepository\MonetizationRepository();
     }
+    public function calcTimeToExplorer(){
+
+    }
     public function oneMinute(){
         /** 1 min **/
     }

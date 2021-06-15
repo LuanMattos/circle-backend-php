@@ -1,0 +1,6 @@
+dev
+docker-compose up -d
+docker exec -it container-name bash
+mongo
+user admin
+db.createUser({user:"admin", pwd:"admin", roles:[{role:"root", db:"admin"}]})

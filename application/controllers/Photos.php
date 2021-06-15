@@ -18,6 +18,7 @@ class Photos extends Home_Controller
     private $userRepository;
     private $photoService;
     private $jwtIfExistsAuth;
+    private $itemTime = [];
 
     public function __construct()
     {
@@ -54,6 +55,7 @@ class Photos extends Home_Controller
         $photos = $this->Photos_model->getPhotoUser(
             $user->user_id, $userLocal, "photo_id", "DESC", "9", $offset
         );
+
 
         $newData = [
             "user_id" => $user->user_id,
@@ -172,11 +174,8 @@ class Photos extends Home_Controller
     public function photosToExplorer()
     {
         $offset = $this->input->get('page', true);
-        $dataJwt = $this->jwt->decode();
-
-//        $user = $this->userRepository->getUserByUserNameValidateCodeVerification($dataJwt->user_name);
-//        $user = $this->userRepository->getUserByUserName($dataJwt->user_name);
-        $photo = $this->photoRepository->getPhotoToExplorer($offset);
+        $user = $this->jwt->decode();
+        $photo = $this->photoRepository->getPhotoToExplorer($offset, $user);
         $this->response($photo);
     }
 
@@ -195,6 +194,17 @@ class Photos extends Home_Controller
         $lastNumber = $this->photoRepository->getPhotoByIdAndUserId($photoId);
         $this->photoRepository->updatePhotoLogError($photoId, $lastNumber->log_error_count  + 1);
         $this->photoRepository->deletePhotoLogError($photoId, $lastNumber->log_error_count  + 1);
+    }
+
+    public function registerTimePhoto(){
+        $datapost = (object)$this->input->post(null, true);
+        $jwtData = $this->jwt->decode();
+        $data = [
+            'photo_statistic_time'=>$datapost->time,
+            'photo_id'=>$datapost->photoId,
+            'user_id'=>$jwtData->user_id
+        ];
+        $this->photoService->savePhotoStatistics($data);
     }
 
 }
