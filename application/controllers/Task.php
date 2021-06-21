@@ -7,6 +7,7 @@ use Repository\Domain\Monetization as MoneyRepository;
 use Services\Domain\Storage\StorageService;
 use Services\Domain\Monetization\MonetizationService;
 use Services\Domain\User\EmailService;
+use Services\Domain\Photo as PhotoService;
 
 
 class Task extends SI_Controller
@@ -20,9 +21,9 @@ class Task extends SI_Controller
     private $monetizationRepository;
 
     public function __construct(){
-        if(ENVIRONMENT !== 'production'){
-            exit('Access Denied');
-        }
+//        if(ENVIRONMENT !== 'production'){
+//            exit('Access Denied');
+//        }
         parent::__construct();
         $this->load->model("user/User_model");
         $this->load->library('email/mail');
@@ -34,17 +35,15 @@ class Task extends SI_Controller
         $this->s3 = new StorageService\StorageService();
         $this->monetizationService = new MonetizationService\MonetizationService();
         $this->monetizationRepository = new MoneyRepository\MonetizationRepository();
+        $this->photoService = new PhotoService\PhotoService();
     }
-    public function calcTimeToExplorer(){
-
-    }
-    public function oneMinute(){
-        /** 1 min **/
-    }
-
     /**
-     * @Cron
-    **/
+     * @Cron que roda de um em um minuto
+     **/
+    public function oneMinute(){
+    }
+
+
     public function sendEmailInvite(){
             $this->emailService->sendEmailInviteLine();
     }

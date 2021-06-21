@@ -256,14 +256,13 @@ insert into square.error_type  (error_type_id,error_type_code,error_type_title) 
         $this->db->query("CREATE TABLE square.photo_statistic
             (
                 photo_statistic_id serial PRIMARY KEY,
-                photo_statistic_time varchar(30) default '00:00:00',
-                photo_statistic_time_diff varchar(30) default '00:00:00',
+                photo_statistic_time varchar(30),
                 photo_id INTEGER,
                 user_id INTEGER,
                 FOREIGN KEY (photo_id) REFERENCES Square.photo (photo_id) ON DELETE CASCADE,
                 FOREIGN KEY(user_id) REFERENCES Square.user(user_id) ON DELETE CASCADE
             );
-       ");
+        ");
     }
 
     private function finallyVacuum()

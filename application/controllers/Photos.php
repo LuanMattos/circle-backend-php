@@ -18,7 +18,6 @@ class Photos extends Home_Controller
     private $userRepository;
     private $photoService;
     private $jwtIfExistsAuth;
-    private $itemTime = [];
 
     public function __construct()
     {
@@ -200,11 +199,11 @@ class Photos extends Home_Controller
         $datapost = (object)$this->input->post(null, true);
         $jwtData = $this->jwt->decode();
         $data = [
-            'photo_statistic_time'=>$datapost->time,
             'photo_id'=>$datapost->photoId,
-            'user_id'=>$jwtData->user_id
+            'user_id'=>$jwtData->user_id,
+            'photo_statistic_time'=>$datapost->time
         ];
-        $this->photoService->savePhotoStatistics($data);
+        $this->photoService->updateLastItemWithTime( $data );
     }
 
 }
