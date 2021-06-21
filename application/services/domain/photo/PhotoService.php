@@ -34,7 +34,7 @@ class PhotoService extends GeneralService
     }
 
     public function updateLastItemWithTime( $data ){
-        $this->Photo_statistic_model->save( $data );
+//        $this->Photo_statistic_model->save( $data );
     }
 
 
