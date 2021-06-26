@@ -483,6 +483,8 @@ $config['headers'] = [
     'Access-Control-Allow-Headers: Origin, Authorization, Client-Security-Token, Accept-Encoding, X-Auth-Token, X-Requested-With, Content-Type, Accept, x-Access-Token',
     'Content-type: application/json'
 ];
+#Endpoints
+$config['drf'] = 'http://localhost:8000/';
 
 /*
 |--------------------------------------------------------------------------

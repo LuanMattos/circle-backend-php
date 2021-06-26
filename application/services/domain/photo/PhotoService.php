@@ -34,8 +34,27 @@ class PhotoService extends GeneralService
     }
 
     public function updateLastItemWithTime( $data ){
-//        $this->Photo_statistic_model->save( $data );
+        if( $data['user_id'] ){
+            $this->Photo_statistic_model->save( $data );
+        }
     }
+    public function sendStatistic(){
+        $username = "admin";
+        $password = "admin";
+        $headers = [
+            'Content-Type: application/json',
+//            'Authorization: Basic '. base64_encode("$username:$username")
+        ];
+        $url = $this->config->item('drf') . "users";
+        $ch = curl_init();
+        curl_setopt($ch, CURLOPT_URL, $url);
+        curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
+        $output = curl_exec($ch);
+        debug($output);
+
+        curl_close($ch);
+    }
+
 
 
 }

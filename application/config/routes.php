@@ -62,6 +62,9 @@ $route['get_data_dashboard']['POST'] = 'Monetization/getDataDashBoard';
 
 $route['task']['POST'] = 'Task/oneMinute';
 
+$route['send_statistic']['GET'] = 'Photos/sendApiStatistic';
+
+
 
 
 

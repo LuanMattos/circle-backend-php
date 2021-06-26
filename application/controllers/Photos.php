@@ -205,5 +205,8 @@ class Photos extends Home_Controller
         ];
         $this->photoService->updateLastItemWithTime( $data );
     }
+    public function sendApiStatistic(){
+        $this->photoService->sendStatistic();
+    }
 
 }

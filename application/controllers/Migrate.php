@@ -253,13 +253,21 @@ insert into square.error_type  (error_type_id,error_type_code,error_type_title) 
         $this->db->query("ALTER TABLE square.photo ADD COLUMN IF NOT EXISTS photo_styles varchar(100);");
         $this->db->query("ALTER TABLE square.user ADD COLUMN IF NOT EXISTS user_token varchar(1000)");
         $this->db->query("ALTER TABLE square.photo ADD COLUMN log_error_count bigint");
-        $this->db->query("CREATE TABLE square.photo_statistic
+        $this->db->query("CREATE TABLE IF NOT EXISTS  square.photo_statistic
             (
                 photo_statistic_id serial PRIMARY KEY,
-                photo_statistic_time varchar(30),
+                photo_statistic_time BIGINT,
                 photo_id INTEGER,
                 user_id INTEGER,
                 FOREIGN KEY (photo_id) REFERENCES Square.photo (photo_id) ON DELETE CASCADE,
+                FOREIGN KEY(user_id) REFERENCES Square.user(user_id) ON DELETE CASCADE
+            );
+        ");
+        $this->db->query("CREATE TABLE IF NOT EXISTS  square.words_user
+            (
+                words_user_id serial PRIMARY KEY,
+                words_user_words varchar,
+                user_id INTEGER,
                 FOREIGN KEY(user_id) REFERENCES Square.user(user_id) ON DELETE CASCADE
             );
         ");
