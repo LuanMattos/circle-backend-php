@@ -266,7 +266,8 @@ insert into square.error_type  (error_type_id,error_type_code,error_type_title) 
         $this->db->query("CREATE TABLE IF NOT EXISTS  square.words_user
             (
                 words_user_id serial PRIMARY KEY,
-                words_user_words varchar,
+                words_user_word varchar,
+                words_user_frequency float8,
                 user_id INTEGER,
                 FOREIGN KEY(user_id) REFERENCES Square.user(user_id) ON DELETE CASCADE
             );

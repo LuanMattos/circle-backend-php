@@ -110,6 +110,65 @@ if (!function_exists('upper_phrase')) {
 }
 
 // ------------------------------------------------------------------------
+if (!function_exists('unique_multidim_array_for_words')) {
+    function unique_multidim_array_for_words( $array, $key ): Array {
+        $temp_array = array();
+        $i = 0;
+        $key_array = array();
+
+        foreach($array as $val) {
+            if (!in_array($val[$key], $key_array) && !in_array($val[$key] . "s", $key_array)) {
+                $key_array[$i] = $val[$key];
+                $temp_array[$i] = $val;
+            }
+            $i++;
+        }
+        return $temp_array;
+    }
+}
+if (!function_exists('array_sort')) {
+    function array_sort(): Array
+    {
+        $array = func_get_args()[0];
+        $on = func_get_args()[1];
+        $order = func_get_args()[2];
+        if(!$order){
+            $order = SORT_DESC;
+        }
+        #SORT_ASC or SORT_DESC
+        $new_array = array();
+        $sortable_array = array();
+
+        if (count($array) > 0) {
+            foreach ($array as $k => $v) {
+                if (is_array($v)) {
+                    foreach ($v as $k2 => $v2) {
+                        if ($k2 == $on) {
+                            $sortable_array[$k] = $v2;
+                        }
+                    }
+                } else {
+                    $sortable_array[$k] = $v;
+                }
+            }
+
+            switch ($order) {
+                case SORT_ASC:
+                    asort($sortable_array);
+                    break;
+                case SORT_DESC:
+                    arsort($sortable_array);
+                    break;
+            }
+
+            foreach ($sortable_array as $k => $v) {
+                $new_array[$k] = $array[$k];
+            }
+        }
+
+        return $new_array;
+    }
+}
 
 if (!function_exists('debug')) {
     function debug()

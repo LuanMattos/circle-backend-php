@@ -81,6 +81,7 @@ die('This file is used for development purposes only.');
  * @property User_twitter_model          $User_twitter_model
  * @property Monetization_model          $Monetization_model
  * @property Email_monetization_model          $Email_monetization_model
+ * @property Words_user_model          $Words_user_model
 
 
 

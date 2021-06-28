@@ -27,3 +27,11 @@ RewriteEngine On
 RewriteCond %{HTTP:X-Forwarded-Proto} =http
 RewriteRule .* https://%{HTTP:Host}%{REQUEST_URI} [L,R=permanent]
 </VirtualHost>
+
+
+Acessar outros serviços externos dentro do  container:
+-> host.docker.internal
+  mongo-compose-network:
+    driver: bridge
+  php_apache:
+    external: true

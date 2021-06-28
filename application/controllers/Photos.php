@@ -203,10 +203,6 @@ class Photos extends Home_Controller
             'user_id'=>$jwtData->user_id,
             'photo_statistic_time'=>$datapost->time
         ];
-        $this->photoService->updateLastItemWithTime( $data );
+        $this->photoService->timePhotoStatistic( $data );
     }
-    public function sendApiStatistic(){
-        $this->photoService->sendStatistic();
-    }
-
 }
