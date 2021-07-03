@@ -173,8 +173,9 @@ class Photos extends Home_Controller
     public function photosToExplorer()
     {
         $offset = $this->input->get('page', true);
+        $repeat = $this->input->get('repeat', true);
         $user = $this->jwt->decode();
-        $photo = $this->photoRepository->getPhotoToExplorer($offset, $user);
+        $photo = $this->photoRepository->getPhotoToExplorer($offset, $user, $repeat);
         $this->response($photo);
     }
 

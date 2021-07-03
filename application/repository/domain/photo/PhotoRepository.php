@@ -80,44 +80,56 @@ class PhotoRepository extends GeneralRepository
 
     }
 
-    public function getPhotoToExplorer($offset, $user)
+    public function getPhotoToExplorer($offset, $user, $repeat)
     {
-        $fields = [
-            'p.photo_id',
-            'p.photo_post_date',
-            'p.photo_url',
-            'p.photo_description',
-            'p.photo_allow_comments',
-            'p.photo_likes',
-            'p.photo_comments',
-            'p.photo_public',
-            'u.user_name',
-            'u.user_full_name',
-            'u.user_avatar_url',
-            'u.user_cover_url'
-        ];
+        $fields = " 
+            p.photo_id,
+            p.photo_post_date,
+            p.photo_url,
+            p.photo_description,
+            p.photo_allow_comments,
+            p.photo_likes,
+            p.photo_comments,
+            p.photo_public,
+            u.user_name,
+            u.user_full_name,
+            u.user_avatar_url,
+            u.user_cover_url
+            ";
 
-        $photos = $this->db
-            ->select($fields)
-            ->from("photo p")
-            ->join("user u", "u.user_id = p.user_id", "join")
-            ->order_by("p.photo_id", "DESC")
-            ->order_by("p.photo_description", "ASC")
-            ->order_by("p.photo_url", "ASC")
-            ->limit(10)
-            ->where("p.photo_id > " . $offset)
-            ->get()
-            ->result_array();
+        $words = $this->Words_user_model->getWhere( ['user_id'=>$user->user_id], 'array', 'words_user_frequency', 'DESC', NULL );
 
-//        if( $user ){
+        $like_statements = [];
+        $where = " 1 = 1 and p.photo_id > $offset order by p.photo_id ASC";
+        foreach ( $words as $key=>$word ){
+//            $search = " LIKE '" . $word['words_user_word'] . "' ";
+            if( $key <= 10 ){
+                $search = " ILIKE '%" . $word['words_user_word'] . "%' ";
+                $like_statements[] = "p.photo_description $search";
+            }
+
+        }
+
+        if( count( $like_statements ) && !$repeat ){
+            $where = "(" . implode(' OR ', $like_statements) . ")";
+        }else if( $repeat ){
+            $where = " p.photo_id NOT IN ({$repeat}) ";
+        }
+//        debug($where);
+
+        $photos = $this->db->query("
+            SELECT $fields FROM square.photo p join square.user as u on u.user_id = p.user_id
+                where $where  
+                limit 10
+            ")->result_array();
+
         foreach ($photos as $key => $item) {
 //                Será feito separado, ao clicar no número de likes
             $photos[$key]['likes'] = [];
-            $photos[$key]['liked'] = $this->Likes_model->likedMe($item['photo_id'], $user->user_id, "row") ? true : false;
+            $photos[$key]['liked'] = $this->Likes_model->likedMe($item['photo_id'], $user->user_id, 'row') ? true : false;
         }
+
         return $photos;
-//        }
-        return [];
     }
 
     public function getPhotoTimeline($offset, $user)
@@ -139,10 +151,10 @@ class PhotoRepository extends GeneralRepository
         ];
 
         $circle = [];
-        $following = $this->Follower_model->getWhere(['user_id_from' => $user->user_id], "array", 'follower_date', 'DESC', "10", $offset);
+        $following = $this->Follower_model->getWhere(['user_id_from' => $user->user_id], 'array', 'follower_date', 'DESC', "10", $offset);
 
-        foreach ($following as $row) {
-            array_push($circle, $row['user_id_to']);
+        foreach ( $following as $row ) {
+            array_push($circle, $row['user_id_to'] );
         }
 
         if ($circle) {
@@ -172,26 +184,29 @@ class PhotoRepository extends GeneralRepository
     public function savePhotoStatistic( $data )
     {
         if ( $data['user_id'] ) {
-            $this->Photo_statistic_model->save( $data );
+            $item_exist = $this->Photo_statistic_model->getWhere(['photo_id'=>$data['photo_id']], 'row');
+            if ( !count( $item_exist ) ){
+                $this->Photo_statistic_model->save( $data );
+            }
             $count = $this->db->select('count(ps.user_id)')
-                ->from("photo_statistic ps")
-                ->where('user_id', $data['user_id'])
-                ->get()
-                ->row();
+                              ->from('photo_statistic ps')
+                              ->where('user_id', $data['user_id'])
+                              ->get()
+                              ->row();
             if( $count->count > 15 ){
-                $this->saveWords( $data['user_id'] );
+                $this->saveWords( $data );
             }
         }
     }
-    public function saveWords( $userId ){
-        $url = $this->config->item('drf') . "photo_statistic/$userId";
+    public function saveWords( $data ){
+        $url = $this->config->item('drf') . "photo_statistic/{$data['user_id']}";
         $config['username'] = $this->config->item('username_django');
         $config['password'] = $this->config->item('password_django');
-        $data =  $this->http->RunCurlPostServices( $url, $config );
-        $words = $this->wordTreatment( $data );
-        $this->Words_user_model->deleteWhere( ['user_id'=>$userId] );
+        $data_word =  $this->http->RunCurlPostServices( $url, $config );
+        $words = $this->wordTreatment( $data_word );
+        $this->Words_user_model->deleteWhere( ['user_id'=>$data['user_id']] );
         foreach ( $words as $row ){
-            $row['user_id']= $userId;
+            $row['user_id'] = $data['user_id'];
             $this->Words_user_model->save( $row );
         }
     }
