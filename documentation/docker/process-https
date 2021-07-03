@@ -35,3 +35,4 @@ Acessar outros serviços externos dentro do  container:
     driver: bridge
   php_apache:
     external: true
+docker network create -d bridge php_apache

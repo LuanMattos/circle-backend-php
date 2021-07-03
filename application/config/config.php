@@ -74,7 +74,8 @@ $config['headers'] = [
 ];
 
 #Endpoints API Django
-$config['drf'] = 'localhost:8000/';
+$config['drf'] = '172.31.33.133:8000/';
+$config['drf_dev'] = 'localhost:8000/';
 $config['password_django'] = 'patrick.mattos';
 $config['username_django'] = 'k2l9g3v1';
 

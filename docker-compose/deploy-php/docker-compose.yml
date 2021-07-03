@@ -8,3 +8,8 @@ services:
       - "443:443"
     volumes:
       - .:/var/www/html
+    networks:
+      - php_apache
+networks:
+  php_apache:
+    external: true
