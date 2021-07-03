@@ -1,0 +1,44 @@
+version: "2.2"
+services:
+  mongo:
+    image: mongo
+    environment:
+      MONGO_INITDB_ROOT_USERNAME: admin
+      MONGO_INITDB_ROOT_PASSWORD: admin
+    ports:
+      - "27017:27017"
+    volumes:
+      - /data/mongo:/data/db
+    networks:
+      - mongo-compose-network
+  php_apache:
+    container_name: php_apache
+    image: luanmattos/atos:php-apache
+    ports:
+      - "80:80"
+    volumes:
+      - .:/var/www/html
+    networks:
+      - php_apache
+  postgres:
+    container_name: postgres
+    image: luanmattos/atos:postgresql
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
+      PGDATA: /data/postgres
+      POSTGRES_DB: postgres
+    volumes:
+      - "./data/postgres:/var/lib/postgresql/data"
+    ports:
+      - "5432:5432"
+    networks:
+      - postgres
+
+networks:
+  postgres:
+    driver: bridge
+  mongo-compose-network:
+    driver: bridge
+  php_apache:
+    external: true

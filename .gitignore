@@ -98,6 +98,6 @@ fabric.properties
 
 /storage/img/*
 /data/
-/docker-compose.yml
+#/docker-compose.yml
 /application/config/database.php
 /application/logs/
