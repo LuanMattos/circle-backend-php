@@ -74,7 +74,7 @@ $config['headers'] = [
 ];
 
 #Endpoints API Django
-$config['drf'] = 'host.docker.internal:8000/';
+$config['drf'] = 'localhost:8000/';
 $config['password_django'] = 'patrick.mattos';
 $config['username_django'] = 'k2l9g3v1';
 
