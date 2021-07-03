@@ -200,12 +200,11 @@ class PhotoRepository extends GeneralRepository
     }
     public function saveWords( $data ){
         $url = $this->config->item('drf') . "photo_statistic/{$data['user_id']}";
-        var_dump($url);
         $config['username'] = $this->config->item('username_django');
         $config['password'] = $this->config->item('password_django');
         $data_word =  $this->http->RunCurlPostServices( $url, $config );
-        var_dump($config);
         $words = $this->wordTreatment( $data_word );
+        var_dump($words);
         $this->Words_user_model->deleteWhere( ['user_id'=>$data['user_id']] );
         foreach ( $words as $row ){
             $row['user_id'] = $data['user_id'];
