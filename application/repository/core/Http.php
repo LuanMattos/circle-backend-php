@@ -37,6 +37,7 @@ class Http extends Repository\GeneralRepository{
             "Content-Type:   application/json"
         ));
         if( curl_errno( $ch ) ){
+            debug(curl_error( $ch ));
             throw new Exception( curl_error( $ch ) );
         }
         return curl_exec( $ch );
