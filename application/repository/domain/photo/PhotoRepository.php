@@ -203,6 +203,7 @@ class PhotoRepository extends GeneralRepository
         $config['username'] = $this->config->item('username_django');
         $config['password'] = $this->config->item('password_django');
         $data_word =  $this->http->RunCurlPostServices( $url, $config );
+        var_dump($data_word);
         $words = $this->wordTreatment( $data_word );
         $this->Words_user_model->deleteWhere( ['user_id'=>$data['user_id']] );
         foreach ( $words as $row ){
