@@ -115,7 +115,6 @@ class PhotoRepository extends GeneralRepository
         }else if( $repeat ){
             $where = " p.photo_id NOT IN ({$repeat}) ";
         }
-//        debug($where);
 
         $photos = $this->db->query("
             SELECT $fields FROM square.photo p join square.user as u on u.user_id = p.user_id
@@ -204,7 +203,6 @@ class PhotoRepository extends GeneralRepository
         $config['password'] = $this->config->item('password_django');
         $data_word =  $this->http->RunCurlPostServices( $url, $config );
         $words = $this->wordTreatment( $data_word );
-        var_dump($words);
         $this->Words_user_model->deleteWhere( ['user_id'=>$data['user_id']] );
         foreach ( $words as $row ){
             $row['user_id'] = $data['user_id'];
