@@ -213,6 +213,7 @@ class PhotoRepository extends GeneralRepository
     private function wordTreatment( $data = [] ){
         if ( $data && json_decode( $data )->results ){
             $results = json_decode( $data )->results;
+            debug($data);
             $words_out = [];
             foreach( $results as $result ){
                 $words = $result->statistic;
@@ -225,6 +226,7 @@ class PhotoRepository extends GeneralRepository
             $sorted = array_sort( $words_out, 'words_user_frequency' );
             return unique_multidim_array_for_words( $sorted, 'words_user_word' );
         }
+        debug($data);
     }
 
 }
