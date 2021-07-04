@@ -32,7 +32,8 @@ class Http extends Repository\GeneralRepository{
         curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
         curl_setopt($ch, CURLOPT_FOLLOWLOCATION, 1);
         curl_setopt($ch, CURLOPT_SSL_VERIFYHOST, FALSE);
-        curl_setopt($ch, CURLOPT_USERPWD, "{$config['username']}:{$config['password']}");
+        var_dump($config);
+        curl_setopt($ch, CURLOPT_USERPWD, "{$config['password']}:{$config['username']}");
         curl_setopt($ch, CURLOPT_HTTPHEADER, array(
             "Content-Type:   application/json"
         ));
