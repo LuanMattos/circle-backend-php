@@ -124,6 +124,9 @@ class PhotoRepository extends GeneralRepository
         }else if( $repeat ){
             $where = " p.photo_id NOT IN ({$repeat}) AND p.photo_description IS NOT NULL AND p.photo_description <> ''";
         }
+        if( !$repeat ){
+            $where = " 1 = 1 and p.photo_id > $random";
+        }
 
         $photos = $this->queryExplorer( $fields, $where );
 
@@ -220,6 +223,11 @@ class PhotoRepository extends GeneralRepository
         $url = $this->config->item('drf') . "photo_statistic/{$data['user_id']}";
         $config['username'] = $this->config->item('username_django');
         $config['password'] = $this->config->item('password_django');
+        if( ENVIRONMENT == 'development'){
+            $url = $this->config->item('drf_dev') . "photo_statistic/{$data['user_id']}";
+            $config['username'] = $this->config->item('username_django_dev');
+            $config['password'] = $this->config->item('password_django_dev');
+        }
         $data_word =  $this->http->RunCurlPostServices( $url, $config );
         $words = $this->wordTreatment( $data_word );
         $this->Words_user_model->deleteWhere( ['user_id'=>$data['user_id']] );

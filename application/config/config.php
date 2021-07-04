@@ -75,9 +75,11 @@ $config['headers'] = [
 
 #Endpoints API Django
 $config['drf'] = '172.31.33.133:8000/';
-$config['drf_dev'] = 'localhost:8000/';
+$config['drf_dev'] = 'host.docker.internal:8000/';
 $config['password_django'] = 'patrick.mattos';
 $config['username_django'] = 'k2l9g3v1';
+$config['password_django_dev'] = 'admin';
+$config['username_django_dev'] = 'admin';
 
 $config['compress_output'] = FALSE;
 $config['time_reference'] = 'local';

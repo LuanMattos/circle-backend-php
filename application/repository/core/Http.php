@@ -36,8 +36,8 @@ class Http extends Repository\GeneralRepository{
         curl_setopt($ch, CURLOPT_HTTPHEADER, array(
             "Content-Type:   application/json"
         ));
-        if( curl_errno( $ch ) ){
 
+        if( curl_errno( $ch ) ){
             throw new Exception( curl_error( $ch ) );
         }
         return curl_exec( $ch );
