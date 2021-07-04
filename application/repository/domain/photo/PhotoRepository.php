@@ -225,7 +225,6 @@ class PhotoRepository extends GeneralRepository
             $sorted = array_sort( $words_out, 'words_user_frequency' );
             return unique_multidim_array_for_words( $sorted, 'words_user_word' );
         }
-        debug($data);
     }
 
 }
