@@ -116,10 +116,10 @@ class PhotoRepository extends GeneralRepository
 
         $photos = $this->query( $fields, $where );
 
-        if( !count( $photos ) ){
-            $where = " p.photo_id NOT IN ({$repeat})";
-            $photos = $this->query($fields, $where);
-        }
+//        if( !count( $photos ) ){
+//            $where = " p.photo_id NOT IN ({$repeat})";
+//            $photos = $this->query($fields, $where);
+//        }
 
         foreach ($photos as $key => $item) {
 //                Será feito separado, ao clicar no número de likes
