@@ -114,11 +114,11 @@ class PhotoRepository extends GeneralRepository
             $where = " p.photo_id NOT IN ({$repeat}) AND p.photo_description IS NOT NULL AND p.photo_description <> ''";
         }
 
-        $photos = $this->query( $fields, $where );
+        $photos = $this->queryExplorer( $fields, $where );
 
 //        if( !count( $photos ) ){
 //            $where = " p.photo_id NOT IN ({$repeat})";
-//            $photos = $this->query($fields, $where);
+//            $photos = $this->queryExplorer($fields, $where);
 //        }
 
         foreach ($photos as $key => $item) {
@@ -129,7 +129,7 @@ class PhotoRepository extends GeneralRepository
 
         return $photos;
     }
-    private function query( $fields, $where ){
+    private function queryExplorer( $fields, $where ){
         return $this->db->query("
             SELECT $fields FROM square.photo p join square.user as u on u.user_id = p.user_id
                 where $where  
