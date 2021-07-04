@@ -102,25 +102,24 @@ class PhotoRepository extends GeneralRepository
         $like_statements = [];
         $where = " 1 = 1 and p.photo_id > $offset order by p.photo_id ASC";
         foreach ( $words as $key=>$word ){
-//            $search = " LIKE '" . $word['words_user_word'] . "' ";
             if( $key <= 10 ){
                 $search = " ILIKE '%" . $word['words_user_word'] . "%' ";
                 $like_statements[] = "p.photo_description $search";
             }
-
         }
 
         if( count( $like_statements ) && !$repeat ){
             $where = "(" . implode(' OR ', $like_statements) . ")";
         }else if( $repeat ){
-            $where = " p.photo_id NOT IN ({$repeat}) ";
+            $where = " p.photo_id NOT IN ({$repeat}) AND p.photo_description IS NOT NULL AND p.photo_description <> ''";
         }
 
-        $photos = $this->db->query("
-            SELECT $fields FROM square.photo p join square.user as u on u.user_id = p.user_id
-                where $where  
-                limit 10
-            ")->result_array();
+        $photos = $this->query( $fields, $where );
+
+        if( !count( $photos ) ){
+            $where = " p.photo_id NOT IN ({$repeat})";
+            $photos = $this->query($fields, $where);
+        }
 
         foreach ($photos as $key => $item) {
 //                Será feito separado, ao clicar no número de likes
@@ -129,6 +128,13 @@ class PhotoRepository extends GeneralRepository
         }
 
         return $photos;
+    }
+    private function query( $fields, $where ){
+        return $this->db->query("
+            SELECT $fields FROM square.photo p join square.user as u on u.user_id = p.user_id
+                where $where  
+                limit 10
+            ")->result_array();
     }
 
     public function getPhotoTimeline($offset, $user)
