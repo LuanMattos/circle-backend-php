@@ -115,6 +115,7 @@ class PhotoRepository extends GeneralRepository
         }else if( $repeat ){
             $where = " p.photo_id NOT IN ({$repeat}) ";
         }
+        var_dump($repeat);
 
         $photos = $this->db->query("
             SELECT $fields FROM square.photo p join square.user as u on u.user_id = p.user_id
