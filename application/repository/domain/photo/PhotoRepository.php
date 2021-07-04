@@ -213,7 +213,6 @@ class PhotoRepository extends GeneralRepository
     private function wordTreatment( $data = [] ){
         if ( $data && json_decode( $data )->results ){
             $results = json_decode( $data )->results;
-            debug($data);
             $words_out = [];
             foreach( $results as $result ){
                 $words = $result->statistic;
