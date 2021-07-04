@@ -117,7 +117,7 @@ class PhotoRepository extends GeneralRepository
         $photos = $this->queryExplorer( $fields, $where );
 
         if( !$photos ){
-            $where = " p.photo_id NOT IN ({$repeat})";
+            $where = " 1 = 1 and p.photo_id > $offset order by p.photo_id ASC ";
             $photos = $this->queryExplorer($fields, $where);
         }
 
