@@ -116,7 +116,7 @@ class PhotoRepository extends GeneralRepository
 
         $photos = $this->queryExplorer( $fields, $where );
 
-        if( ! $photos ){
+        if( !$photos ){
             $where = " p.photo_id NOT IN ({$repeat})";
             $photos = $this->queryExplorer($fields, $where);
         }
