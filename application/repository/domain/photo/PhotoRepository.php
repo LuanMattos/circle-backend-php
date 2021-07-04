@@ -97,10 +97,21 @@ class PhotoRepository extends GeneralRepository
             u.user_cover_url
             ";
 
+        /* Armazenar em cache do django */
+        $this->db->select_min('photo_id');
+        $min = $this->db->get('photo')->row();
+        $this->db->select_max('photo_id');
+        $max = $this->db->get('photo')->row();
+        /* -------------- */
+
+        $random = mt_rand( $min->photo_id, $max->photo_id );
+
+        /* Armazenar em cache do Django */
         $words = $this->Words_user_model->getWhere( ['user_id'=>$user->user_id], 'array', 'words_user_frequency', 'DESC', NULL );
+        /* -------------- */
 
         $item_where = [];
-        $where = " 1 = 1 and p.photo_id > $offset order by p.photo_id ASC";
+        $where = " 1 = 1 and p.photo_id > $random";
         foreach ( $words as $key=>$word ){
             if( $key <= 10 ){
                 $search = " ILIKE '%" . $word['words_user_word'] . "%' ";
@@ -116,8 +127,10 @@ class PhotoRepository extends GeneralRepository
 
         $photos = $this->queryExplorer( $fields, $where );
 
-        if( !$photos ){
-            $where = " 1 = 1 and p.photo_id > $offset order by p.photo_id ASC ";
+        if( !count($photos) ){
+            $repeat_where = $repeat ? " AND  p.photo_id NOT IN({$repeat})":" ";
+
+            $where = " p.photo_id > $random  {$repeat_where}";
             $photos = $this->queryExplorer($fields, $where);
         }
 
