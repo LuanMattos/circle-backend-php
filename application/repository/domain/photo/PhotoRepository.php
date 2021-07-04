@@ -99,27 +99,27 @@ class PhotoRepository extends GeneralRepository
 
         $words = $this->Words_user_model->getWhere( ['user_id'=>$user->user_id], 'array', 'words_user_frequency', 'DESC', NULL );
 
-        $like_statements = [];
+        $item_where = [];
         $where = " 1 = 1 and p.photo_id > $offset order by p.photo_id ASC";
         foreach ( $words as $key=>$word ){
             if( $key <= 10 ){
                 $search = " ILIKE '%" . $word['words_user_word'] . "%' ";
-                $like_statements[] = "p.photo_description $search";
+                $item_where[] = "p.photo_description $search";
             }
         }
 
-        if( count( $like_statements ) && !$repeat ){
-            $where = "(" . implode(' OR ', $like_statements) . ")";
+        if( count( $item_where ) && !$repeat ){
+            $where = "(" . implode(' OR ', $item_where) . ")";
         }else if( $repeat ){
             $where = " p.photo_id NOT IN ({$repeat}) AND p.photo_description IS NOT NULL AND p.photo_description <> ''";
         }
 
         $photos = $this->queryExplorer( $fields, $where );
 
-//        if( !count( $photos ) ){
-//            $where = " p.photo_id NOT IN ({$repeat})";
-//            $photos = $this->queryExplorer($fields, $where);
-//        }
+        if( ! $photos ){
+            $where = " p.photo_id NOT IN ({$repeat})";
+            $photos = $this->queryExplorer($fields, $where);
+        }
 
         foreach ($photos as $key => $item) {
 //                Será feito separado, ao clicar no número de likes
