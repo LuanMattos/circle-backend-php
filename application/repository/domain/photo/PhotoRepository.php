@@ -125,7 +125,7 @@ class PhotoRepository extends GeneralRepository
             $where = " p.photo_id NOT IN ({$repeat}) AND p.photo_description IS NOT NULL AND p.photo_description <> ''";
         }
         if( !$repeat ){
-            $where = " 1 = 1 and p.photo_id > $random";
+            $where = " 1 = 1 order by p.photo_post_date DESC";
         }
 
         $photos = $this->queryExplorer( $fields, $where );
