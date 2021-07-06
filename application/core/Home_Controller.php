@@ -28,7 +28,7 @@ class Home_Controller extends SI_Controller {
             $http_origin = $_SERVER['HTTP_ORIGIN'];
 
             if (
-                ($http_origin == $this->elb_ip[0] || $http_origin == "https://mycircle.click" || $http_origin == "127.0.0.1" || $_SERVER['HTTP_HOST'] == "be.mycircle.click")
+                ($http_origin == $this->elb_ip[0] || $http_origin == "https://mycircle.click")
             )
             {
                 header("Access-Control-Allow-Origin: $http_origin");
