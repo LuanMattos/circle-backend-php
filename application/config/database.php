@@ -8,7 +8,7 @@ if(ENVIRONMENT === 'production'){
     $pass = 'F4D3Ro8Ud3VVH61K74Vlp31HKyCmd3Tp1g5N';
     $username = 'postgres';
 }else{
-    $hostname = '192.168.80.1';
+    $hostname = 'host.docker.internal';
     $pass = 'postgres';
       $username = 'postgres';
 }
