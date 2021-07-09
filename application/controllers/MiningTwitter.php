@@ -41,7 +41,8 @@ class MiningTwitter extends Home_Controller
 
     public function saveUserById()
     {
-        $hashtag = 'photography, ohio, oregon, nature, travel, vsco';
+        $hashtag = 'photography, ohio, oregon, nature, travel, vsco, love, instagood, fashion,photooftheday,beautiful,art,happy,photography,picoftheday,
+        cute,tbt,nature,summer,instadaily,selfie,me,friends,fitness';
         $url = 'https://api.twitter.com/1.1/search/tweets.json';
 
 
