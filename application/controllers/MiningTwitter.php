@@ -41,15 +41,15 @@ class MiningTwitter extends Home_Controller
 
     public function saveUserById()
     {
-        $hashtag = 'photography, ohio, oregon, nature, travel, vsco, love, instagood, fashion,photooftheday,beautiful,art,happy,photography,picoftheday,
-        cute,tbt,nature,summer,instadaily,selfie,me,friends,fitness';
+        $hashtag = 'summer,instadaily,Hollywood,BeverlyHills,selfie,me,friends,fitness,ohio,miami,MidtownEast,chicago,garmentdistrict,thestrip,photography, ohio, oregon, nature, travel, vsco, love, instagood, fashion,photooftheday,beautiful,art,happy,photography,picoftheday,
+        cute,tbt,nature,NearNorthSide';
         $url = 'https://api.twitter.com/1.1/search/tweets.json';
 
 
         $spaces = strtolower(str_replace(' ','',$hashtag));
         $tags = explode(',',$spaces);
         foreach ($tags as $tag){
-            $getfield = "?q=#{$tag}";
+            $getfield = "?q=3{$tag}";
             $requestMethod = 'GET';
             $response = $this->apiTwitter->setGetfield($getfield)->buildOauth($url, $requestMethod)->performRequest();
             $list = json_decode($response);
