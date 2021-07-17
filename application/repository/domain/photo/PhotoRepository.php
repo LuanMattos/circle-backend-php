@@ -91,6 +91,7 @@ class PhotoRepository extends GeneralRepository
             p.photo_likes,
             p.photo_comments,
             p.photo_public,
+            p.photo_styles,
             u.user_name,
             u.user_full_name,
             u.user_avatar_url,
