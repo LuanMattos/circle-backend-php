@@ -137,7 +137,7 @@ class Photos extends Home_Controller
 
         if ((integer)$id)
 
-            $dataResponse = $this->Photos_model->getWhere(['photo_id' => $id], "row");
+        $dataResponse = $this->Photos_model->getWhere(['photo_id' => $id], "row");
         $dataResponse->liked = $data & $this->Likes_model->getWhere(['photo_id' => $id, 'user_id' => $data->user_id], "row") ? true : false;
         $this->response($dataResponse);
     }

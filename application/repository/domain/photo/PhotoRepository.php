@@ -150,7 +150,7 @@ class PhotoRepository extends GeneralRepository
         return $this->db->query("
             SELECT $fields FROM square.photo p join square.user as u on u.user_id = p.user_id
                 where $where  
-                limit 10
+                limit 15
             ")->result_array();
     }
 
